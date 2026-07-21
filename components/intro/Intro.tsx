@@ -31,7 +31,7 @@ export default function Intro() {
 
     const doneTimer = setTimeout(() => {
       setDone(true);
-    }, 1000);
+    }, 1300);
 
     return () => {
       clearTimeout(doneTimer);
