@@ -11,7 +11,7 @@ const HeroSection: React.FC = () => {
   return (
     <Section>
       {/* Top meta bar */}
-      <header className="flex justify-center gap-8 md:gap-16 px-8 pt-8 md:px-10">
+      <header className="flex justify-center gap-8 md:gap-16 md:px-10">
         <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
           {secConfig.name}
         </span>
@@ -41,7 +41,7 @@ const HeroSection: React.FC = () => {
               <Link
                 key={s.label}
                 href={s.link}
-                // target={s.target ?? "_blank"}
+                target={s.target ?? "_blank"}
                 className="col-span-1 group flex w-fit cursor-pointer items-center gap-2 py-1 font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground"
               >
                 <span className="inline-block h-px w-6 bg-current transition-all duration-300 group-hover:w-10" />
