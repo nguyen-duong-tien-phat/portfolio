@@ -14,6 +14,8 @@ import * as THREE from "three";
 
 function CVPaper() {
   const texture = useTexture(THREE_ASSETS.textures.cv);
+  if (!texture) return null;
+  texture.colorSpace = THREE.SRGBColorSpace;
 
   return (
     <mesh onClick={(e) => e.stopPropagation()}>
@@ -32,7 +34,7 @@ function CVPaper() {
       <meshBasicMaterial attach="material-3" color="#fff" />
 
       {/* Front */}
-      <meshBasicMaterial attach="material-4" map={texture} toneMapped={false} />
+      <meshBasicMaterial attach="material-4" map={texture} />
 
       {/* Back */}
       <meshBasicMaterial attach="material-5" color="#fff" />
@@ -107,7 +109,7 @@ function Controls() {
     <CameraControls
       ref={controls}
       smoothTime={0.5}
-      minDistance={3.5}
+      minDistance={1.5}
       maxDistance={8}
       dollySpeed={0.6}
       mouseButtons={{
