@@ -1,5 +1,6 @@
 "use client";
 
+import { THREE_ASSETS } from "@/config/three.config";
 import {
   ContactShadows,
   Environment,
@@ -13,7 +14,7 @@ import * as THREE from "three";
 
 function Sculpture() {
   const meshRef = useRef<THREE.Mesh>(null);
-  const model = useGLTF("./models/suzanne.glb");
+  const model = useGLTF(THREE_ASSETS.models.suzanne);
 
   useFrame((state, delta) => {
     if (!meshRef.current) return;
@@ -49,7 +50,7 @@ function Sculpture() {
   );
 }
 
-export function HeroObject() {
+export function Suzanne() {
   return (
     <Canvas
       shadows
