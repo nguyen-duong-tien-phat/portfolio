@@ -24,33 +24,19 @@ export default function Intro() {
     return () => clearInterval(interval);
   }, []);
 
-  // Respect reduced motion
-  useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
-      setDone(true);
-    }
-  }, []);
-
   // Fade out once everything is loaded
   useEffect(() => {
     if (!ready) return;
-
-    const fadeTimer = setTimeout(() => {
-      setFading(true);
-    }, 500);
+    setFading(true);
 
     const doneTimer = setTimeout(() => {
       setDone(true);
-    }, 1400);
+    }, 1000);
 
     return () => {
-      clearTimeout(fadeTimer);
       clearTimeout(doneTimer);
     };
-  }, [ready, wordIndex]);
+  }, [ready]);
 
   if (done) return null;
 
