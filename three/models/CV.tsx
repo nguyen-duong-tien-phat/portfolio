@@ -130,7 +130,7 @@ function Controls() {
       ref={controls}
       smoothTime={0.5}
       minDistance={0.8}
-      maxDistance={8}
+      maxDistance={5}
       dollySpeed={0.6}
       mouseButtons={{
         left: CameraControlsImpl.ACTION.ROTATE,

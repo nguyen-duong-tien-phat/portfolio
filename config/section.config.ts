@@ -1,7 +1,7 @@
 export const sectionConfig = {
   hero: {
     idx: "01",
-    name: "Portfolio — 2026",
+    name: "Portfolio",
   },
   // about: {
   //   idx: 2,

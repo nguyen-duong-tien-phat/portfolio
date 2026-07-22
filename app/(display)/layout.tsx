@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 
 import Intro from "@/components/intro/Intro";
 import { sectionConfig } from "@/config/section.config";
+import { cn } from "@/lib/utils";
 
 gsap.registerPlugin(Observer, useGSAP);
 
@@ -106,18 +107,23 @@ export default function Layout({ hero, experience, modals }: LayoutProps) {
 
       <main ref={containerRef} className="h-screen overflow-hidden">
         {/* Top meta bar */}
-        <header className="flex justify-center gap-8 md:gap-16 pt-8 md:px-10">
+        <header
+          className={cn(
+            "grid grid-cols-2 gap-8 md:gap-16 pt-8 md:px-10",
+            "font-mono text-xs uppercase tracking-[0.2em]",
+          )}
+        >
           <span
             key={`${activeSection}-name`}
-            className="animate-intro-word font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground"
+            className="animate-intro-word col-span-1 text-right"
           >
             {sectionConfig[activeSection].name}
           </span>
-          <span
-            key={`${activeSection}-idx`}
-            className="animate-intro-word font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground"
-          >
-            Index / {sectionConfig[activeSection].idx}
+          <span className="col-span-1">
+            Index /{" "}
+            <span key={`${activeSection}-idx`} className="animate-intro-word">
+              {sectionConfig[activeSection].idx}
+            </span>
           </span>
         </header>
 
