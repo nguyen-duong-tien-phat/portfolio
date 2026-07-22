@@ -81,8 +81,8 @@ function Controls() {
   };
 
   const START_Z = isMobile ? 6 : 5;
-  const CLOSE_Z = isMobile ? 2 : 1.2;
-  const END_Z = isMobile ? 1.8 : 1;
+  const CLOSE_Z = isMobile ? 2 : 1;
+  const END_Z = isMobile ? 1.8 : 0.8;
   const cameraState = useRef({
     y: -1.2,
     z: START_Z,
@@ -112,7 +112,7 @@ function Controls() {
     );
 
     tl.to(cameraState.current, {
-      y: 0.8,
+      y: 0.9,
       targetY: 0.9,
       z: END_Z,
       duration: 0.8,
@@ -129,7 +129,7 @@ function Controls() {
     <CameraControls
       ref={controls}
       smoothTime={0.5}
-      minDistance={1}
+      minDistance={0.8}
       maxDistance={8}
       dollySpeed={0.6}
       mouseButtons={{
@@ -151,7 +151,7 @@ export default function CV() {
   const router = useRouter();
 
   return (
-    <div className="relative h-full w-full">
+    <div data-ignore-section-scroll className="relative h-full w-full">
       <Canvas>
         <Suspense fallback={null}>
           <CVPaper />

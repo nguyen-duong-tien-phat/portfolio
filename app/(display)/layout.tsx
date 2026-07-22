@@ -34,7 +34,12 @@ export default function Layout({ hero, experience, modals }: LayoutProps) {
 
       gsap.set(sections[0], { yPercent: 0, autoAlpha: 1, zIndex: 1 });
 
-      const gotoSection = (index: number) => {
+      const gotoSection = (event: Observer, index: number) => {
+        if (
+          (event.target as HTMLElement).closest("[data-ignore-section-scroll]")
+        )
+          return;
+
         if (isAnimating.current) return;
         if (index < 0 || index >= sections.length) return;
 
@@ -84,8 +89,8 @@ export default function Layout({ hero, experience, modals }: LayoutProps) {
         tolerance: 10,
         wheelSpeed: 1,
         preventDefault: true,
-        onDown: () => gotoSection(currentSection.current + 1),
-        onUp: () => gotoSection(currentSection.current - 1),
+        onDown: (event) => gotoSection(event, currentSection.current + 1),
+        onUp: (event) => gotoSection(event, currentSection.current - 1),
       });
 
       return () => observer.kill();
