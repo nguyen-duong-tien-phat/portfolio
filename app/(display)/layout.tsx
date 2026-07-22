@@ -34,9 +34,11 @@ export default function Layout({ hero, experience, modals }: LayoutProps) {
 
       gsap.set(sections[0], { yPercent: 0, autoAlpha: 1, zIndex: 1 });
 
-      const gotoSection = (event: Observer, index: number) => {
+      const gotoSection = (observer: Observer, index: number) => {
         if (
-          (event.target as HTMLElement).closest("[data-ignore-section-scroll]")
+          (observer.event.target as HTMLElement).closest(
+            "[data-ignore-section-scroll]",
+          )
         )
           return;
 
@@ -89,8 +91,8 @@ export default function Layout({ hero, experience, modals }: LayoutProps) {
         tolerance: 10,
         wheelSpeed: 1,
         preventDefault: true,
-        onDown: (event) => gotoSection(event, currentSection.current + 1),
-        onUp: (event) => gotoSection(event, currentSection.current - 1),
+        onDown: (observer) => gotoSection(observer, currentSection.current + 1),
+        onUp: (observer) => gotoSection(observer, currentSection.current - 1),
       });
 
       return () => observer.kill();
