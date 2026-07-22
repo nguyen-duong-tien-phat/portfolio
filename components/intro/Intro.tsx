@@ -1,12 +1,12 @@
 "use client";
 
-/* eslint-disable react-hooks/set-state-in-effect */
-
 import { useAssets } from "@/hooks/useAssets";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const words = ["Next.js", "TypeScript", "Three.js", "React Three Fiber"];
+
+const MIN_WORD_DISPLAY_TIME = 800;
 
 export default function Intro() {
   const { progress, ready } = useAssets();
@@ -16,25 +16,37 @@ export default function Intro() {
 
   const [wordIndex, setWordIndex] = useState(0);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setWordIndex((current) => (current + 1) % words.length);
-    }, 500);
+  const targetWordIndex = useMemo(
+    () =>
+      Math.min(Math.floor((progress / 100) * words.length), words.length - 1),
+    [progress],
+  );
 
-    return () => clearInterval(interval);
-  }, []);
+  useEffect(() => {
+    if (wordIndex >= targetWordIndex) return;
+
+    const timer = setTimeout(() => {
+      setWordIndex((current) => Math.min(current + 1, targetWordIndex));
+    }, MIN_WORD_DISPLAY_TIME);
+
+    return () => clearTimeout(timer);
+  }, [targetWordIndex, wordIndex]);
 
   // Fade out once everything is loaded
   useEffect(() => {
     if (!ready) return;
-    setFading(true);
+
+    const fadeTimer = setTimeout(() => {
+      setFading(true);
+    }, 500);
 
     const doneTimer = setTimeout(() => {
       setDone(true);
-    }, 1300);
+    }, 1500);
 
     return () => {
       clearTimeout(doneTimer);
+      clearTimeout(fadeTimer);
     };
   }, [ready]);
 

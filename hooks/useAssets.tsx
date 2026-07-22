@@ -16,9 +16,7 @@ export function AssetProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     loadingManager.onProgress = (url, loaded, total) => {
-      const progress = (loaded / total) * 100;
-      console.log(url, progress);
-      setProgress(progress);
+      setProgress((loaded / total) * 100);
     };
 
     loadingManager.onLoad = () => {

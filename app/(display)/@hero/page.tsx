@@ -1,25 +1,12 @@
-import React from "react";
+import Section from "@/components/ui/Section";
 import { heroConfig, socialsConfig } from "@/config/hero.config";
-import { sectionConfig } from "@/config/section.config";
 import { Suzanne } from "@/three/models/suzanne";
 import Link from "next/link";
-import Section from "@/components/ui/Section";
-
-const secConfig = sectionConfig.hero;
+import React from "react";
 
 const HeroSection: React.FC = () => {
   return (
-    <Section>
-      {/* Top meta bar */}
-      <header className="flex justify-center gap-8 md:gap-16 md:px-10">
-        <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-          {secConfig.name}
-        </span>
-        <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-          {secConfig.label}
-        </span>
-      </header>
-
+    <Section name="hero">
       <main className="flex-1 grid grid-cols-12 items-center">
         <div className="col-span-12 sm:col-span-6">
           <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">

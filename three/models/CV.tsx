@@ -7,18 +7,14 @@ import {
   CameraControlsImpl,
   useTexture,
 } from "@react-three/drei";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import { useRouter } from "next/navigation";
 import { Suspense, useEffect, useMemo, useRef } from "react";
-import * as THREE from "three";
 import gsap from "gsap";
 
 function CVPaper() {
   const texture = useTexture(THREE_ASSETS.textures.cv);
   const { viewport } = useThree();
-
-  // eslint-disable-next-line react-hooks/immutability
-  texture.colorSpace = THREE.SRGBColorSpace;
 
   // Scale the paper on smaller screens
   const scale = useMemo(() => {
@@ -44,7 +40,7 @@ function CVPaper() {
       <meshBasicMaterial attach="material-3" color="#fff" />
 
       {/* Front */}
-      <meshBasicMaterial attach="material-4" map={texture} />
+      <meshBasicMaterial attach="material-4" map={texture} toneMapped={false} />
 
       {/* Back */}
       <meshBasicMaterial attach="material-5" color="#fff" />

@@ -1,17 +1,19 @@
 export const sectionConfig = {
   hero: {
-    idx: 1,
-    label: "Index / 01",
+    idx: "01",
     name: "Portfolio — 2026",
   },
+  // about: {
+  //   idx: 2,
+  //   label: "Index / 02",
+  //   name: "About me",
+  // },
   experience: {
-    idx: 2,
-    label: "Index / 02",
+    idx: "02",
     name: "Experience",
   },
   projects: {
-    idx: 3,
-    label: "Index / 03",
+    idx: "03",
     name: "Projects",
   },
-};
+} as const;
