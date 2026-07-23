@@ -1,5 +1,7 @@
-import CV from "@/three/models/CV";
+import dynamic from "next/dynamic";
 import React from "react";
+
+const CV = dynamic(() => import("@/three/models/CV"), { ssr: false });
 
 const CVPage: React.FC = () => {
   return (

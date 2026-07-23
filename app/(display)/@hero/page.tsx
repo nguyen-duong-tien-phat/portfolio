@@ -1,8 +1,10 @@
 import Section from "@/components/ui/Section";
 import { heroConfig, socialsConfig } from "@/config/hero.config";
-import { Suzanne } from "@/three/models/suzanne";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import React from "react";
+
+const Suzanne = dynamic(() => import("@/three/models/suzanne"));
 
 const HeroSection: React.FC = () => {
   return (

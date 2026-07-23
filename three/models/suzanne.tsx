@@ -50,7 +50,7 @@ function Sculpture() {
   );
 }
 
-export function Suzanne() {
+export default function Suzanne() {
   return (
     <Canvas
       shadows
