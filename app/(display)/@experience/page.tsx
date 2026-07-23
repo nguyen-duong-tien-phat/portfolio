@@ -5,30 +5,39 @@ import { cn } from "@/lib/utils";
 
 export default function Experience() {
   return (
-    <Section name="experience">
-      <h1 className="mb-14 text-balance text-5xl md:text-7xl font-medium leading-[1.02] tracking-[-0.03em]">
+    <Section name="experience" className="flex flex-col">
+      <h1 className="max-w-100 mb-8 text-balance text-5xl md:text-7xl font-medium leading-[1.02] tracking-[-0.03em]">
         {experienceConfig.title}
       </h1>
-      <ul className="">
-        {experienceConfig.experience.map((ex) => (
+      <ul
+        data-ignore-section-scroll
+        className="flex-1 flex flex-col sm:justify-center gap-4 sm:gap-0 overflow-auto"
+      >
+        {experienceConfig.experience.map((experience) => (
           <li
-            key={ex.company}
+            key={experience.company}
             className={cn(
-              "grid grid-cols-10 items-center py-5 px-2 not-last:border-b border-black/10",
-              "hover:bg-black/5 cursor-pointer",
+              "sm:grid grid-cols-10 items-center p-4 rounded-lg sm:rounded-none sm:py-5 sm:px-2",
+              "border border-black/10 sm:last:border-b-0 sm:border-l-0 sm:border-t-0",
+              "transition hover:bg-black/5 cursor-pointer",
             )}
           >
-            <div className="col-span-2 flex items-center gap-3">
-              <span className="grid-cols-1 size-1.5 bg-black/80 rounded-full outline outline-black/80 outline-offset-2"></span>
+            <div className="col-span-3 lg:col-span-2 flex items-center gap-3">
+              <span
+                className={cn(
+                  "grid-cols-1 size-1.5 bg-black/80 rounded-full outline outline-black/80 outline-offset-2",
+                  "hidden sm:block",
+                )}
+              ></span>
 
-              <p className="flex items-center gap-2 font-mono text-sm text-gray-500 grid-cols-3">
-                {formatDate(ex.startAt, {
+              <p className="flex items-center gap-2 font-mono sm:text-sm text-gray-500 grid-cols-3 mb-1 sm:mb-0">
+                {formatDate(experience.startAt, {
                   month: "2-digit",
                   year: "numeric",
                 })}{" "}
                 <span>-</span>
-                {ex.endAt
-                  ? formatDate(ex.endAt, {
+                {experience.endAt
+                  ? formatDate(experience.endAt, {
                       month: "2-digit",
                       year: "numeric",
                     })
@@ -36,13 +45,15 @@ export default function Experience() {
               </p>
             </div>
 
-            <div className="col-span-4">
-              <p className="font-medium text-xl">{ex.company}</p>
-              <p className="font-mono text-gray-500 mt-1">{ex.role}</p>
-              <div className="mt-3 flex items-center gap-3">
-                {ex.technologies.map((tech) => (
+            <div className="col-span-7 lg:col-span-5">
+              <p className="font-medium text-2xl sm:text-xl">
+                {experience.company}
+              </p>
+              <p className="font-mono text-gray-500 mt-1">{experience.role}</p>
+              <div className="mt-3 flex items-center gap-3 flex-wrap">
+                {experience.technologies.map((tech) => (
                   <span
-                    key={`${ex.company}-${tech}`}
+                    key={`${experience.company}-${tech}`}
                     className="font-mono text-sm border border-black/20 py-1 px-2 rounded-full"
                   >
                     {tech}
@@ -51,7 +62,9 @@ export default function Experience() {
               </div>
             </div>
 
-            <p className="col-span-4">{ex.desc}</p>
+            <p className="sm:hidden lg:block lg:col-span-3 mt-3 sm:mt-0">
+              {experience.desc}
+            </p>
           </li>
         ))}
       </ul>
