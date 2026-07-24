@@ -9,8 +9,8 @@ const Suzanne = dynamic(() => import("@/three/models/suzanne"));
 const HeroSection: React.FC = () => {
   return (
     <Section name="hero">
-      <main className="flex-1 grid grid-cols-12 items-center">
-        <div className="col-span-12 sm:col-span-6">
+      <div className="h-full grid grid-cols-12 items-center">
+        <div className="col-span-12 sm:col-span-6 flex flex-col">
           <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">
             {heroConfig.role}
           </p>
@@ -21,17 +21,13 @@ const HeroSection: React.FC = () => {
             {heroConfig.desc}
           </p>
 
-          <nav
-            aria-label="Social links"
-            className="animate-fade-in-up mt-8 md:mt-12 grid grid-cols-2 sm:grid-cols-1"
-            style={{ animationDelay: "220ms" }}
-          >
+          <nav className="mt-8 flex-1 md:mt-10 flex flex-col flex-wrap">
             {Object.values(socialsConfig).map((s) => (
               <Link
                 key={s.label}
                 href={s.link}
                 target={s.target ?? "_blank"}
-                className="col-span-1 group flex w-fit cursor-pointer items-center gap-2 py-1 font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground"
+                className="group flex w-fit cursor-pointer items-center gap-2 py-1 font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground"
               >
                 <span className="inline-block h-px w-6 bg-current transition-all duration-300 group-hover:w-10" />
                 {s.label}
@@ -44,7 +40,7 @@ const HeroSection: React.FC = () => {
             <Suzanne />
           </div>
         </div>
-      </main>
+      </div>
     </Section>
   );
 };
