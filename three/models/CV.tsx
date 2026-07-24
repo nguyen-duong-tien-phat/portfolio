@@ -83,6 +83,7 @@ function Controls() {
   const START_Z = isMobile ? 6 : 5;
   const CLOSE_Z = isMobile ? 2 : 1;
   const END_Z = isMobile ? 1.8 : 0.8;
+  const END_Y = isMobile ? 0 : 0.9;
   const cameraState = useRef({
     y: -1.2,
     z: START_Z,
@@ -112,8 +113,8 @@ function Controls() {
     );
 
     tl.to(cameraState.current, {
-      y: 0.9,
-      targetY: 0.9,
+      y: END_Y,
+      targetY: END_Y,
       z: END_Z,
       duration: 0.8,
       ease: "power2.out",
@@ -123,7 +124,7 @@ function Controls() {
     return () => {
       tl.kill();
     };
-  }, [START_Z, CLOSE_Z, END_Z]);
+  }, [START_Z, CLOSE_Z, END_Z, END_Y]);
 
   return (
     <CameraControls
@@ -151,7 +152,7 @@ export default function CV() {
   const router = useRouter();
 
   return (
-    <div data-ignore-section-scroll className="relative h-full w-full">
+    <div className="relative h-full w-full">
       <Canvas>
         <Suspense fallback={null}>
           <CVPaper />

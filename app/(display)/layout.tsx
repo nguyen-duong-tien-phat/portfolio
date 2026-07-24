@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { Observer } from "gsap/Observer";
 import { useGSAP } from "@gsap/react";
@@ -22,90 +22,95 @@ export default function Layout({ hero, experience, modals }: LayoutProps) {
   const [activeSection, setActiveSection] =
     useState<keyof typeof sectionConfig>("hero");
 
-  const containerRef = useRef<HTMLElement>(null);
-
+  const sections = useRef<HTMLElement[]>([]);
   const currentSection = useRef(0);
   const isAnimating = useRef(false);
 
-  useGSAP(
-    () => {
-      const sections = gsap.utils.toArray<HTMLElement>("[data-section]");
+  const isAtBottom = (element: HTMLElement) =>
+    element.scrollTop + element.clientHeight >= element.scrollHeight - 2;
 
-      gsap.set(sections, { yPercent: 100, autoAlpha: 0, zIndex: 0 });
+  const isAtTop = (element: HTMLElement) => element.scrollTop <= 2;
 
-      gsap.set(sections[0], { yPercent: 0, autoAlpha: 1, zIndex: 1 });
+  const gotoSection = (index: number) => {
+    if (isAnimating.current) return;
+    if (currentSection.current === index) return;
+    if (index < 0 || index >= sections.current.length) return;
 
-      const gotoSection = (observer: Observer, index: number) => {
-        if (
-          (observer.event.target as HTMLElement).closest(
-            "[data-ignore-section-scroll]",
-          )
-        )
-          return;
+    isAnimating.current = true;
 
-        if (isAnimating.current) return;
-        if (index < 0 || index >= sections.length) return;
+    const current = sections.current[currentSection.current];
+    const next = sections.current[index];
+    const direction = index > currentSection.current ? 1 : -1;
 
-        isAnimating.current = true;
+    setActiveSection(next.id as keyof typeof sectionConfig);
 
-        const current = sections[currentSection.current];
-        const next = sections[index];
-        const direction = index > currentSection.current ? 1 : -1;
+    gsap.set(next, { zIndex: 2 });
 
-        setActiveSection(next.id as keyof typeof sectionConfig);
+    gsap.set(current, { zIndex: 1 });
 
-        gsap.set(next, { zIndex: 2 });
+    gsap
+      .timeline({
+        defaults: { duration: 1, ease: "power3.inOut" },
+        onComplete() {
+          // reset old section
+          gsap.set(current, {
+            yPercent: direction === 1 ? -100 : 100,
+            autoAlpha: 0,
+            zIndex: 0,
+          });
 
-        gsap.set(current, { zIndex: 1 });
+          currentSection.current = index;
+          isAnimating.current = false;
+        },
+      })
+      .to(current, { yPercent: direction === 1 ? -25 : 25, autoAlpha: 0 }, 0)
+      .fromTo(
+        next,
+        { yPercent: direction === 1 ? 100 : -100, autoAlpha: 0 },
+        { yPercent: 0, autoAlpha: 1 },
+        0,
+      );
+  };
 
-        gsap
-          .timeline({
-            defaults: { duration: 1, ease: "power3.inOut" },
-            onComplete() {
-              // reset old section
-              gsap.set(current, {
-                yPercent: direction === 1 ? -100 : 100,
-                autoAlpha: 0,
-                zIndex: 0,
-              });
+  useEffect(() => {
+    sections.current = gsap.utils.toArray<HTMLElement>("[data-section]");
+    gsap.set(sections.current, { yPercent: 100, autoAlpha: 0, zIndex: 0 });
+    gsap.set(sections.current[0], { yPercent: 0, autoAlpha: 1, zIndex: 1 });
 
-              currentSection.current = index;
-              isAnimating.current = false;
-            },
-          })
-          .to(
-            current,
-            { yPercent: direction === 1 ? -25 : 25, autoAlpha: 0 },
-            0,
-          )
-          .fromTo(
-            next,
-            { yPercent: direction === 1 ? 100 : -100, autoAlpha: 0 },
-            { yPercent: 0, autoAlpha: 1 },
-            0,
-          );
-      };
+    const handleWheel = (e: WheelEvent) => {
+      if (isAnimating.current) {
+        e.preventDefault();
+        return;
+      }
 
-      const observer = Observer.create({
-        target: window,
-        type: "wheel,touch",
-        tolerance: 10,
-        wheelSpeed: 1,
-        preventDefault: true,
-        onDown: (observer) => gotoSection(observer, currentSection.current + 1),
-        onUp: (observer) => gotoSection(observer, currentSection.current - 1),
-      });
+      const scrollable = (e.target as HTMLElement).closest(
+        "[data-scrollable]",
+      ) as HTMLElement | null;
 
-      return () => observer.kill();
-    },
-    { scope: containerRef },
-  );
+      if (scrollable) {
+        if (e.deltaY > 0 && !isAtBottom(scrollable)) return;
+        if (e.deltaY < 0 && !isAtTop(scrollable)) return;
+      }
+
+      if (e.deltaY > 0) {
+        e.preventDefault();
+        gotoSection(currentSection.current + 1);
+      } else if (e.deltaY < 0) {
+        e.preventDefault();
+        gotoSection(currentSection.current - 1);
+      }
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => window.removeEventListener("wheel", handleWheel);
+  }, []);
 
   return (
     <>
       <Intro />
 
-      <main ref={containerRef} className="h-screen overflow-hidden">
+      <main className="h-dvh overflow-hidden">
         {/* Top meta bar */}
         <header
           className={cn(
@@ -129,7 +134,7 @@ export default function Layout({ hero, experience, modals }: LayoutProps) {
 
         {modals}
 
-        <div className="relative h-[calc(100vh-48px)] overflow-hidden">
+        <div className="relative h-[calc(100vh-48px)]">
           {hero}
           {experience}
         </div>

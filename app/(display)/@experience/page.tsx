@@ -10,15 +10,15 @@ export default function Experience() {
         {experienceConfig.title}
       </h1>
       <ul
-        data-ignore-section-scroll
-        className="flex-1 flex flex-col sm:justify-center gap-4 sm:gap-0 overflow-auto"
+        data-scrollable
+        className="flex-1 flex flex-col gap-4 sm:gap-0 overflow-auto"
       >
         {experienceConfig.experience.map((experience) => (
           <li
             key={experience.company}
             className={cn(
               "sm:grid grid-cols-10 items-center p-4 rounded-lg sm:rounded-none sm:py-5 sm:px-2",
-              "border border-black/10 sm:last:border-b-0 sm:border-l-0 sm:border-t-0",
+              "border border-black/10 sm:last:border-b-0 sm:border-l-0 sm:border-t-0 md:border-r-0",
               "transition hover:bg-black/5 cursor-pointer",
             )}
           >
