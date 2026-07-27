@@ -1,10 +1,9 @@
-import { sectionConfig } from "@/config/section.config";
 import { cn } from "@/lib/utils";
 import React from "react";
 
 export type SectionProps = React.ComponentPropsWithoutRef<"section"> & {
   children: React.ReactNode;
-  name: keyof typeof sectionConfig;
+  name: string;
 };
 
 export default function Section({ children, name, ...props }: SectionProps) {

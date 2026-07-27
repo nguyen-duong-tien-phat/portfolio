@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Observer } from "gsap/Observer";
-import { useGSAP } from "@gsap/react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import Intro from "@/components/intro/Intro";
 import { sectionConfig } from "@/config/section.config";
 import { cn } from "@/lib/utils";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 gsap.registerPlugin(Observer, useGSAP);
 
@@ -15,15 +16,27 @@ type LayoutProps = {
   modals: React.ReactNode;
   hero: React.ReactNode;
   about: React.ReactNode;
+  projects: React.ReactNode;
   experience: React.ReactNode;
 };
 
-export default function Layout({ hero, experience, modals }: LayoutProps) {
-  const [activeSection, setActiveSection] =
-    useState<keyof typeof sectionConfig>("hero");
+export default function Layout({
+  hero,
+  projects,
+  experience,
+  modals,
+}: LayoutProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const [activeSection, setActiveSection] = useState(
+    Number(searchParams.get("s")),
+  );
 
   const sections = useRef<HTMLElement[]>([]);
-  const currentSection = useRef(0);
+  const initialSection = useRef(Number(searchParams.get("s")) ?? 0);
+  const currentSection = useRef(Number(searchParams.get("s")) ?? 0);
   const isAnimating = useRef(false);
 
   const isAtBottom = (element: HTMLElement) =>
@@ -31,51 +44,59 @@ export default function Layout({ hero, experience, modals }: LayoutProps) {
 
   const isAtTop = (element: HTMLElement) => element.scrollTop <= 2;
 
-  const gotoSection = (index: number) => {
-    if (isAnimating.current) return;
-    if (currentSection.current === index) return;
-    if (index < 0 || index >= sections.current.length) return;
+  const gotoSection = useCallback(
+    (index: number) => {
+      if (isAnimating.current) return;
+      if (currentSection.current === index) return;
+      if (index < 0 || index >= sections.current.length) return;
 
-    isAnimating.current = true;
+      isAnimating.current = true;
+      router.replace(`${pathname}?s=${index}`); // update params for refreshing
 
-    const current = sections.current[currentSection.current];
-    const next = sections.current[index];
-    const direction = index > currentSection.current ? 1 : -1;
+      const current = sections.current[currentSection.current];
+      const next = sections.current[index];
+      const direction = index > currentSection.current ? 1 : -1;
 
-    setActiveSection(next.id as keyof typeof sectionConfig);
+      setActiveSection(index);
 
-    gsap.set(next, { zIndex: 2 });
+      gsap.set(next, { zIndex: 2 });
 
-    gsap.set(current, { zIndex: 1 });
+      gsap.set(current, { zIndex: 1 });
 
-    gsap
-      .timeline({
-        defaults: { duration: 1, ease: "power3.inOut" },
-        onComplete() {
-          // reset old section
-          gsap.set(current, {
-            yPercent: direction === 1 ? -100 : 100,
-            autoAlpha: 0,
-            zIndex: 0,
-          });
+      gsap
+        .timeline({
+          defaults: { duration: 1, ease: "power3.inOut" },
+          onComplete() {
+            // reset old section
+            gsap.set(current, {
+              yPercent: direction === 1 ? -100 : 100,
+              autoAlpha: 0,
+              zIndex: 0,
+            });
 
-          currentSection.current = index;
-          isAnimating.current = false;
-        },
-      })
-      .to(current, { yPercent: direction === 1 ? -25 : 25, autoAlpha: 0 }, 0)
-      .fromTo(
-        next,
-        { yPercent: direction === 1 ? 100 : -100, autoAlpha: 0 },
-        { yPercent: 0, autoAlpha: 1 },
-        0,
-      );
-  };
+            currentSection.current = index;
+            isAnimating.current = false;
+          },
+        })
+        .to(current, { yPercent: direction === 1 ? -25 : 25, autoAlpha: 0 }, 0)
+        .fromTo(
+          next,
+          { yPercent: direction === 1 ? 100 : -100, autoAlpha: 0 },
+          { yPercent: 0, autoAlpha: 1 },
+          0,
+        );
+    },
+    [pathname, router],
+  );
 
   useEffect(() => {
     sections.current = gsap.utils.toArray<HTMLElement>("[data-section]");
     gsap.set(sections.current, { yPercent: 100, autoAlpha: 0, zIndex: 0 });
-    gsap.set(sections.current[0], { yPercent: 0, autoAlpha: 1, zIndex: 1 });
+    gsap.set(sections.current[initialSection.current], {
+      yPercent: 0,
+      autoAlpha: 1,
+      zIndex: 1,
+    });
 
     const handleWheel = (e: WheelEvent) => {
       if (isAnimating.current) {
@@ -104,7 +125,7 @@ export default function Layout({ hero, experience, modals }: LayoutProps) {
     window.addEventListener("wheel", handleWheel, { passive: false });
 
     return () => window.removeEventListener("wheel", handleWheel);
-  }, []);
+  }, [gotoSection]);
 
   return (
     <>
@@ -115,19 +136,22 @@ export default function Layout({ hero, experience, modals }: LayoutProps) {
         <header
           className={cn(
             "grid grid-cols-2 gap-8 md:gap-16 pt-8 md:px-10",
-            "font-mono text-xs uppercase tracking-[0.2em]",
+            "font-mono uppercase tracking-[0.2em]",
           )}
         >
           <span
-            key={`${activeSection}-name`}
+            key={`${sectionConfig[activeSection].name}-name`}
             className="animate-intro-word col-span-1 text-right"
           >
             {sectionConfig[activeSection].name}
           </span>
           <span className="col-span-1">
             Index /{" "}
-            <span key={`${activeSection}-idx`} className="animate-intro-word">
-              {sectionConfig[activeSection].idx}
+            <span
+              key={`${sectionConfig[activeSection].name}-idx`}
+              className="animate-intro-word"
+            >
+              0{activeSection + 1}
             </span>
           </span>
         </header>
@@ -137,6 +161,7 @@ export default function Layout({ hero, experience, modals }: LayoutProps) {
         <div className="relative h-[calc(100vh-48px)]">
           {hero}
           {experience}
+          {projects}
         </div>
 
         {/* {about} */}

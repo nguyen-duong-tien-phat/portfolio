@@ -57,7 +57,6 @@ export default function Suzanne() {
       dpr={[1, 2]}
       camera={{ position: [0, 2, 7], fov: 38 }}
       gl={{ alpha: true, antialias: true }}
-      style={{ background: "transparent" }}
     >
       <ambientLight intensity={0.6} />
       <Suspense fallback={null}>
