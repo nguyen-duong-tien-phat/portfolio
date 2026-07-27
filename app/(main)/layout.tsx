@@ -139,21 +139,20 @@ export default function Layout({
             "font-mono uppercase tracking-[0.2em]",
           )}
         >
-          <span
-            key={`${sectionConfig[activeSection].name}-name`}
-            className="animate-intro-word col-span-1 text-right"
-          >
-            {sectionConfig[activeSection].name}
-          </span>
-          <span className="col-span-1">
-            Index /{" "}
-            <span
-              key={`${sectionConfig[activeSection].name}-idx`}
-              className="animate-intro-word"
+          <div className="overflow-hidden">
+            <p
+              key={`${sectionConfig[activeSection].name}-name`}
+              className="col-span-1 text-right"
             >
+              {sectionConfig[activeSection].name}
+            </p>
+          </div>
+          <p className="col-span-1">
+            Index /{" "}
+            <span key={`${sectionConfig[activeSection].name}-idx`}>
               0{activeSection + 1}
             </span>
-          </span>
+          </p>
         </header>
 
         {modals}
