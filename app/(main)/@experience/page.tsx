@@ -17,7 +17,7 @@ export default function Experience() {
           <li
             key={experience.company}
             className={cn(
-              "sm:grid grid-cols-10 items-center p-4 rounded-lg sm:rounded-none sm:py-5 sm:px-2",
+              "sm:grid grid-cols-10 gap-4 items-center p-4 rounded-lg sm:rounded-none sm:py-5 sm:px-2",
               "border border-black/10 sm:last:border-b-0 sm:border-l-0 sm:border-t-0 md:border-r-0",
               "transition hover:bg-black/5 cursor-pointer",
             )}
@@ -30,7 +30,7 @@ export default function Experience() {
                 )}
               ></span>
 
-              <p className="flex items-center gap-2 font-mono sm:text-sm text-gray-500 grid-cols-3 mb-1 sm:mb-0">
+              <p className="flex items-center gap-2 font-mono text-gray-700 grid-cols-3 mb-1 sm:mb-0">
                 {formatDate(experience.startAt, {
                   month: "2-digit",
                   year: "numeric",
@@ -45,11 +45,11 @@ export default function Experience() {
               </p>
             </div>
 
-            <div className="col-span-7 lg:col-span-5">
+            <div className="col-span-7 lg:col-span-4">
               <p className="font-medium text-2xl sm:text-xl">
                 {experience.company}
               </p>
-              <p className="font-mono text-gray-500 mt-1">{experience.role}</p>
+              <p className="font-mono text-gray-700 mt-1">{experience.role}</p>
               <div className="mt-3 flex items-center gap-3 flex-wrap">
                 {experience.technologies.map((tech) => (
                   <span
@@ -62,7 +62,7 @@ export default function Experience() {
               </div>
             </div>
 
-            <p className="sm:hidden lg:block lg:col-span-3 mt-3 sm:mt-0">
+            <p className="sm:hidden lg:block lg:col-span-4 mt-3 sm:mt-0 font-mono">
               {experience.desc}
             </p>
           </li>
