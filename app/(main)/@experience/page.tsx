@@ -1,11 +1,12 @@
 import Section from "@/components/ui/Section";
 import { experienceConfig } from "@/config/experience.config";
+import { SECTION_NAME } from "@/config/section.config";
 import { formatDate } from "@/lib/datetime";
 import { cn } from "@/lib/utils";
 
 export default function Experience() {
   return (
-    <Section name="experience" className="flex flex-col">
+    <Section name={SECTION_NAME.EXPERIENCE} className="flex flex-col">
       <h1 className="max-w-100 mb-8 text-balance text-5xl md:text-7xl font-medium leading-[1.02] tracking-[-0.03em]">
         {experienceConfig.title}
       </h1>

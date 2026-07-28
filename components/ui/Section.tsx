@@ -1,9 +1,10 @@
+import { SECTION_NAME } from "@/config/section.config";
 import { cn } from "@/lib/utils";
 import React from "react";
 
 export type SectionProps = React.ComponentPropsWithoutRef<"section"> & {
   children: React.ReactNode;
-  name: string;
+  name: SECTION_NAME;
 };
 
 export default function Section({ children, name, ...props }: SectionProps) {
@@ -11,10 +12,7 @@ export default function Section({ children, name, ...props }: SectionProps) {
     <section
       {...props}
       id={name}
-      className={cn(
-        "size-full mx-auto px-6 pt-10 pb-6 md:px-12 w-[min(1600px,100%)]",
-        props.className,
-      )}
+      className={cn("min-h-screen px-6 pt-10 pb-6 md:px-12", props.className)}
     >
       {children}
     </section>

@@ -1,4 +1,4 @@
-import { sectionConfig } from "@/config/section.config";
+import { SECTION_NAME } from "@/config/section.config";
 import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -7,41 +7,70 @@ import { useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface HeaderProps {
-  section: (typeof sectionConfig)[number];
-}
-
-export default function Header({ section }: HeaderProps) {
-  const sectionName = useRef<HTMLParagraphElement>(null);
+export default function Header() {
+  const headerRef = useRef<HTMLHeadElement>(null);
+  const indexRef = useRef<HTMLParagraphElement>(null);
+  const nameRef = useRef<HTMLParagraphElement>(null);
 
   useGSAP(() => {
-    ScrollTrigger.create({
-      trigger: "main",
-      start: "top top",
-      end: "bottom bottom",
-      pin: sectionName.current,
-      pinSpacing: false,
-      markers: true,
+    gsap.to(nameRef.current, {
+      x: () => {
+        const header = headerRef.current!;
+        const name = nameRef.current!;
+        return (
+          header.getBoundingClientRect().x -
+          name.getBoundingClientRect().x +
+          parseFloat(getComputedStyle(header).paddingLeft)
+        );
+      },
+      scrollTrigger: {
+        trigger: `#${SECTION_NAME.HERO}`,
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+      },
+    });
+
+    gsap.to(indexRef.current, {
+      x: () => {
+        const header = headerRef.current!;
+        const index = indexRef.current!;
+        return (
+          header.getBoundingClientRect().right -
+          index.getBoundingClientRect().left -
+          index.clientWidth -
+          parseFloat(getComputedStyle(header).paddingLeft)
+        );
+      },
+      scrollTrigger: {
+        trigger: `#${SECTION_NAME.HERO}`,
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+      },
     });
   });
 
   return (
     <header
+      ref={headerRef}
       className={cn(
-        "grid grid-cols-2 gap-8 md:gap-16 pt-8 md:px-10",
+        "grid grid-cols-2 gap-8 md:gap-16 pt-8 px-6 md:px-10 bg-white",
         "font-mono uppercase tracking-[0.2em]",
+        "sticky top-0 z-20",
       )}
     >
-      <p
-        ref={sectionName}
-        key={`${section.name}-name`}
-        className="col-span-1 text-right"
-      >
-        {section.name}
-      </p>
-      <p className="col-span-1">
-        Index / <span key={`${section.name}-idx`}>01</span>
-      </p>
+      <div className="col-span-1">
+        <p ref={nameRef} className="justify-self-end w-fit">
+          {SECTION_NAME.HERO}
+        </p>
+      </div>
+
+      <div className="col-span-1">
+        <p ref={indexRef} className="w-fit">
+          Index / <span>01</span>
+        </p>
+      </div>
     </header>
   );
 }

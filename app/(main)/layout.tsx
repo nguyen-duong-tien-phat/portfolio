@@ -1,7 +1,6 @@
 "use client";
 import Header from "@/components/Header";
 import Intro from "@/components/intro/Intro";
-import { sectionConfig } from "@/config/section.config";
 import React from "react";
 
 type LayoutProps = {
@@ -20,10 +19,10 @@ export default function Layout({
 }: LayoutProps) {
   return (
     <>
-      <Intro />
+      {/* <Intro /> */}
       {modals}
-      <main>
-        <Header section={sectionConfig[0]} />
+      <main className="relative w-[min(1600px,100%)] mx-auto">
+        <Header />
         {hero}
         {experience}
         {projects}

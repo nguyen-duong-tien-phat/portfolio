@@ -8,6 +8,7 @@ import {
 import { Button } from "@/components/ui";
 import Section from "@/components/ui/Section";
 import { projectsConfig } from "@/config/projects.config";
+import { SECTION_NAME } from "@/config/section.config";
 import { Canvas } from "@react-three/fiber";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -24,7 +25,10 @@ export default function Projects() {
   const nextProject = () => setActiveProject((prev) => prev + 1);
 
   return (
-    <Section name="projects" className="grid grid-cols-1 lg:grid-cols-5">
+    <Section
+      name={SECTION_NAME.PROJECTS}
+      className="grid grid-cols-1 lg:grid-cols-5"
+    >
       <div className="col-span-3 overflow-hidden">
         <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 0.9], fov: 35 }}>
           <Monitor url={project.link} />

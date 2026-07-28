@@ -1,5 +1,6 @@
 import Section from "@/components/ui/Section";
 import { heroConfig, socialsConfig } from "@/config/hero.config";
+import { SECTION_NAME } from "@/config/section.config";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import React from "react";
@@ -8,7 +9,7 @@ const Suzanne = dynamic(() => import("@/three/models/suzanne"));
 
 const HeroSection: React.FC = () => {
   return (
-    <Section name="hero">
+    <Section name={SECTION_NAME.HERO}>
       <div className="h-full grid grid-cols-12 items-center">
         <div className="col-span-12 sm:col-span-6 flex flex-col">
           <p className="font-mono uppercase tracking-[0.3em] text-muted-foreground">
