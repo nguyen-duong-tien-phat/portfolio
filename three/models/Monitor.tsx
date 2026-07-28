@@ -9,17 +9,12 @@ import {
 import { useEffect } from "react";
 import * as THREE from "three";
 
-// const box = new THREE.Box3();
+interface MonitorProps {
+  url: string;
+}
 
-export default function Monitor() {
-  // const { size } = useThree();
+export default function Monitor({ url }: MonitorProps) {
   const monitor = useGLTF(THREE_ASSETS.models.monitor);
-  // const screenSize = useRef(new THREE.Vector3(1, 1, 1));
-
-  // useEffect(() => {
-  //   box.setFromObject(monitor.scene.getObjectByName("screen") as THREE.Mesh);
-  //   box.getSize(screenSize.current);
-  // }, [size, monitor]);
 
   useEffect(() => {
     monitor.scene.traverse((child) => {
@@ -60,7 +55,7 @@ export default function Monitor() {
             className="bg-white"
           >
             <iframe
-              src="https://letschill-pqgu.vercel.app"
+              src={url}
               style={{
                 width: 1100,
                 height: 1024 * 0.5625, // 0.5625 = screenSize.current.y / screenSize.current.x

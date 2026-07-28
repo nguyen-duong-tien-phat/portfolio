@@ -9,10 +9,7 @@ export default function Experience() {
       <h1 className="max-w-100 mb-8 text-balance text-5xl md:text-7xl font-medium leading-[1.02] tracking-[-0.03em]">
         {experienceConfig.title}
       </h1>
-      <ul
-        data-scrollable
-        className="flex-1 flex flex-col gap-4 sm:gap-0 overflow-auto"
-      >
+      <ul className="flex-1 flex flex-col gap-4 sm:gap-0 overflow-auto">
         {experienceConfig.experience.map((experience) => (
           <li
             key={experience.company}

@@ -16,7 +16,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           "border-zinc-300 bg-white text-zinc-900",
           "cursor-pointer hover:bg-black hover:text-white",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400",
-          "disabled:pointer-events-none disabled:opacity-50",
+          "disabled:cursor-not-allowed disabled:opacity-50",
 
           icon ? "size-11 p-0" : "h-11 px-5 gap-2",
 
