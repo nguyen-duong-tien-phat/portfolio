@@ -114,7 +114,7 @@ function flapTo(container: HTMLElement, from: string, to: string) {
 // --- component ---------------------------------------------------------
 
 export default function Header() {
-  const headerRef = useRef<HTMLElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const nameRef = useRef<HTMLParagraphElement>(null);
 
   // text currently shown / targeted, so each new animation knows its "from"
@@ -124,7 +124,7 @@ export default function Header() {
   const maxChars = Math.max(...sectionConfig.map((s) => s.name.length));
 
   useGSAP(() => {
-    const header = headerRef.current!;
+    const header = contentRef.current!;
     const name = nameRef.current!;
 
     // paint initial name instantly, no animation on mount
@@ -159,7 +159,7 @@ export default function Header() {
       };
       ScrollTrigger.create({
         trigger: `#${section.name}`,
-        start: () => `top ${headerRef.current!.clientHeight}`,
+        start: () => `top ${contentRef.current!.clientHeight}`,
         end: "50% top",
         onEnter: handleChange,
         onEnterBack: handleChange,
@@ -184,33 +184,35 @@ export default function Header() {
   }, [maxChars]);
 
   return (
-    <header
-      ref={headerRef}
-      className={cn(
-        "sticky top-0 z-10 py-5 px-6 md:px-12 bg-white shadow",
-        "font-mono uppercase tracking-[0.2em]",
-      )}
-    >
-      <p
-        ref={nameRef}
-        className="w-fit mx-auto h-6 overflow-hidden leading-6 flex gap-[3.2px]"
-      />
+    <header className={"fixed top-0 left-0 right-0 z-10"}>
+      <div
+        ref={contentRef}
+        className={cn(
+          "font-mono uppercase tracking-[0.2em]",
+          "w-[min(1600px,100%)] mx-auto px-6 md:px-12 py-5 bg-white shadow",
+        )}
+      >
+        <p
+          ref={nameRef}
+          className="w-fit mx-auto h-6 overflow-hidden leading-6 flex gap-[3.2px]"
+        />
 
-      <nav className="absolute top-5 right-6 md:right-12 flex gap-5 md:gap-8 overflow-hidden">
-        {Object.values(socialsConfig).map((s) => (
-          <Link
-            key={s.label}
-            href={s.link}
-            target={s.target ?? "_blank"}
-            className="social cursor-pointer items-center font-mono uppercase tracking-[0.18em] transition-colors hover:text-blue-700"
-          >
-            <span className="hidden md:block">{s.label}</span>
-            <span className="block md:hidden">
-              <s.icon />
-            </span>
-          </Link>
-        ))}
-      </nav>
+        <nav className="absolute top-5 right-6 md:right-12 flex gap-5 md:gap-8 overflow-hidden">
+          {Object.values(socialsConfig).map((s) => (
+            <Link
+              key={s.label}
+              href={s.link}
+              target={s.target ?? "_blank"}
+              className="social cursor-pointer items-center font-mono uppercase tracking-[0.18em] transition-colors hover:text-blue-700"
+            >
+              <span className="hidden md:block">{s.label}</span>
+              <span className="block md:hidden">
+                <s.icon />
+              </span>
+            </Link>
+          ))}
+        </nav>
+      </div>
     </header>
   );
 }

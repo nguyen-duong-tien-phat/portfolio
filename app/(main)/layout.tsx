@@ -1,6 +1,7 @@
 "use client";
 import Header from "@/components/Header";
 import Intro from "@/components/intro/Intro";
+import SmoothScroll from "@/components/SmoothScroll";
 import React from "react";
 
 type LayoutProps = {
@@ -19,13 +20,15 @@ export default function Layout({
 }: LayoutProps) {
   return (
     <>
-      {/* <Intro /> */}
+      <Intro />
       {modals}
-      <main className="relative w-[min(1600px,100%)] mx-auto">
+      <main className="relative">
         <Header />
-        {hero}
-        {experience}
-        {projects}
+        <SmoothScroll>
+          {hero}
+          {experience}
+          {projects}
+        </SmoothScroll>
       </main>
     </>
   );
