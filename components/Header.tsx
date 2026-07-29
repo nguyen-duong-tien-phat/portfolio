@@ -1,11 +1,15 @@
+import { socialsConfig } from "@/config/hero.config";
 import { SECTION_NAME, sectionConfig } from "@/config/section.config";
 import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger, TextPlugin } from "gsap/all";
+import Link from "next/link";
 import { useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
+
+ScrollTrigger.normalizeScroll(true); // fix header position fix on responsive devices
 
 // --- flap-text helpers -----------------------------------------------
 const CELL_HEIGHT = 24;
@@ -111,7 +115,6 @@ function flapTo(container: HTMLElement, from: string, to: string) {
 
 export default function Header() {
   const headerRef = useRef<HTMLElement>(null);
-  const indexRef = useRef<HTMLParagraphElement>(null);
   const nameRef = useRef<HTMLParagraphElement>(null);
 
   // text currently shown / targeted, so each new animation knows its "from"
@@ -123,36 +126,26 @@ export default function Header() {
   useGSAP(() => {
     const header = headerRef.current!;
     const name = nameRef.current!;
-    const index = indexRef.current!;
 
     // paint initial name instantly, no animation on mount
     flapTo(name, "", displayedNameRef.current).progress(1);
 
-    // --- horizontal animation (unchanged) ---
+    // --- name move to left ---
     gsap.to(name, {
-      x: () =>
-        header.getBoundingClientRect().x -
-        name.getBoundingClientRect().x +
-        parseFloat(getComputedStyle(header).paddingLeft),
-      scrollTrigger: {
-        trigger: `#${sectionConfig[0].name}`,
-        start: "top 56px",
-        end: "bottom 56px",
-        scrub: true,
+      x: () => {
+        return (
+          header.getBoundingClientRect().x -
+          name.getBoundingClientRect().x +
+          parseFloat(getComputedStyle(header).paddingLeft)
+        );
       },
-    });
-
-    gsap.to(index, {
-      x: () =>
-        header.getBoundingClientRect().right -
-        index.getBoundingClientRect().left -
-        index.clientWidth -
-        parseFloat(getComputedStyle(header).paddingLeft),
+      duration: 0.8,
+      ease: "power3.out",
       scrollTrigger: {
         trigger: `#${sectionConfig[0].name}`,
-        start: "top 56px",
-        end: "bottom 100px",
-        scrub: true,
+        start: () => `50% top`,
+        end: () => `50% top`,
+        toggleActions: "restart none reverse none",
       },
     });
 
@@ -166,11 +159,27 @@ export default function Header() {
       };
       ScrollTrigger.create({
         trigger: `#${section.name}`,
-        start: "top 56px",
+        start: () => `top ${headerRef.current!.clientHeight}`,
         end: "50% top",
         onEnter: handleChange,
         onEnterBack: handleChange,
       });
+    });
+
+    const socials = gsap.utils.toArray(".social");
+    gsap.set(socials, { y: "100%" });
+
+    gsap.to(socials, {
+      y: "0%",
+      duration: 0.8,
+      ease: "power3.out",
+      stagger: 0.1,
+      scrollTrigger: {
+        trigger: `#${sectionConfig[0].name}`,
+        start: () => `50% top`,
+        end: () => `50% top`,
+        toggleActions: "restart none reverse none",
+      },
     });
   }, [maxChars]);
 
@@ -178,23 +187,30 @@ export default function Header() {
     <header
       ref={headerRef}
       className={cn(
-        "grid grid-cols-2 gap-8 md:gap-16 pt-8 px-6 md:px-10 bg-white",
+        "sticky top-0 z-10 py-5 px-6 md:px-12 bg-white shadow",
         "font-mono uppercase tracking-[0.2em]",
-        "sticky top-0 z-20",
       )}
     >
-      <div className="col-span-1">
-        <p
-          ref={nameRef}
-          className="justify-self-end w-fit h-6 overflow-hidden leading-6 flex gap-[3.2px]"
-        />
-      </div>
+      <p
+        ref={nameRef}
+        className="w-fit mx-auto h-6 overflow-hidden leading-6 flex gap-[3.2px]"
+      />
 
-      <div className="col-span-1">
-        <p ref={indexRef} className="w-fit h-6 leading-6">
-          Index / <span>01</span>
-        </p>
-      </div>
+      <nav className="absolute top-5 right-6 md:right-12 flex gap-5 md:gap-8 overflow-hidden">
+        {Object.values(socialsConfig).map((s) => (
+          <Link
+            key={s.label}
+            href={s.link}
+            target={s.target ?? "_blank"}
+            className="social cursor-pointer items-center font-mono uppercase tracking-[0.18em] transition-colors hover:text-blue-700"
+          >
+            <span className="hidden md:block">{s.label}</span>
+            <span className="block md:hidden">
+              <s.icon />
+            </span>
+          </Link>
+        ))}
+      </nav>
     </header>
   );
 }
