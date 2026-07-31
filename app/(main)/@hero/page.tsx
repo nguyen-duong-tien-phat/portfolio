@@ -1,15 +1,37 @@
+"use client";
 import Section from "@/components/ui/Section";
 import { heroConfig, socialsConfig } from "@/config/hero.config";
 import { SECTION_NAME } from "@/config/section.config";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollSmoother, ScrollTrigger } from "gsap/all";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import React from "react";
 
 const Suzanne = dynamic(() => import("@/three/models/suzanne"));
 
+gsap.registerPlugin(ScrollTrigger);
+
 const HeroSection: React.FC = () => {
+  useGSAP(() => {
+    ScrollTrigger.create({
+      trigger: `#${SECTION_NAME.HERO}`,
+      start: () => `10% top`,
+      onEnter: () => {
+        const smoother = ScrollSmoother.get();
+
+        smoother?.scrollTo(
+          `#${SECTION_NAME.EXPERIENCE}`,
+          true,
+          `top ${document.querySelector("#header")?.clientHeight ?? 0}`,
+        );
+      },
+    });
+  });
+
   return (
-    <Section name={SECTION_NAME.HERO}>
+    <Section name={SECTION_NAME.HERO} className="relative">
       <div className="h-full grid grid-cols-12 items-center">
         <div className="col-span-12 sm:col-span-6 flex flex-col">
           <p className="font-mono uppercase tracking-[0.3em] text-muted-foreground">
@@ -40,6 +62,13 @@ const HeroSection: React.FC = () => {
           <div className="aspect-square w-full">
             <Suzanne />
           </div>
+        </div>
+      </div>
+
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
+        <div className="flex flex-col items-center gap-3">
+          <span className="text-[10px] tracking-[0.4em]">SCROLL</span>
+          <div className="h-16 w-px bg-current/50" />
         </div>
       </div>
     </Section>

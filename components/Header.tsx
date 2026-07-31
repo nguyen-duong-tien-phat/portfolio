@@ -1,3 +1,4 @@
+"use client";
 import { socialsConfig } from "@/config/hero.config";
 import { SECTION_NAME, sectionConfig } from "@/config/section.config";
 import { cn } from "@/lib/utils";
@@ -8,8 +9,6 @@ import Link from "next/link";
 import { useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
-
-ScrollTrigger.normalizeScroll(true); // fix header position fix on responsive devices
 
 // --- flap-text helpers -----------------------------------------------
 const CELL_HEIGHT = 24;
@@ -124,11 +123,30 @@ export default function Header() {
   const maxChars = Math.max(...sectionConfig.map((s) => s.name.length));
 
   useGSAP(() => {
+    ScrollTrigger.normalizeScroll(true); // fix header position fix on responsive devices
+
     const header = contentRef.current!;
     const name = nameRef.current!;
 
     // paint initial name instantly, no animation on mount
     flapTo(name, "", displayedNameRef.current).progress(1);
+
+    // --- flap-text swap, one ScrollTrigger per section ---
+    sectionConfig.forEach((section) => {
+      const handleChange = () => {
+        if (activeSectionRef.current === section.name) return;
+        flapTo(name, displayedNameRef.current, section.name);
+        displayedNameRef.current = section.name;
+        activeSectionRef.current = section.name;
+      };
+      ScrollTrigger.create({
+        trigger: `#${section.name}`,
+        start: () => `top ${contentRef.current!.clientHeight}`,
+        end: "10% top",
+        onEnter: handleChange,
+        onEnterBack: handleChange,
+      });
+    });
 
     // --- name move to left ---
     gsap.to(name, {
@@ -143,27 +161,10 @@ export default function Header() {
       ease: "power3.out",
       scrollTrigger: {
         trigger: `#${sectionConfig[0].name}`,
-        start: () => `50% top`,
-        end: () => `50% top`,
+        start: () => `10% top`,
+        end: () => `10% top`,
         toggleActions: "restart none reverse none",
       },
-    });
-
-    // --- flap-text swap, one ScrollTrigger per section ---
-    sectionConfig.forEach((section) => {
-      const handleChange = () => {
-        if (activeSectionRef.current === section.name) return;
-        flapTo(name, displayedNameRef.current, section.name);
-        displayedNameRef.current = section.name;
-        activeSectionRef.current = section.name;
-      };
-      ScrollTrigger.create({
-        trigger: `#${section.name}`,
-        start: () => `top ${contentRef.current!.clientHeight}`,
-        end: "50% top",
-        onEnter: handleChange,
-        onEnterBack: handleChange,
-      });
     });
 
     const socials = gsap.utils.toArray(".social");
@@ -176,15 +177,15 @@ export default function Header() {
       stagger: 0.1,
       scrollTrigger: {
         trigger: `#${sectionConfig[0].name}`,
-        start: () => `50% top`,
-        end: () => `50% top`,
+        start: () => `10% top`,
+        end: () => `10% top`,
         toggleActions: "restart none reverse none",
       },
     });
   }, [maxChars]);
 
   return (
-    <header className={"fixed top-0 left-0 right-0 z-10"}>
+    <header id="header" className={"fixed top-0 left-0 right-0 z-10"}>
       <div
         ref={contentRef}
         className={cn(

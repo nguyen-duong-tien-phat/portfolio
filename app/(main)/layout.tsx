@@ -1,4 +1,3 @@
-"use client";
 import Header from "@/components/Header";
 import Intro from "@/components/intro/Intro";
 import SmoothScroll from "@/components/SmoothScroll";
