@@ -2,36 +2,15 @@
 import Section from "@/components/ui/Section";
 import { heroConfig, socialsConfig } from "@/config/hero.config";
 import { SECTION_NAME } from "@/config/section.config";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollSmoother, ScrollTrigger } from "gsap/all";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import React from "react";
 
 const Suzanne = dynamic(() => import("@/three/models/suzanne"));
 
-gsap.registerPlugin(ScrollTrigger);
-
 const HeroSection: React.FC = () => {
-  useGSAP(() => {
-    ScrollTrigger.create({
-      trigger: `#${SECTION_NAME.HERO}`,
-      start: () => `10% top`,
-      onEnter: () => {
-        const smoother = ScrollSmoother.get();
-
-        smoother?.scrollTo(
-          `#${SECTION_NAME.EXPERIENCE}`,
-          true,
-          `top ${document.querySelector("#header")?.clientHeight ?? 0}`,
-        );
-      },
-    });
-  });
-
   return (
-    <Section name={SECTION_NAME.HERO} className="pt-16">
+    <Section name={SECTION_NAME.HERO} className="md:min-h-[calc(100vh-4rem)]">
       <div className="h-full grid grid-cols-12 items-center">
         <div className="col-span-12 sm:col-span-6 flex flex-col">
           <p className="font-mono uppercase tracking-[0.3em] text-muted-foreground">

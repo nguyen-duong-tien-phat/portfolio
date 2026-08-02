@@ -10,7 +10,29 @@
     transform: translateY(0);
   }
 }
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
 
-.animate-intro-word {
-  animation: intro-word 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@layer {
+  .animate-intro-word {
+    animation: intro-word 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .animate-marquee {
+    width: max-content;
+    display: flex;
+    animation: marquee 24s linear infinite;
+    will-change: transform;
+  }
+
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
 }

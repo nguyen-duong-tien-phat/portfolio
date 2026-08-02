@@ -24,6 +24,7 @@ export default function Layout({
       <main className="relative pt-16">
         <Header />
         <SmoothScroll>
+          <div className="h-16"></div> {/* header height */}
           {hero}
           {experience}
           {projects}
