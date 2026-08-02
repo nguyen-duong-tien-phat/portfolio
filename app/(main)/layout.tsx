@@ -21,7 +21,7 @@ export default function Layout({
     <>
       <Intro />
       {modals}
-      <main className="relative">
+      <main className="relative pt-16">
         <Header />
         <SmoothScroll>
           {hero}

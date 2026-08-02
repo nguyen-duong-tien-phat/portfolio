@@ -113,7 +113,7 @@ function flapTo(container: HTMLElement, from: string, to: string) {
 // --- component ---------------------------------------------------------
 
 export default function Header() {
-  const contentRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
   const nameRef = useRef<HTMLParagraphElement>(null);
 
   // text currently shown / targeted, so each new animation knows its "from"
@@ -125,7 +125,7 @@ export default function Header() {
   useGSAP(() => {
     ScrollTrigger.normalizeScroll(true); // fix header position fix on responsive devices
 
-    const header = contentRef.current!;
+    const header = headerRef.current!;
     const name = nameRef.current!;
 
     // paint initial name instantly, no animation on mount
@@ -141,7 +141,7 @@ export default function Header() {
       };
       ScrollTrigger.create({
         trigger: `#${section.name}`,
-        start: () => `top ${contentRef.current!.clientHeight}`,
+        start: () => `top-=5px ${headerRef.current!.clientHeight}`,
         end: "10% top",
         onEnter: handleChange,
         onEnterBack: handleChange,
@@ -187,10 +187,10 @@ export default function Header() {
   return (
     <header id="header" className={"fixed top-0 left-0 right-0 z-10"}>
       <div
-        ref={contentRef}
+        ref={headerRef}
         className={cn(
           "font-mono uppercase tracking-[0.2em]",
-          "w-[min(1600px,100%)] mx-auto px-6 md:px-12 py-5 bg-white shadow",
+          "relative w-[min(1600px,100%)] mx-auto px-6 md:px-12 py-5 bg-white shadow-[0_8px_12px_-4px_rgba(0,0,0,0.15)]",
         )}
       >
         <p

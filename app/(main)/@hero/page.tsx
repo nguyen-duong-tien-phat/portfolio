@@ -31,7 +31,7 @@ const HeroSection: React.FC = () => {
   });
 
   return (
-    <Section name={SECTION_NAME.HERO} className="relative">
+    <Section name={SECTION_NAME.HERO} className="pt-16">
       <div className="h-full grid grid-cols-12 items-center">
         <div className="col-span-12 sm:col-span-6 flex flex-col">
           <p className="font-mono uppercase tracking-[0.3em] text-muted-foreground">
@@ -62,13 +62,6 @@ const HeroSection: React.FC = () => {
           <div className="aspect-square w-full">
             <Suzanne />
           </div>
-        </div>
-      </div>
-
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-        <div className="flex flex-col items-center gap-3">
-          <span className="text-[10px] tracking-[0.4em]">SCROLL</span>
-          <div className="h-16 w-px bg-current/50" />
         </div>
       </div>
     </Section>
