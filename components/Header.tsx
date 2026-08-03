@@ -185,12 +185,15 @@ export default function Header() {
   }, [maxChars]);
 
   return (
-    <header id="header" className={"fixed top-0 left-0 right-0 z-10"}>
+    <header
+      id="header"
+      className="fixed bg-white top-0 left-0 right-0 z-10 shadow-[0_8px_12px_-4px_rgba(0,0,0,0.15)]"
+    >
       <div
         ref={headerRef}
         className={cn(
           "font-mono uppercase tracking-[0.2em]",
-          "relative w-[min(1600px,100%)] mx-auto px-6 md:px-12 py-5 bg-white shadow-[0_8px_12px_-4px_rgba(0,0,0,0.15)]",
+          "relative w-[min(1600px,100%)] mx-auto px-6 md:px-12 py-5",
         )}
       >
         <p

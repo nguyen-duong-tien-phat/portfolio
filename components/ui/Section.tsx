@@ -13,7 +13,7 @@ export default function Section({ children, name, ...props }: SectionProps) {
       {...props}
       id={name}
       className={cn(
-        "px-6 pt-10 pb-6 md:px-12 w-[min(1600px,100%)] mx-auto",
+        "px-6 md:px-12 w-[min(1600px,100%)] mx-auto",
         props.className,
       )}
     >

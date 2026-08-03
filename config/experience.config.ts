@@ -1,5 +1,7 @@
 export const experienceConfig = {
   title: "Where I've Worked",
+  summary:
+    "2+ years building products across the frontend — React, Next.js, Three.js, and more. Right now I'm leveling up into full-stack territory, going deeper on Node.js and the backend side of things.",
   experience: [
     {
       role: "Frontend Developer",
