@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 
 const words = ["Next.js", "TypeScript", "Three.js", "React Three Fiber"];
 
-const MIN_WORD_DISPLAY_TIME = 800;
+const MIN_WORD_DISPLAY_TIME = 300;
 
 export default function Intro() {
   const { progress, ready } = useAssets();
@@ -42,7 +42,7 @@ export default function Intro() {
 
     const doneTimer = setTimeout(() => {
       setDone(true);
-    }, 1500);
+    }, 500);
 
     return () => {
       clearTimeout(doneTimer);

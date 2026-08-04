@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { AssetProvider } from "@/hooks/useAssets";
+import { AssetProvider } from "@/hooks/useAssets"; // src/app/fonts.ts (or wherever you centralize fonts)
+import { Space_Grotesk, Geist, Geist_Mono } from "next/font/google";
 
 import "./globals.css";
 
-const geistSans = Geist({ subsets: ["latin"], variable: "--font-sans" });
+export const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-display",
+  weight: ["500", "600", "700"],
+});
+
+export const geist = Geist({ subsets: ["latin"], variable: "--font-body" });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
 export const metadata: Metadata = {
@@ -20,9 +26,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      className={`${spaceGrotesk.variable} ${geist.variable} ${geistMono.variable} antialiased`}
     >
-      <body>
+      <body className="font-body">
         <AssetProvider>{children}</AssetProvider>
       </body>
     </html>

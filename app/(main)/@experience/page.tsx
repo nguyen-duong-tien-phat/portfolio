@@ -214,10 +214,10 @@ export default function Experience() {
           </motion.div>
 
           {/* pushes the timeline down toward the bottom of the pinned viewport */}
-          <div className="min-h-120" />
+          <div className="min-h-110" />
 
           <div className="relative w-full max-w-5xl mx-auto">
-            <div className="relative flex justify-between items-center pr-16 md:pr-24">
+            <div className="relative flex justify-between items-center">
               {/* base dashed track */}
               <div className="absolute top-1/2 left-0 right-0 border-t border-dashed border-black/20 -translate-y-1/2 pointer-events-none" />
 
@@ -228,7 +228,7 @@ export default function Experience() {
                   the line visually reaches it. */}
               <div
                 ref={lineRef}
-                className="absolute top-1/2 left-0 right-16 md:right-24 h-px bg-black origin-left -translate-y-1/2 pointer-events-none"
+                className="absolute top-1/2 left-0 right-0 h-px bg-black origin-left -translate-y-1/2 pointer-events-none"
                 style={{ transform: "scaleX(0)" }}
               />
 

@@ -2,7 +2,7 @@ import { File, Github, Gmail, LinkedIn } from "@/components/icons";
 import React from "react";
 
 export const heroConfig = {
-  name: "Finn Nguyen",
+  name: "Finn",
   role: "Frontend Developer",
   desc: "I design and build calm, precise interfaces where typography, motion, and restraint do the heavy lifting.",
 };
