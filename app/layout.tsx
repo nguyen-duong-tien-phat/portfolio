@@ -1,20 +1,29 @@
-import type { Metadata } from "next";
-import { Space_Grotesk, Geist, Geist_Mono } from "next/font/google";
-
+import type { Metadata, Viewport } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-export const spaceGrotesk = Space_Grotesk({
+const geistSans = Geist({
   subsets: ["latin"],
-  variable: "--font-display",
-  weight: ["500", "600", "700"],
+  variable: "--font-geist-sans",
 });
 
-export const geist = Geist({ subsets: ["latin"], variable: "--font-body" });
-const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" });
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+});
 
 export const metadata: Metadata = {
-  title: "Finn Nguyen",
-  description: "This is my portfolio",
+  title: "Finn — Frontend Developer",
+  description:
+    "Finn is a frontend developer crafting fast, thoughtful web experiences.",
+};
+
+export const viewport: Viewport = {
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
 };
 
 export default function RootLayout({
@@ -25,9 +34,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${geist.variable} ${geistMono.variable} antialiased`}
+      className={`bg-background ${geistSans.variable} ${geistMono.variable}`}
     >
-      <body className="font-body">{children}</body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }
