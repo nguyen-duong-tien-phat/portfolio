@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { AssetProvider } from "@/hooks/useAssets"; // src/app/fonts.ts (or wherever you centralize fonts)
 import { Space_Grotesk, Geist, Geist_Mono } from "next/font/google";
 
 import "./globals.css";
@@ -28,9 +27,7 @@ export default function RootLayout({
       lang="en"
       className={`${spaceGrotesk.variable} ${geist.variable} ${geistMono.variable} antialiased`}
     >
-      <body className="font-body">
-        <AssetProvider>{children}</AssetProvider>
-      </body>
+      <body className="font-body">{children}</body>
     </html>
   );
 }
