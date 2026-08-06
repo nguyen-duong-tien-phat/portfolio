@@ -99,7 +99,7 @@ export default function Projects() {
                   )}
                 </div>
 
-                <p className="mt-5 max-w-sm text-pretty leading-relaxed text-muted-foreground">
+                <p className="mt-5 max-w-md text-pretty leading-relaxed text-muted-foreground">
                   {project.desc}
                 </p>
 
