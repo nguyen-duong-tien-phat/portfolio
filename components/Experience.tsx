@@ -42,14 +42,19 @@ export default function Experience() {
         scrub: true,
         anticipatePin: 1,
         onUpdate: (self) => {
-          // Ease progress slightly so the line settles on each milestone.
           const p = self.progress;
+
           if (line.current) {
             gsap.set(line.current, { scaleY: p });
           }
 
-          // Map progress -> active milestone (line "reaches" the point).
-          const idx = Math.min(total - 1, Math.floor(p * total));
+          // Points are laid out at i / (total - 1) along the line (0 -> first point, 1 -> last point).
+          // So a milestone should only activate once p has actually reached that fraction.
+          const idx = Math.min(
+            total - 1,
+            Math.floor(p * (total - 1) + 1e-6), // epsilon avoids float rounding flicker at exact thresholds
+          );
+
           setActive((prev) => (prev === idx ? prev : idx));
         },
       });
@@ -67,21 +72,21 @@ export default function Experience() {
       {/* Intro paragraph */}
       <div
         ref={intro}
-        className="mx-auto max-w-5xl px-6 pb-24 pt-32 md:px-12 md:pb-40 md:pt-48"
+        className="mx-auto max-w-6xl px-6 pb-24 pt-32 md:px-12 md:pb-40 md:pt-48"
       >
         <span className="mb-8 block font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
-          The Journey
+          The Goal
         </span>
-        <p className="text-balance text-2xl font-medium leading-snug tracking-tight text-foreground sm:text-3xl md:text-4xl md:leading-tight">
+        <p className="text-balance text-2xl font-medium leading-snug tracking-tight text-muted-foreground sm:text-3xl md:text-5xl md:leading-tight">
           {[
             "2+ years building products across the frontend —",
             "React, Next.js, Three.js, and more. Right now",
             "I'm leveling up into full-stack territory, going",
-            "deeper on Node.js and the backend side of things.",
+            "deeper on the backend side of things.",
           ].map((l, i) => (
             <span key={i} className="block overflow-hidden">
               <span data-intro-line className="block">
-                {i > 1 ? <span className="text-muted-foreground">{l}</span> : l}
+                {i > 1 ? <span className="text-foreground">{l}</span> : l}
               </span>
             </span>
           ))}
