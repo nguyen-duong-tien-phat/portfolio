@@ -17,7 +17,6 @@ export default function Projects() {
   const frame = useRef<HTMLDivElement>(null);
 
   const [active, setActive] = useState(0);
-  const [live, setLive] = useState(false);
 
   const total = projects.length;
 
@@ -58,11 +57,6 @@ export default function Projects() {
     return () => ctx.revert();
   }, [total]);
 
-  // Reset the live embed whenever the project changes.
-  useLayoutEffect(() => {
-    setLive(false);
-  }, [active]);
-
   const project = projects[active];
 
   return (
@@ -76,10 +70,7 @@ export default function Projects() {
         className="relative flex h-svh w-full flex-col overflow-hidden"
       >
         {/* Section heading */}
-        <div className="flex items-end justify-between px-6 pt-8 md:px-12">
-          <h2 className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
-            Selected Work
-          </h2>
+        <div className="flex items-end justify-end px-6 pt-8 md:px-12">
           <span className="font-mono text-xs tabular-nums text-muted-foreground">
             <span className="text-foreground">0{active + 1}</span> / 0{total}
           </span>
@@ -98,26 +89,18 @@ export default function Projects() {
                 transition={{ duration: 0.5, ease: [0.65, 0, 0.35, 1] }}
               >
                 <div className="mb-5 flex items-center gap-3">
-                  <span
-                    className="flex h-10 w-10 items-center justify-center border border-foreground/20 font-mono text-sm text-foreground"
-                    aria-hidden
-                  >
-                    {project.monogram}
-                  </span>
-                  <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                    {project.year} — {project.role}
-                  </span>
+                  <Image alt="logo" src={project.logo} width={50} height={50} />{" "}
+                  {project.nameComp ? (
+                    <project.nameComp className="text-white h-12.5" />
+                  ) : (
+                    <h3 className="text-balance text-4xl font-medium tracking-tight text-foreground md:text-5xl">
+                      {project.name}
+                    </h3>
+                  )}
                 </div>
 
-                <h3 className="text-balance text-4xl font-medium tracking-tight text-foreground md:text-5xl">
-                  {project.name}
-                </h3>
-                <p className="mt-1 text-lg text-muted-foreground">
-                  {project.tagline}
-                </p>
-
                 <p className="mt-5 max-w-sm text-pretty leading-relaxed text-muted-foreground">
-                  {project.description}
+                  {project.desc}
                 </p>
 
                 <ul
@@ -182,54 +165,23 @@ export default function Projects() {
                 </div>
                 <button
                   type="button"
-                  onClick={() => setLive((v) => !v)}
                   className="shrink-0 rounded-md border border-border px-2.5 py-1 font-mono text-[0.7rem] text-foreground transition-colors hover:bg-foreground hover:text-background"
                   data-cursor-hover
                 >
-                  {live ? "Preview" : "Interact"}
+                  Preview
                 </button>
               </div>
 
               {/* Viewport */}
               <div className="relative aspect-16/10 w-full bg-muted">
-                {live ? (
-                  <iframe
-                    key={project.demo}
-                    src={project.demo}
-                    title={`${project.name} live preview`}
-                    className="h-full w-full"
-                    loading="lazy"
-                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-                  />
-                ) : (
-                  <AnimatePresence mode="wait">
-                    <motion.button
-                      key={project.image}
-                      type="button"
-                      onClick={() => setLive(true)}
-                      data-cursor-hover
-                      className="group absolute inset-0 h-full w-full cursor-pointer"
-                      initial={{ opacity: 0, scale: 1.04 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.98 }}
-                      transition={{ duration: 0.5, ease: [0.65, 0, 0.35, 1] }}
-                    >
-                      <Image
-                        src={project.image || "/placeholder.svg"}
-                        alt={`${project.name} — ${project.tagline}`}
-                        fill
-                        priority={active === 0}
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 66vw"
-                      />
-                      <span className="absolute inset-0 flex items-center justify-center bg-background/0 opacity-0 transition-opacity duration-300 group-hover:bg-background/30 group-hover:opacity-100">
-                        <span className="rounded-full border border-foreground/30 bg-background/80 px-4 py-2 text-sm font-medium text-foreground backdrop-blur">
-                          Click to interact
-                        </span>
-                      </span>
-                    </motion.button>
-                  </AnimatePresence>
-                )}
+                <iframe
+                  key={project.demo}
+                  src={project.demo}
+                  title={`${project.name} live preview`}
+                  className="h-full w-full"
+                  loading="lazy"
+                  sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                />
               </div>
             </div>
           </div>

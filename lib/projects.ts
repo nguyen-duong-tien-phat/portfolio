@@ -1,67 +1,31 @@
+import LetsChill from "@/components/logos/LetsChill";
+
 export type Project = {
   name: string;
-  monogram: string;
-  tagline: string;
-  description: string;
-  tech: string[];
-  year: string;
-  role: string;
+  nameComp?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   github: string;
   demo: string;
-  image: string;
+  logo: string;
+  desc: string;
+  tech: string[];
 };
 
 export const projects: Project[] = [
   {
-    name: "Orbit",
-    monogram: "O",
-    tagline: "3D Product Configurator",
-    description:
-      "A real-time 3D configurator that lets shoppers spin, recolor, and customize products in the browser. Built for buttery 60fps interaction on any device.",
-    tech: ["React", "Three.js", "GSAP", "WebGL"],
-    year: "2025",
-    role: "Design & Engineering",
-    github: "https://github.com/finn/orbit",
-    demo: "https://threejs.org/",
-    image: "/projects/orbit.png",
+    name: "Let's movie",
+    github: "https://github.com/nguyen-duong-tien-phat/lets-movie",
+    demo: "https://lets-movie.vercel.app/",
+    logo: "/logos/lets-movie-logo.png",
+    tech: ["Next.js", "API Integration", "OAuth"],
+    desc: "This project was built while I was learning how to integrate third-party APIs using a free movie database API. It also gave me hands-on experience implementing authentication with NextAuth, supporting GitHub, Google, and Facebook sign-in.",
   },
   {
-    name: "Ledger",
-    monogram: "L",
-    tagline: "Personal Finance Dashboard",
-    description:
-      "A calm, focused money dashboard that turns messy transactions into clear insights. Fully keyboard-navigable with an emphasis on legible data.",
-    tech: ["Next.js", "TypeScript", "Recharts"],
-    year: "2024",
-    role: "Frontend Lead",
-    github: "https://github.com/finn/ledger",
-    demo: "https://ui.shadcn.com/",
-    image: "/projects/ledger.png",
-  },
-  {
-    name: "Prism",
-    monogram: "P",
-    tagline: "Design System & Library",
-    description:
-      "An accessible component library and living documentation site used across multiple product teams. Themeable tokens, zero runtime CSS overhead.",
-    tech: ["React", "Tailwind", "Storybook"],
-    year: "2024",
-    role: "Maintainer",
-    github: "https://github.com/finn/prism",
-    demo: "https://tailwindcss.com/",
-    image: "/projects/prism.png",
-  },
-  {
-    name: "Wander",
-    monogram: "W",
-    tagline: "Travel Booking Platform",
-    description:
-      "A map-first trip planner with smooth page transitions and offline-friendly itineraries. Designed to feel like a native app on the web.",
-    tech: ["Next.js", "Mapbox", "Framer Motion"],
-    year: "2023",
-    role: "Design & Engineering",
-    github: "https://github.com/finn/wander",
-    demo: "https://www.framer.com/motion/",
-    image: "/projects/wander.png",
+    name: "Let's chill",
+    nameComp: LetsChill,
+    github: "https://github.com/nguyen-duong-tien-phat/lets-chill",
+    demo: "https://letschill-pqgu.vercel.app",
+    logo: "/logos/lets-chill-logo.png",
+    tech: ["React", "Redux", "Framer motion"],
+    desc: "This was my first project after self-learning web development. Inspired by immersive full-screen websites and modern music player interfaces, I combined these ideas to build an interactive experience while exploring animations, layout design, and frontend development fundamentals.",
   },
 ];

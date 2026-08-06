@@ -9,30 +9,30 @@ export type Experience = {
 
 export const experiences: Experience[] = [
   {
-    role: "Frontend Developer",
-    company: "Nimbus Studio",
-    period: "2024 — Present",
-    location: "Remote",
+    role: "Junior Frontend Developer",
+    company: "Modelty Strategy & Consulting",
+    period: "03/2025 — 07/2026",
+    location: "Ho Chi Minh city",
     description:
-      "Lead the frontend for a suite of interactive product experiences, building immersive 3D interfaces with Three.js and shipping polished, accessible UI in Next.js. Now expanding into the backend, owning Node.js services end to end.",
-    tech: ["Next.js", "Three.js", "TypeScript", "Node.js"],
+      "Frontend Developer contributing to multiple company projects, building and maintaining scalable, high-performance web applications with a strong focus on usability, maintainability, and user experience.",
+    tech: ["Next.js", "Alipay Mini program", "Gatsby", "MUI"],
   },
   {
     role: "Frontend Engineer",
-    company: "Layer & Co.",
-    period: "2023 — 2024",
-    location: "Berlin, DE",
+    company: "Freelance",
+    period: "05/2024 — 01/2026",
+    location: "Remote",
     description:
-      "Built and maintained a design-system-driven marketing platform, translating Figma into pixel-accurate React components and cutting page load times with careful rendering and animation work.",
-    tech: ["React", "GSAP", "Tailwind", "Storybook"],
+      "Worked as a Frontend Developer, migrating an e-commerce management application and redesigning its user interface to deliver a more intuitive and user-friendly experience.",
+    tech: ["Next.js", "Tailwind CSS", "Ant Design"],
   },
   {
-    role: "Junior Developer",
-    company: "Freelance",
-    period: "2022 — 2023",
+    role: "Intern Frontend Developer",
+    company: "TMA Solution",
+    period: "11/2023 — 01/2024",
     location: "Remote",
     description:
       "Partnered with small teams and founders to ship landing pages, dashboards, and portfolio sites — learning the craft of turning rough ideas into clean, responsive products.",
-    tech: ["React", "JavaScript", "CSS", "Vercel"],
+    tech: ["React", "MUI"],
   },
 ];
