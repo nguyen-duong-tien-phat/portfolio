@@ -7,12 +7,18 @@ import CustomCursor from "@/components/CustomCursor";
 import ArrowUpRight from "./icons/ArrowUpRight";
 
 // The 3D canvas is client-only.
-const HeroScene = dynamic(() => import("@/three/HeroScene"), { ssr: false });
+const HeroScene = dynamic(() => import("@/three/HeroScene"), {
+  ssr: false,
+});
 
 const links = [
-  { label: "GitHub", href: "https://github.com" },
-  { label: "LinkedIn", href: "https://linkedin.com" },
-  { label: "Email", href: "mailto:hello@finn.dev" },
+  { label: "GitHub", href: "https://github.com/nguyen-duong-tien-phat" },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/phat-nguyen-416758281/",
+  },
+  { label: "Email", href: "mailto:phatndt268@gmail.com" },
+  { label: "Resume", href: "/resume.pdf" },
 ];
 
 export default function Hero() {
@@ -52,53 +58,45 @@ export default function Hero() {
       />
 
       {/* Top bar */}
-      <header className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-6 md:px-12">
+      {/* <header className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-6 md:px-12">
         <span className="font-mono text-sm tracking-tight text-foreground">
           finn.dev
         </span>
         <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
           Available for work
         </span>
-      </header>
+      </header> */}
 
       {/* Content */}
-      <main className="relative z-20 flex min-h-svh items-center px-6 md:px-12">
-        <div className="max-w-2xl">
-          <div className="mb-5 overflow-hidden">
-            <p
-              data-reveal
-              className="font-mono text-sm tracking-tight text-muted-foreground"
-            >
-              Hi, I&apos;m Finn
-            </p>
-          </div>
-
-          <h1 className="text-balance text-6xl font-medium leading-[0.95] tracking-tight text-foreground md:text-8xl">
-            <span className="block overflow-hidden">
-              <span data-reveal className="block">
-                Frontend
-              </span>
+      <main className="relative z-20 flex min-h-svh justify-center px-6 md:px-12">
+        <div className="pt-30">
+          <div
+            data-fade
+            className="mb-6 inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/60 px-3 py-1 backdrop-blur"
+          >
+            <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+            <span className="text-sm text-muted-foreground">
+              Available for work
             </span>
+          </div>
+          <h1 className="text-6xl font-semibold leading-[0.9] tracking-tight md:text-8xl">
             <span className="block overflow-hidden">
               <span data-reveal className="block">
-                Developer
+                Hi, I&apos;m Finn.
               </span>
             </span>
           </h1>
 
           <p
             data-fade
-            className="mt-6 max-w-md text-pretty leading-relaxed text-muted-foreground"
+            className="mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground"
           >
-            I build fast, accessible, and thoughtfully crafted interfaces for
-            the web.
+            Frontend engineer passionate about building fast, immersive web
+            experiences with React, Next.js. I care about performance,
+            accessibility, and creating interfaces that feel effortless to use.
           </p>
 
-          <nav
-            data-fade
-            className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4"
-            aria-label="Social links"
-          >
+          <nav data-fade className="mt-14 flex flex-wrap gap-8">
             {links.map(({ label, href }, i) => (
               <a
                 key={label}
