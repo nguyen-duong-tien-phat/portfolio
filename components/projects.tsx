@@ -173,7 +173,7 @@ export default function Projects() {
               </div>
 
               {/* Viewport */}
-              <div className="relative aspect-16/10 w-full bg-muted">
+              <div className="relative aspect-video w-full bg-muted">
                 <iframe
                   key={project.demo}
                   src={project.demo}
