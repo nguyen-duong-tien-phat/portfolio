@@ -1,6 +1,6 @@
 import Experience from "@/components/Experience";
 import Hero from "@/components/Hero";
-import Projects from "@/components/Projects";
+import Projects from "@/components/projects";
 
 export default function Page() {
   return (
