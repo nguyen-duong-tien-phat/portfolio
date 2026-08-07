@@ -23,19 +23,31 @@ const links = [
 
 export default function Hero() {
   const root = useRef<HTMLDivElement>(null);
+  const badgeRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLSpanElement>(null);
+  const paraRef = useRef<HTMLParagraphElement>(null);
+  const navRef = useRef<HTMLElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.set("[data-reveal]", { yPercent: 120 });
-      gsap
-        .timeline({ defaults: { ease: "power4.out", duration: 1.1 } })
-        .to("[data-reveal]", { yPercent: 0, stagger: 0.08, delay: 0.15 })
+      const navLinks = navRef.current?.querySelectorAll("a");
+
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+      tl.from(badgeRef.current, {
+        opacity: 0,
+        y: -12,
+        duration: 0.6,
+      })
+        .from(headingRef.current, { yPercent: 110, duration: 1 }, "-=0.3")
+        .from(paraRef.current, { opacity: 0, y: 16, duration: 0.7 }, "-=0.5")
         .from(
-          "[data-fade]",
-          { opacity: 0, y: 12, duration: 0.9, stagger: 0.08 },
-          "-=0.6",
+          navLinks ?? [],
+          { opacity: 0, y: 12, duration: 0.5, stagger: 0.08 },
+          "-=0.4",
         );
     }, root);
+
     return () => ctx.revert();
   }, []);
 
@@ -57,46 +69,40 @@ export default function Hero() {
         aria-hidden
       />
 
-      {/* Top bar */}
-      {/* <header className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-6 md:px-12">
-        <span className="font-mono text-sm tracking-tight text-foreground">
-          finn.dev
-        </span>
-        <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-          Available for work
-        </span>
-      </header> */}
-
-      {/* Content */}
+      {/* Content — pinned to the top since the 3D plane occupies the lower half */}
       <main className="relative z-20 flex min-h-svh justify-center px-6 md:px-12">
-        <div className="pt-30">
+        <div className="pt-24 md:pt-40">
           <div
-            data-fade
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/60 px-3 py-1 backdrop-blur"
+            ref={badgeRef}
+            className="group mb-6 inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/60 px-3 py-1 backdrop-blur transition-colors duration-300 hover:border-border"
           >
-            <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
+            </span>
             <span className="text-sm text-muted-foreground">
               Available for work
             </span>
           </div>
+
           <h1 className="text-6xl font-semibold leading-[0.9] tracking-tight md:text-8xl">
             <span className="block overflow-hidden">
-              <span data-reveal className="block">
+              <span ref={headingRef} className="block">
                 Hi, I&apos;m Finn.
               </span>
             </span>
           </h1>
 
           <p
-            data-fade
-            className="mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground"
+            ref={paraRef}
+            className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground"
           >
             Frontend engineer passionate about building fast, immersive web
             experiences with React, Next.js. I care about performance,
             accessibility, and creating interfaces that feel effortless to use.
           </p>
 
-          <nav data-fade className="mt-14 flex flex-wrap gap-8">
+          <nav ref={navRef} className="mt-14 flex flex-wrap gap-8">
             {links.map(({ label, href }, i) => (
               <a
                 key={label}

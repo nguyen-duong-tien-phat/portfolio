@@ -3,7 +3,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useInView } from "framer-motion";
 import { experiences } from "@/lib/experience";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -18,20 +18,23 @@ export default function Experience() {
   const [active, setActive] = useState(0);
   const total = experiences.length;
 
+  // Gate the first entrance animation until the pinned block actually scrolls into view.
+  const isPinInView = useInView(pin, { once: true, amount: 0.4 });
+
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       // Intro paragraph: words rise and fade in as the section arrives.
-      gsap.from("[data-intro-line]", {
-        yPercent: 110,
-        opacity: 0,
-        duration: 1,
-        ease: "power3.out",
-        stagger: 0.12,
-        scrollTrigger: {
-          trigger: intro.current,
-          start: "top 75%",
-        },
-      });
+      const lines = gsap.utils.toArray<HTMLElement>("[data-intro-line]");
+
+      lines.forEach((line) =>
+        gsap.from(line, {
+          yPercent: 110,
+          opacity: 0,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: { trigger: line, start: "top bottom" },
+        }),
+      );
 
       // Pin the timeline and scrub the drawing line as the user scrolls.
       ScrollTrigger.create({
@@ -48,12 +51,7 @@ export default function Experience() {
             gsap.set(line.current, { scaleY: p });
           }
 
-          // Points are laid out at i / (total - 1) along the line (0 -> first point, 1 -> last point).
-          // So a milestone should only activate once p has actually reached that fraction.
-          const idx = Math.min(
-            total - 1,
-            Math.floor(p * (total - 1) + 1e-6), // epsilon avoids float rounding flicker at exact thresholds
-          );
+          const idx = Math.min(total - 1, Math.floor(p * (total - 1) + 1e-6));
 
           setActive((prev) => (prev === idx ? prev : idx));
         },
@@ -84,7 +82,7 @@ export default function Experience() {
             "I'm leveling up into full-stack territory, going",
             "deeper on the backend side of things.",
           ].map((l, i) => (
-            <span key={i} className="block overflow-hidden">
+            <span key={l} className="block overflow-hidden">
               <span data-intro-line className="block">
                 {i > 1 ? <span className="text-foreground">{l}</span> : l}
               </span>
@@ -110,7 +108,8 @@ export default function Experience() {
                 {/* milestone dots */}
                 {experiences.map((exp, i) => {
                   const top = total > 1 ? (i / (total - 1)) * 100 : 0;
-                  const reached = i <= active;
+                  // Only treat the first dot as "reached" once the section has actually entered view.
+                  const reached = isPinInView && i <= active;
                   return (
                     <span
                       key={exp.company}
@@ -137,51 +136,201 @@ export default function Experience() {
             </div>
 
             {/* Active experience */}
-            <div className="flex min-h-64 flex-col justify-center md:min-h-80">
-              <span className="mb-6 font-mono text-xs tabular-nums text-muted-foreground">
-                <span className="text-foreground">0{active + 1}</span> / 0
-                {total}
-              </span>
-
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={experiences[active].company}
-                  initial={{ opacity: 0, y: 28 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -28 }}
-                  transition={{ duration: 0.55, ease: [0.65, 0, 0.35, 1] }}
+            <div className="flex min-h-64 flex-col md:min-h-80">
+              <motion.span
+                key={`counter-${active}`}
+                initial={{ opacity: 0 }}
+                animate={isPinInView ? { opacity: 1 } : { opacity: 0 }}
+                className="mb-6 font-mono text-xs tabular-nums text-muted-foreground"
+              >
+                <motion.span
+                  key={active}
+                  initial={{ y: -10, opacity: 0 }}
+                  animate={
+                    isPinInView ? { y: 0, opacity: 1 } : { y: -10, opacity: 0 }
+                  }
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  className="inline-block text-foreground"
                 >
-                  <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                    {experiences[active].period} ·{" "}
-                    {experiences[active].location}
-                  </span>
+                  0{active + 1}
+                </motion.span>{" "}
+                / 0{total}
+              </motion.span>
 
-                  <h3 className="mt-3 text-3xl font-medium tracking-tight text-foreground md:text-4xl">
-                    {experiences[active].role}
-                  </h3>
-                  <p className="mt-1 text-lg text-muted-foreground">
-                    {experiences[active].company}
-                  </p>
-
-                  <p className="mt-5 max-w-md text-pretty leading-relaxed text-muted-foreground">
-                    {experiences[active].description}
-                  </p>
-
-                  <ul
-                    className="mt-6 flex flex-wrap gap-2"
-                    aria-label="Tech stack"
+              <div className="flex-1">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={experiences[active].company}
+                    initial="initial"
+                    animate={isPinInView ? "animate" : "initial"}
+                    exit="exit"
+                    variants={{
+                      initial: {},
+                      animate: {
+                        transition: {
+                          staggerChildren: 0.08,
+                          delayChildren: 0.1,
+                        },
+                      },
+                      exit: {},
+                    }}
                   >
-                    {experiences[active].tech.map((t) => (
-                      <li
-                        key={t}
-                        className="border border-border px-2.5 py-1 font-mono text-xs text-foreground"
-                      >
-                        {t}
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-              </AnimatePresence>
+                    <motion.span
+                      variants={{
+                        initial: { opacity: 0, y: 20, filter: "blur(4px)" },
+                        animate: {
+                          opacity: 1,
+                          y: 0,
+                          filter: "blur(0px)",
+                          transition: {
+                            duration: 0.5,
+                            ease: [0.65, 0, 0.35, 1],
+                          },
+                        },
+                        exit: {
+                          opacity: 0,
+                          y: -12,
+                          filter: "blur(4px)",
+                          transition: {
+                            duration: 0.3,
+                            ease: [0.65, 0, 0.35, 1],
+                          },
+                        },
+                      }}
+                      className="block font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground"
+                    >
+                      {experiences[active].period} ·{" "}
+                      {experiences[active].location}
+                    </motion.span>
+
+                    <motion.h3
+                      variants={{
+                        initial: { opacity: 0, y: 20, filter: "blur(4px)" },
+                        animate: {
+                          opacity: 1,
+                          y: 0,
+                          filter: "blur(0px)",
+                          transition: {
+                            duration: 0.5,
+                            ease: [0.65, 0, 0.35, 1],
+                          },
+                        },
+                        exit: {
+                          opacity: 0,
+                          y: -12,
+                          filter: "blur(4px)",
+                          transition: {
+                            duration: 0.3,
+                            ease: [0.65, 0, 0.35, 1],
+                          },
+                        },
+                      }}
+                      className="mt-3 text-3xl font-medium tracking-tight text-foreground md:text-4xl"
+                    >
+                      {experiences[active].role}
+                    </motion.h3>
+
+                    <motion.p
+                      variants={{
+                        initial: { opacity: 0, y: 20, filter: "blur(4px)" },
+                        animate: {
+                          opacity: 1,
+                          y: 0,
+                          filter: "blur(0px)",
+                          transition: {
+                            duration: 0.5,
+                            ease: [0.65, 0, 0.35, 1],
+                          },
+                        },
+                        exit: {
+                          opacity: 0,
+                          y: -12,
+                          filter: "blur(4px)",
+                          transition: {
+                            duration: 0.3,
+                            ease: [0.65, 0, 0.35, 1],
+                          },
+                        },
+                      }}
+                      className="mt-1 text-lg text-muted-foreground"
+                    >
+                      {experiences[active].company}
+                    </motion.p>
+
+                    <motion.p
+                      variants={{
+                        initial: { opacity: 0, y: 20, filter: "blur(4px)" },
+                        animate: {
+                          opacity: 1,
+                          y: 0,
+                          filter: "blur(0px)",
+                          transition: {
+                            duration: 0.5,
+                            ease: [0.65, 0, 0.35, 1],
+                          },
+                        },
+                        exit: {
+                          opacity: 0,
+                          y: -12,
+                          filter: "blur(4px)",
+                          transition: {
+                            duration: 0.3,
+                            ease: [0.65, 0, 0.35, 1],
+                          },
+                        },
+                      }}
+                      className="mt-5 max-w-md text-pretty leading-relaxed text-muted-foreground"
+                    >
+                      {experiences[active].description}
+                    </motion.p>
+
+                    <motion.ul
+                      variants={{
+                        initial: { opacity: 0, y: 20, filter: "blur(4px)" },
+                        animate: {
+                          opacity: 1,
+                          y: 0,
+                          filter: "blur(0px)",
+                          transition: {
+                            duration: 0.5,
+                            ease: [0.65, 0, 0.35, 1],
+                          },
+                        },
+                        exit: {
+                          opacity: 0,
+                          y: -12,
+                          filter: "blur(4px)",
+                          transition: {
+                            duration: 0.3,
+                            ease: [0.65, 0, 0.35, 1],
+                          },
+                        },
+                      }}
+                      className="mt-6 flex flex-wrap gap-2"
+                      aria-label="Tech stack"
+                    >
+                      {experiences[active].tech.map((t) => (
+                        <motion.li
+                          key={t}
+                          initial={{ opacity: 0, scale: 0.85 }}
+                          animate={
+                            isPinInView
+                              ? { opacity: 1, scale: 1 }
+                              : { opacity: 0, scale: 0.85 }
+                          }
+                          transition={{
+                            duration: 0.3,
+                            ease: "easeOut",
+                          }}
+                          className="border border-border px-2.5 py-1 font-mono text-xs text-foreground"
+                        >
+                          {t}
+                        </motion.li>
+                      ))}
+                    </motion.ul>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
             </div>
           </div>
         </div>
