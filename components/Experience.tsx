@@ -4,7 +4,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AnimatePresence, motion, useInView } from "framer-motion";
-import { metadata } from "@/lib/metadata";
+import { metadata, SECTION } from "@/lib/metadata";
 
 gsap.registerPlugin(ScrollTrigger);
 const experiences = metadata.experiences;
@@ -45,6 +45,7 @@ export default function Experience() {
         pin: true,
         scrub: true,
         anticipatePin: 1,
+        refreshPriority: 1,
         onUpdate: (self) => {
           const p = self.progress;
 
@@ -64,6 +65,7 @@ export default function Experience() {
 
   return (
     <section
+      id={SECTION.Experience}
       ref={section}
       className="relative bg-background"
       aria-label="Experience"
@@ -167,12 +169,7 @@ export default function Experience() {
                     exit="exit"
                     variants={{
                       initial: {},
-                      animate: {
-                        transition: {
-                          staggerChildren: 0.08,
-                          delayChildren: 0.1,
-                        },
-                      },
+                      animate: { transition: { staggerChildren: 0.08 } },
                       exit: {},
                     }}
                   >

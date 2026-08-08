@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { useLayoutEffect, useRef, useState } from "react";
 import ArrowUpRight from "./icons/ArrowUpRight";
-import { metadata } from "@/lib/metadata";
+import { metadata, SECTION } from "@/lib/metadata";
 
 gsap.registerPlugin(ScrollTrigger);
 const projects = metadata.projects;
@@ -81,6 +81,7 @@ export default function Projects() {
 
   return (
     <section
+      id={SECTION.Projects}
       ref={section}
       className="relative bg-background"
       aria-label="Selected projects"
