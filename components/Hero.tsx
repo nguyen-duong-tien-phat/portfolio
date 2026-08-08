@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { gsap } from "gsap";
 import CustomCursor from "@/components/CustomCursor";
 import ArrowUpRight from "./icons/ArrowUpRight";
-import { metadata } from "@/lib/metadata";
+import { metadata, SECTION } from "@/lib/metadata";
 
 // The 3D canvas is client-only.
 const HeroScene = dynamic(() => import("@/three/HeroScene"), {
@@ -43,7 +43,8 @@ export default function Hero() {
   }, []);
 
   return (
-    <div
+    <section
+      id={SECTION.Hero}
       ref={root}
       className="relative min-h-svh overflow-hidden bg-background"
     >
@@ -61,8 +62,8 @@ export default function Hero() {
       />
 
       {/* Content — pinned to the top since the 3D plane occupies the lower half */}
-      <section className="relative flex z-10 min-h-svh justify-center px-6 md:px-12">
-        <div className="pt-24 md:pt-40">
+      <main className="relative flex z-10 min-h-svh justify-center px-6 md:px-12">
+        <div className="pt-35 md:pt-40">
           <div
             ref={badgeRef}
             className="group mb-6 inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/60 px-3 py-1 backdrop-blur transition-colors duration-300 hover:border-border"
@@ -131,7 +132,7 @@ export default function Hero() {
             ))}
           </nav>
         </div>
-      </section>
-    </div>
+      </main>
+    </section>
   );
 }

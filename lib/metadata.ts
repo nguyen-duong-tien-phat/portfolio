@@ -7,6 +7,8 @@ export enum SECTION {
   Projects = "Projects",
 }
 
+export const sections = [SECTION.Hero, SECTION.Experience, SECTION.Projects];
+
 export const metadata = {
   links: [
     {

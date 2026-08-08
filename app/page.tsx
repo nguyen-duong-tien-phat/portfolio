@@ -1,13 +1,17 @@
 import Experience from "@/components/Experience";
 import Hero from "@/components/Hero";
 import Projects from "@/components/Projects";
+import TopBar from "@/components/TopBar";
 
 export default function Page() {
   return (
-    <main>
-      <Hero />
-      <Experience />
-      <Projects />
-    </main>
+    <>
+      <TopBar />
+      <main>
+        <Hero />
+        <Experience />
+        <Projects />
+      </main>
+    </>
   );
 }
