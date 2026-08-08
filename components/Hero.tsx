@@ -6,6 +6,7 @@ import { gsap } from "gsap";
 import CustomCursor from "@/components/CustomCursor";
 import ArrowUpRight from "./icons/ArrowUpRight";
 import { metadata, SECTION } from "@/lib/metadata";
+import Link from "next/link";
 
 // The 3D canvas is client-only.
 const HeroScene = dynamic(() => import("@/three/HeroScene"), {
@@ -92,14 +93,17 @@ export default function Hero() {
             {metadata.hero.description}
           </p>
 
-          <nav ref={navRef} className="mt-14 flex flex-wrap gap-8">
+          <nav
+            ref={navRef}
+            className="mt-14 grid grid-cols-2 md:flex flex-wrap gap-8"
+          >
             {metadata.links.map(({ label, href }, i) => (
-              <a
+              <Link
                 key={label}
                 href={href}
                 target="_blank"
                 rel="noreferrer"
-                className="group relative inline-flex items-baseline gap-2 text-lg tracking-tight text-foreground"
+                className="group relative col-span-1 inline-flex items-baseline gap-2 text-lg tracking-tight text-foreground"
               >
                 <span className="font-mono text-[0.7rem] text-muted-foreground">
                   0{i + 1}
@@ -128,7 +132,7 @@ export default function Hero() {
                   className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-foreground transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:scale-x-100"
                   aria-hidden
                 />
-              </a>
+              </Link>
             ))}
           </nav>
         </div>

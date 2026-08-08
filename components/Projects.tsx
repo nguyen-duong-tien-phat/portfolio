@@ -5,8 +5,9 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { useLayoutEffect, useRef, useState } from "react";
-import ArrowUpRight from "./icons/ArrowUpRight";
 import { metadata, SECTION } from "@/lib/metadata";
+import ExternalLink from "./icons/ExternalLink";
+import { Github } from "./icons";
 
 gsap.registerPlugin(ScrollTrigger);
 const projects = metadata.projects;
@@ -112,9 +113,9 @@ export default function Projects() {
         </div>
 
         {/* Main grid */}
-        <div className="grid flex-1 grid-cols-1 items-center gap-6 px-6 py-6 md:grid-cols-12 md:gap-10 md:px-12">
+        <div className="grid flex-1 content-center md:content-normal grid-cols-1 md:items-center gap-10 px-6 py-10 md:grid-cols-12 md:px-12">
           {/* Left: info */}
-          <div className="order-2 md:order-1 md:col-span-4">
+          <div className="order-2 md:order-1 md:col-span-5">
             <AnimatePresence mode="wait">
               <motion.div
                 key={project.name}
@@ -143,9 +144,36 @@ export default function Projects() {
                   )}
                 </motion.div>
 
+                <motion.div
+                  variants={fadeUp}
+                  className="mt-3 flex items-center gap-6"
+                >
+                  <a
+                    href={project.demo}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group inline-flex items-center gap-2 font-medium text-foreground"
+                    data-cursor-hover
+                  >
+                    <ExternalLink className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    Demo
+                  </a>
+
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group inline-flex items-center gap-2 font-medium text-foreground"
+                    data-cursor-hover
+                  >
+                    <Github className="text-white size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    Source
+                  </a>
+                </motion.div>
+
                 <motion.p
                   variants={fadeUp}
-                  className="mt-5 max-w-md text-pretty leading-relaxed text-muted-foreground"
+                  className="mt-3 text-sm text-pretty leading-relaxed text-muted-foreground"
                 >
                   {project.desc}
                 </motion.p>
@@ -175,42 +203,12 @@ export default function Projects() {
                     </motion.li>
                   ))}
                 </motion.ul>
-
-                <motion.div
-                  variants={fadeUp}
-                  className="mt-8 flex items-center gap-6"
-                >
-                  <a
-                    href={project.demo}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group inline-flex items-center gap-1.5 text-sm font-medium text-foreground"
-                  >
-                    Visit live
-                    <ArrowUpRight
-                      className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                      aria-hidden
-                    />
-                  </a>
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    Source
-                    <ArrowUpRight
-                      className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                      aria-hidden
-                    />
-                  </a>
-                </motion.div>
               </motion.div>
             </AnimatePresence>
           </div>
 
           {/* Right: interactive preview */}
-          <div className="order-1 md:order-2 md:col-span-8">
+          <div className="order-1 h-fit md:order-2 md:col-span-7">
             <div
               ref={frame}
               className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
@@ -254,12 +252,12 @@ export default function Projects() {
               </div>
 
               {/* Viewport */}
-              <div className="relative aspect-video w-full bg-muted">
+              <div className="relative aspect-video w-full bg-muted ">
                 <iframe
                   key={project.demo}
                   src={project.demo}
                   title={`${project.name} live preview`}
-                  className="h-full w-full"
+                  className="h-full w-full pointer-events-none md:pointer-events-auto"
                   loading="lazy"
                   sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
                 />

@@ -84,10 +84,10 @@ export default function TopBar() {
         "shadow-[0_1px_1px_rgba(255,255,255,0.1)_inset,0_8px_24px_rgba(0,0,0,0.25)]",
       )}
     >
-      <div className="font-mono flex items-center gap-30">
+      <div className="font-mono flex items-center gap-20">
         <p
           ref={nameRef}
-          className="w-fit mx-auto h-6 overflow-hidden leading-6 flex gap-[3.2px]"
+          className="w-fit mx-auto h-6 overflow-hidden leading-6 flex gap-[3.2px] text-sm md:text-base"
         />
 
         <AnimatePresence initial={false}>
@@ -107,7 +107,7 @@ export default function TopBar() {
                 className="cursor-pointer items-center font-mono shrink-0"
               >
                 <link.icon
-                  className="text-white hover:opacity-60 size-5"
+                  className="text-white hover:opacity-60 size-4 md:size-5"
                   data-tooltip={link.label}
                 />
               </Link>
