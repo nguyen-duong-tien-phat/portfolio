@@ -5,21 +5,12 @@ import dynamic from "next/dynamic";
 import { gsap } from "gsap";
 import CustomCursor from "@/components/CustomCursor";
 import ArrowUpRight from "./icons/ArrowUpRight";
+import { metadata } from "@/lib/metadata";
 
 // The 3D canvas is client-only.
 const HeroScene = dynamic(() => import("@/three/HeroScene"), {
   ssr: false,
 });
-
-const links = [
-  { label: "GitHub", href: "https://github.com/nguyen-duong-tien-phat" },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/phat-nguyen-416758281/",
-  },
-  { label: "Email", href: "mailto:phatndt268@gmail.com" },
-  { label: "Resume", href: "/resume.pdf" },
-];
 
 export default function Hero() {
   const root = useRef<HTMLDivElement>(null);
@@ -70,7 +61,7 @@ export default function Hero() {
       />
 
       {/* Content — pinned to the top since the 3D plane occupies the lower half */}
-      <main className="relative z-20 flex min-h-svh justify-center px-6 md:px-12">
+      <section className="relative flex z-10 min-h-svh justify-center px-6 md:px-12">
         <div className="pt-24 md:pt-40">
           <div
             ref={badgeRef}
@@ -81,29 +72,27 @@ export default function Hero() {
               <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
             </span>
             <span className="text-sm text-muted-foreground">
-              Available for work
+              {metadata.hero.available}
             </span>
           </div>
 
           <h1 className="text-6xl font-semibold leading-[0.9] tracking-tight md:text-8xl">
             <span className="block overflow-hidden">
               <span ref={headingRef} className="block">
-                Hi, I&apos;m Finn.
+                {metadata.hero.hello}
               </span>
             </span>
           </h1>
 
           <p
             ref={paraRef}
-            className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground"
+            className="mt-8 md:max-w-2xl text-lg leading-relaxed text-muted-foreground"
           >
-            Frontend engineer passionate about building fast, immersive web
-            experiences with React, Next.js. I care about performance,
-            accessibility, and creating interfaces that feel effortless to use.
+            {metadata.hero.description}
           </p>
 
           <nav ref={navRef} className="mt-14 flex flex-wrap gap-8">
-            {links.map(({ label, href }, i) => (
+            {metadata.links.map(({ label, href }, i) => (
               <a
                 key={label}
                 href={href}
@@ -142,7 +131,7 @@ export default function Hero() {
             ))}
           </nav>
         </div>
-      </main>
+      </section>
     </div>
   );
 }

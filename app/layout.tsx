@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Finn — Frontend Developer",
+  title: "Finn",
   description:
     "Finn is a frontend developer crafting fast, thoughtful web experiences.",
 };

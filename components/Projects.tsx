@@ -1,14 +1,15 @@
 "use client";
 
-import { projects } from "@/lib/projects";
 import { AnimatePresence, motion, useInView, Variants } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { useLayoutEffect, useRef, useState } from "react";
 import ArrowUpRight from "./icons/ArrowUpRight";
+import { metadata } from "@/lib/metadata";
 
 gsap.registerPlugin(ScrollTrigger);
+const projects = metadata.projects;
 
 const fadeUp: Variants = {
   initial: { opacity: 0, y: 20, filter: "blur(4px)" },
@@ -94,7 +95,7 @@ export default function Projects() {
             initial={{ opacity: 0, y: -8 }}
             animate={isPinInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -8 }}
             transition={{ duration: 0.5, ease: [0.65, 0, 0.35, 1] }}
-            className="font-mono text-xs tabular-nums text-muted-foreground"
+            className="font-mono text-sm tabular-nums text-muted-foreground"
           >
             <motion.span
               key={active}
@@ -167,7 +168,7 @@ export default function Projects() {
                         delay: 0.4 + i * 0.05,
                         ease: "easeOut",
                       }}
-                      className="border border-border px-2.5 py-1 font-mono text-xs text-foreground"
+                      className="border border-border px-2.5 py-1 font-mono text-sm text-foreground"
                     >
                       {t}
                     </motion.li>

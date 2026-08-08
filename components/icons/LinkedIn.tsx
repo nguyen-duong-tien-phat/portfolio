@@ -19,11 +19,9 @@ const LinkedInIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
     aria-hidden="true"
     {...props}
   >
-    <rect x="3" y="3" width="18" height="18" rx="2" />
-    <path d="M8 10v7" />
-    <path d="M8 7h.01" />
-    <path d="M12 17v-4a2 2 0 0 1 4 0v4" />
-    <path d="M12 10v7" />
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4V8h4v1.5A6 6 0 0 1 16 8Z" />
+    <rect x="2" y="9" width="4" height="12" />
+    <circle cx="4" cy="4" r="2" />
   </svg>
 );
 

@@ -4,9 +4,10 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AnimatePresence, motion, useInView } from "framer-motion";
-import { experiences } from "@/lib/experience";
+import { metadata } from "@/lib/metadata";
 
 gsap.registerPlugin(ScrollTrigger);
+const experiences = metadata.experiences;
 
 export default function Experience() {
   const section = useRef<HTMLElement>(null);

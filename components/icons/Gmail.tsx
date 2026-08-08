@@ -19,8 +19,8 @@ const GmailIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
     aria-hidden="true"
     {...props}
   >
-    <rect x="3" y="5" width="18" height="14" rx="2" />
-    <path d="m3 7 9 6 9-6" />
+    <rect x="2" y="4" width="20" height="16" rx="2" />
+    <path d="m2 6 10 7 10-7" />
   </svg>
 );
 
