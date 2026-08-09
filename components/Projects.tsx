@@ -152,7 +152,7 @@ export default function Projects() {
                     href={project.demo}
                     target="_blank"
                     rel="noreferrer"
-                    className="group inline-flex items-center gap-2 font-medium text-foreground"
+                    className="group inline-flex items-center gap-2 font-medium text-foreground md:text-lg"
                     data-cursor-hover
                   >
                     <ExternalLink className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -163,7 +163,7 @@ export default function Projects() {
                     href={project.github}
                     target="_blank"
                     rel="noreferrer"
-                    className="group inline-flex items-center gap-2 font-medium text-foreground"
+                    className="group inline-flex items-center gap-2 font-medium text-foreground md:text-lg"
                     data-cursor-hover
                   >
                     <Github className="text-white size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -173,7 +173,7 @@ export default function Projects() {
 
                 <motion.p
                   variants={fadeUp}
-                  className="mt-3 text-sm text-pretty leading-relaxed text-muted-foreground"
+                  className="mt-3 text-sm md:text-base text-pretty leading-relaxed text-muted-foreground"
                 >
                   {project.desc}
                 </motion.p>

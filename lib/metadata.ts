@@ -5,9 +5,15 @@ export enum SECTION {
   Hero = "Hero",
   Experience = "Experience",
   Projects = "Projects",
+  End = "Connect",
 }
 
-export const sections = [SECTION.Hero, SECTION.Experience, SECTION.Projects];
+export const sections = [
+  SECTION.Hero,
+  SECTION.Experience,
+  SECTION.Projects,
+  SECTION.End,
+];
 
 export const metadata = {
   links: [

@@ -1,3 +1,4 @@
+import End from "@/components/End";
 import Experience from "@/components/Experience";
 import Hero from "@/components/Hero";
 import Projects from "@/components/Projects";
@@ -11,6 +12,7 @@ export default function Page() {
         <Hero />
         <Experience />
         <Projects />
+        <End />
       </main>
     </>
   );

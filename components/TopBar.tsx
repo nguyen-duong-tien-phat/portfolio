@@ -65,7 +65,7 @@ export default function TopBar() {
 
       ScrollTrigger.create({
         trigger: `#${section}`,
-        start: () => `top top`,
+        start: () => `top-=1px top`, // -=1px: fix last section cannot hit the top
         end: "90% top",
         onEnter: handleChange,
         onEnterBack: handleChange,

@@ -1,18 +1,11 @@
 import * as React from "react";
-import { cn } from "@/lib/utils";
 
-const GithubIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
-  className,
-  ...props
-}) => (
+const GithubIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
     viewBox="0 0 24 24"
-    fill="currentColor"
-    className={cn(
-      "size-6 text-black transition-colors duration-200",
-      "hover:text-[#181717]",
-      className,
-    )}
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
     aria-hidden="true"
     {...props}
   >
