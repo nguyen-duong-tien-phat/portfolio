@@ -27,13 +27,17 @@ export default function Experience() {
       // Intro paragraph: words rise and fade in as the section arrives.
       const lines = gsap.utils.toArray<HTMLElement>("[data-intro-line]");
 
-      lines.forEach((line) =>
+      lines.forEach((line, index) =>
         gsap.from(line, {
           yPercent: 110,
           opacity: 0,
           duration: 1,
           ease: "power3.out",
-          scrollTrigger: { trigger: line, start: "top bottom" },
+          delay: index * 0.2,
+          scrollTrigger: {
+            trigger: intro.current,
+            start: "top top",
+          },
         }),
       );
 
@@ -73,9 +77,12 @@ export default function Experience() {
       {/* Intro paragraph */}
       <div
         ref={intro}
-        className="mx-auto max-w-6xl px-6 pb-24 pt-32 md:px-12 md:pb-40 md:pt-48"
+        className="mx-auto max-w-6xl px-6 md:px-12 min-h-screen flex flex-col justify-center"
       >
-        <span className="mb-8 block font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
+        <span
+          data-intro-line
+          className="mb-8 block font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground"
+        >
           The Goal
         </span>
         <p className="text-balance text-2xl font-medium leading-snug tracking-tight text-muted-foreground sm:text-3xl md:text-5xl md:leading-tight">
