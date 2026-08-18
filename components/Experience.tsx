@@ -36,7 +36,7 @@ export default function Experience() {
           delay: index * 0.2,
           scrollTrigger: {
             trigger: intro.current,
-            start: "top top",
+            start: "top 20%",
           },
         }),
       );
