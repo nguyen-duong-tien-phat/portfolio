@@ -5,7 +5,7 @@ import * as THREE from "three";
 
 import Tile from "./Tile";
 
-const GRID = 12;
+const GRID = 10;
 const SIZE = 6;
 
 interface FlipAvatarProps {
@@ -31,19 +31,11 @@ export default function FlipAvatar({ src }: FlipAvatarProps) {
 
   // Generate grid
   const tiles = useMemo(() => {
-    const items: {
-      row: number;
-      column: number;
-      id: number;
-    }[] = [];
+    const items: { row: number; column: number; id: number }[] = [];
 
     for (let row = 0; row < GRID; row++) {
       for (let column = 0; column < GRID; column++) {
-        items.push({
-          row,
-          column,
-          id: row * GRID + column,
-        });
+        items.push({ row, column, id: row * GRID + column });
       }
     }
 
@@ -110,11 +102,11 @@ export default function FlipAvatar({ src }: FlipAvatarProps) {
       ))}
 
       {/* Shadow receiver */}
-      <mesh position={[0, 0, -1]} receiveShadow>
+      {/* <mesh position={[0, 0, -1]} receiveShadow>
         <planeGeometry args={[SIZE + 2, SIZE + 2]} />
 
         <shadowMaterial transparent opacity={0.35} />
-      </mesh>
+      </mesh> */}
     </>
   );
 }

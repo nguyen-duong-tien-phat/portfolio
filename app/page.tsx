@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <>
       <TopBar />
-      <main className="max-w-3xl mx-auto px-5 py-10">
+      <main className="max-w-3xl mx-auto px-5">
         <Hero />
       </main>
     </>

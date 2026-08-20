@@ -5,14 +5,14 @@ import FlipAvatar from "./FlipAvatar";
 
 export default function Avatar() {
   return (
-    <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 0, 10], fov: 35 }}>
+    <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 0, 11], fov: 35 }}>
       {/* Soft ambient light */}
-      <ambientLight intensity={1.5} />
+      <ambientLight intensity={1} />
 
       {/* Main light */}
       <directionalLight
-        position={[4, 5, 6]}
-        intensity={4}
+        position={[1, 2, 3]}
+        intensity={5}
         castShadow
         shadow-mapSize-width={1024}
         shadow-mapSize-height={1024}

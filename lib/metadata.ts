@@ -1,6 +1,6 @@
 import LetsChill from "@/components/logos/LetsChill";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
-import { PiReadCvLogoFill } from "react-icons/pi";
+import { FaFilePdf } from "react-icons/fa6";
 
 export enum SECTION {
   Hero = "Hero",
@@ -22,18 +22,26 @@ export const metadata = {
       icon: FaGithub,
       label: "GitHub",
       href: "https://github.com/nguyen-duong-tien-phat",
+      color: "#181717",
     },
     {
       icon: FaLinkedin,
       label: "LinkedIn",
       href: "https://www.linkedin.com/in/phat-nguyen-416758281/",
+      color: "#0A66C2",
     },
-    { icon: FaEnvelope, label: "Email", href: "mailto:phatndt268@gmail.com" },
-    { icon: PiReadCvLogoFill, label: "Resume", href: "/resume.pdf" },
+    {
+      icon: FaEnvelope,
+      label: "Email",
+      href: "mailto:phatndt268@gmail.com",
+      color: "#D44638",
+    },
+    { icon: FaFilePdf, label: "Resume", href: "/resume.pdf", color: "#EF4444" },
   ],
   hero: {
+    fullName: "Nguyễn Dương Tiến Phát",
+    otherName: "Finn",
     available: "Available for work",
-    hello: "Hi, I'm Finn.",
     avatar: "/my-face.png",
     description:
       "Frontend engineer passionate about building fast, immersive web experiences with React, Next.js. I care about performance, accessibility, and creating interfaces that feel effortless to use.",
