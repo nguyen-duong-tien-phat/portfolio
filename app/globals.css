@@ -14,6 +14,7 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-card: var(--card);
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
 
   /* Radius */
   --radius-sm: calc(var(--radius) * 0.6);
@@ -39,6 +40,7 @@
 
   /* Border */
   --border: oklch(0.9 0 0 / 60%);
+  --border-strong: oklch(0.7 0 0 / 55%);
 
   --radius: 0.625rem;
 }
@@ -60,6 +62,7 @@
 
   /* Border */
   --border: oklch(1 0 0 / 12%);
+  --border-strong: oklch(1 0 0 / 22%);
 }
 
 /* Follow system theme unless .light is explicitly set */
@@ -72,6 +75,7 @@
     --muted-foreground: oklch(0.708 0 0);
     --card: oklch(1 0 0 / 8%);
     --border: oklch(1 0 0 / 12%);
+    --border-strong: oklch(1 0 0 / 22%);
   }
 }
 

@@ -1,4 +1,6 @@
+import Experience from "@/components/Experience";
 import Hero from "@/components/Hero";
+import Separate from "@/components/Separate";
 import TopBar from "@/components/TopBar";
 
 export default function Page() {
@@ -7,6 +9,10 @@ export default function Page() {
       <TopBar />
       <main className="max-w-3xl mx-auto px-5">
         <Hero />
+
+        <Separate />
+
+        <Experience />
       </main>
     </>
   );
