@@ -1,5 +1,6 @@
 import Experience from "@/components/Experience";
 import Hero from "@/components/Hero";
+import Projects from "@/components/Projects";
 import Separate from "@/components/Separate";
 import TopBar from "@/components/TopBar";
 
@@ -13,6 +14,8 @@ export default function Page() {
         <Separate />
 
         <Experience />
+
+        <Projects />
       </main>
     </>
   );
