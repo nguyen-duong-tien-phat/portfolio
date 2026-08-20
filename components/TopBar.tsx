@@ -81,7 +81,6 @@ export default function TopBar() {
         "px-5 py-2 rounded-full",
         "border border-white/15",
         "bg-white/5 backdrop-blur-xl backdrop-saturate-150",
-        "shadow-[0_1px_1px_rgba(255,255,255,0.1)_inset,0_8px_24px_rgba(0,0,0,0.25)]",
       )}
     >
       <div className="font-mono flex items-center gap-20">

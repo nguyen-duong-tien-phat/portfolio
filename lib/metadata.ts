@@ -1,5 +1,6 @@
-import { File, Github, Gmail, LinkedIn } from "@/components/icons";
 import LetsChill from "@/components/logos/LetsChill";
+import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
+import { PiReadCvLogoFill } from "react-icons/pi";
 
 export enum SECTION {
   Hero = "Hero",
@@ -18,21 +19,22 @@ export const sections = [
 export const metadata = {
   links: [
     {
-      icon: Github,
+      icon: FaGithub,
       label: "GitHub",
       href: "https://github.com/nguyen-duong-tien-phat",
     },
     {
-      icon: LinkedIn,
+      icon: FaLinkedin,
       label: "LinkedIn",
       href: "https://www.linkedin.com/in/phat-nguyen-416758281/",
     },
-    { icon: Gmail, label: "Email", href: "mailto:phatndt268@gmail.com" },
-    { icon: File, label: "Resume", href: "/resume.pdf" },
+    { icon: FaEnvelope, label: "Email", href: "mailto:phatndt268@gmail.com" },
+    { icon: PiReadCvLogoFill, label: "Resume", href: "/resume.pdf" },
   ],
   hero: {
     available: "Available for work",
     hello: "Hi, I'm Finn.",
+    avatar: "/my-face.png",
     description:
       "Frontend engineer passionate about building fast, immersive web experiences with React, Next.js. I care about performance, accessibility, and creating interfaces that feel effortless to use.",
   },
@@ -66,6 +68,14 @@ export const metadata = {
     },
   ],
   projects: [
+    {
+      name: "Event hub",
+      github: "https://github.com/nguyen-duong-tien-phat/event-hub-DotNet",
+      demo: null,
+      logo: null,
+      tech: ["C#", ".Net 10"],
+      desc: "This project was built while I was learning how to integrate third-party APIs using a free movie database API. It also gave me hands-on experience implementing authentication with NextAuth, supporting GitHub, Google, and Facebook sign-in.",
+    },
     {
       name: "Let's movie",
       github: "https://github.com/nguyen-duong-tien-phat/lets-movie",
