@@ -34,9 +34,9 @@ export const metadata = {
       icon: FaEnvelope,
       label: "Email",
       href: "mailto:phatndt268@gmail.com",
-      color: "#D44638",
+      color: "#EA4335",
     },
-    { icon: FaFilePdf, label: "Resume", href: "/resume.pdf", color: "#EF4444" },
+    { icon: FaFilePdf, label: "Resume", href: "/resume.pdf", color: "#A855F7" },
   ],
   hero: {
     fullName: "Nguyễn Dương Tiến Phát",
@@ -48,31 +48,41 @@ export const metadata = {
   },
   experiences: [
     {
-      role: "Junior Frontend Developer",
+      role: "Junior Software Engineer",
       company: "Modelty Strategy & Consulting",
-      period: "03/2025 — 07/2026",
-      location: "Ho Chi Minh city",
+      period: "03/25 — 07/26",
       description:
-        "Frontend Developer contributing to multiple company projects, building and maintaining scalable, high-performance web applications with a strong focus on usability, maintainability, and user experience.",
-      tech: ["Next.js", "Alipay Mini program", "Gatsby", "MUI"],
+        "Developing and maintaining features for an insurance service platform.",
+      highlights: [
+        "Built marketing and product pages with a focus on performance, SEO, and conversion.",
+        "Implemented end-to-end user flows for insurance quotation, purchase, and claim submission.",
+        "Built and deployed an Alipay Mini Program, adapting existing business workflows and UI components to the platform.",
+        "Designed and implemented an end-to-end backend feature using NestJS, collaborating with the backend team from feature design and API implementation through integration.",
+      ],
     },
     {
-      role: "Frontend Engineer",
+      role: "Frontend Developer",
       company: "Freelance",
-      period: "05/2024 — 01/2026",
-      location: "Remote",
+      period: "05/24 — 01/26",
       description:
-        "Worked as a Frontend Developer, migrating an e-commerce management application and redesigning its user interface to deliver a more intuitive and user-friendly experience.",
-      tech: ["Next.js", "Tailwind CSS", "Ant Design"],
+        "Migrated and maintained an e-commerce management application.",
+      highlights: [
+        "Ensured compatibility with existing system workflows throughout the migration.",
+        "Implemented new features and enhancements based on evolving project requirements.",
+        "Participated in code reviews, identifying implementation issues and contributing to improved code quality.",
+        "Facilitated weekly meetings to communicate project progress and discuss potential improvements.",
+      ],
     },
     {
-      role: "Intern Frontend Developer",
-      company: "TMA Solution",
-      period: "11/2023 — 01/2024",
-      location: "Remote",
+      role: "Frontend Intern",
+      company: "TMA Solutions",
+      period: "10/23 — 01/24",
       description:
-        "Partnered with small teams and founders to ship landing pages, dashboards, and portfolio sites — learning the craft of turning rough ideas into clean, responsive products.",
-      tech: ["React", "MUI"],
+        "Developed a tour booking application based on provided designs and requirements.",
+      highlights: [
+        "Implemented application features and user interfaces while providing feedback on design and functionality.",
+        "Communicated daily progress and technical updates with mentors.",
+      ],
     },
   ],
   projects: [
