@@ -9,13 +9,16 @@ const SIZE_SCALE = 0.1;
 const ROTATION_STRENGTH = Math.PI * 1.5;
 
 // Intro animation
-const INTRO_DURATION = 1.8;
-const INTRO_MAX_DELAY = 0.6;
+const INTRO_DURATION = 2;
+const INTRO_MAX_DELAY = 0.8;
 
-// Each tile only scatters around its own final position.
-// This is measured in multiples of the tile size.
-const INITIAL_POSITION_SPREAD = 3;
-const INITIAL_Z_SPREAD = 2.5;
+// Camera is at z = 11.
+// Tiles start behind / around the camera and travel toward z = 0.
+const INITIAL_Z_MIN = 12;
+const INITIAL_Z_MAX = 18;
+
+// How far tiles can spawn away from their final X/Y position.
+const INITIAL_XY_SPREAD = 2;
 
 interface TileProps {
   texture: THREE.Texture;
@@ -40,34 +43,33 @@ export default function Tile({
   const tileSize = size / grid;
 
   /**
-   * Final position of this tile.
+   * Final tile position.
    */
   const x = column * tileSize - size / 2 + tileSize / 2;
 
   const y = -(row * tileSize) + size / 2 - tileSize / 2;
 
   /**
-   * Random but structured initial state.
+   * Initial state.
    *
-   * Every tile starts near its own final position instead
-   * of being scattered across the entire scene.
+   * Tiles start behind the camera and slightly
+   * offset around their own final X/Y position.
    */
   const initialState = useMemo(() => {
-    const maxOffset = tileSize * INITIAL_POSITION_SPREAD;
-
     return {
-      x: x + (Math.random() - 0.5) * maxOffset * 2,
-      y: y + (Math.random() - 0.5) * maxOffset * 2,
+      x: x + (Math.random() - 0.5) * INITIAL_XY_SPREAD * 2,
 
-      z: (Math.random() - 0.5) * INITIAL_Z_SPREAD * 2,
+      y: y + (Math.random() - 0.5) * INITIAL_XY_SPREAD * 2,
+
+      z: THREE.MathUtils.lerp(INITIAL_Z_MIN, INITIAL_Z_MAX, Math.random()),
 
       rotationX: (Math.random() - 0.5) * Math.PI * 2,
       rotationY: (Math.random() - 0.5) * Math.PI * 2,
-      rotationZ: (Math.random() - 0.5) * Math.PI,
+      rotationZ: (Math.random() - 0.5) * Math.PI * 2,
 
       delay: Math.random() * INTRO_MAX_DELAY,
     };
-  }, [x, y, tileSize]);
+  }, [x, y]);
 
   /**
    * Create texture section for this tile.
@@ -76,6 +78,7 @@ export default function Tile({
     const clonedTexture = texture.clone();
 
     clonedTexture.colorSpace = THREE.SRGBColorSpace;
+
     clonedTexture.wrapS = THREE.ClampToEdgeWrapping;
     clonedTexture.wrapT = THREE.ClampToEdgeWrapping;
 
@@ -117,6 +120,9 @@ export default function Tile({
 
     const mesh = meshRef.current;
 
+    /**
+     * Set the intro start time once.
+     */
     if (introStartTime.current === null) {
       introStartTime.current = clock.elapsedTime;
     }
@@ -124,7 +130,7 @@ export default function Tile({
     const elapsedTime = clock.elapsedTime - introStartTime.current;
 
     /**
-     * Intro animation.
+     * INTRO
      */
     const rawIntroProgress = THREE.MathUtils.clamp(
       (elapsedTime - initialState.delay) / INTRO_DURATION,
@@ -132,6 +138,12 @@ export default function Tile({
       1,
     );
 
+    /**
+     * Ease out cubic.
+     *
+     * Tiles move fast from behind the camera,
+     * then slow down as they approach the avatar.
+     */
     const introProgress = 1 - Math.pow(1 - rawIntroProgress, 3);
 
     const isIntroFinished = rawIntroProgress >= 1;
@@ -165,7 +177,7 @@ export default function Tile({
     }
 
     /**
-     * Hover effect.
+     * HOVER EFFECT
      */
     const dx = mousePosition.x - x;
     const dy = mousePosition.y - y;
@@ -181,6 +193,7 @@ export default function Tile({
     const eased = Math.pow(strength, 2);
 
     const directionX = distance > 0 ? dx / distance : 0;
+
     const directionY = distance > 0 ? dy / distance : 0;
 
     const targetRotationY = -directionX * eased * ROTATION_STRENGTH;
