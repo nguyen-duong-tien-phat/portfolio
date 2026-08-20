@@ -13,7 +13,7 @@ export default function Hero() {
   const root = useRef<HTMLDivElement>(null);
 
   return (
-    <section id={SECTION.Hero} ref={root} className="w-full">
+    <section id={SECTION.Hero} ref={root} className="w-full pb-10">
       <div className="mx-auto w-2/3 aspect-square">
         <Avatar />
       </div>

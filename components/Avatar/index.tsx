@@ -12,7 +12,7 @@ export default function Avatar() {
       {/* Main light */}
       <directionalLight
         position={[1, 2, 3]}
-        intensity={5}
+        intensity={6}
         castShadow
         shadow-mapSize-width={1024}
         shadow-mapSize-height={1024}

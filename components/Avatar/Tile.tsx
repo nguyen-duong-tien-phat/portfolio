@@ -6,7 +6,16 @@ const INTERACTION_RADIUS = 1;
 const SPEED = 8;
 const HEIGHT_STRENGTH = 5;
 const SIZE_SCALE = 0.1;
-const ROTATION_STRENGTH = Math.PI * 1.5; // 270 degrees max
+const ROTATION_STRENGTH = Math.PI * 1.5;
+
+// Intro animation
+const INTRO_DURATION = 1.8;
+const INTRO_MAX_DELAY = 0.6;
+
+// Each tile only scatters around its own final position.
+// This is measured in multiples of the tile size.
+const INITIAL_POSITION_SPREAD = 3;
+const INITIAL_Z_SPREAD = 2.5;
 
 interface TileProps {
   texture: THREE.Texture;
@@ -26,20 +35,47 @@ export default function Tile({
   mousePosition,
 }: TileProps) {
   const meshRef = useRef<THREE.Mesh>(null);
+  const introStartTime = useRef<number | null>(null);
 
   const tileSize = size / grid;
 
-  // Tile position
+  /**
+   * Final position of this tile.
+   */
   const x = column * tileSize - size / 2 + tileSize / 2;
 
   const y = -(row * tileSize) + size / 2 - tileSize / 2;
 
-  // Create texture section for this tile
+  /**
+   * Random but structured initial state.
+   *
+   * Every tile starts near its own final position instead
+   * of being scattered across the entire scene.
+   */
+  const initialState = useMemo(() => {
+    const maxOffset = tileSize * INITIAL_POSITION_SPREAD;
+
+    return {
+      x: x + (Math.random() - 0.5) * maxOffset * 2,
+      y: y + (Math.random() - 0.5) * maxOffset * 2,
+
+      z: (Math.random() - 0.5) * INITIAL_Z_SPREAD * 2,
+
+      rotationX: (Math.random() - 0.5) * Math.PI * 2,
+      rotationY: (Math.random() - 0.5) * Math.PI * 2,
+      rotationZ: (Math.random() - 0.5) * Math.PI,
+
+      delay: Math.random() * INTRO_MAX_DELAY,
+    };
+  }, [x, y, tileSize]);
+
+  /**
+   * Create texture section for this tile.
+   */
   const tileTexture = useMemo(() => {
     const clonedTexture = texture.clone();
 
     clonedTexture.colorSpace = THREE.SRGBColorSpace;
-
     clonedTexture.wrapS = THREE.ClampToEdgeWrapping;
     clonedTexture.wrapT = THREE.ClampToEdgeWrapping;
 
@@ -53,11 +89,13 @@ export default function Tile({
   }, [texture, row, column, grid]);
 
   useEffect(() => {
-    return () => tileTexture.dispose();
+    return () => {
+      tileTexture.dispose();
+    };
   }, [tileTexture]);
 
   /**
-   * Material
+   * Material.
    */
   const material = useMemo(() => {
     return new THREE.MeshStandardMaterial({
@@ -69,50 +107,90 @@ export default function Tile({
   }, [tileTexture]);
 
   useEffect(() => {
-    return () => material.dispose();
+    return () => {
+      material.dispose();
+    };
   }, [material]);
 
-  useFrame((_, delta) => {
+  useFrame(({ clock }, delta) => {
     if (!meshRef.current) return;
 
     const mesh = meshRef.current;
 
-    // Distance from cursor
+    if (introStartTime.current === null) {
+      introStartTime.current = clock.elapsedTime;
+    }
+
+    const elapsedTime = clock.elapsedTime - introStartTime.current;
+
+    /**
+     * Intro animation.
+     */
+    const rawIntroProgress = THREE.MathUtils.clamp(
+      (elapsedTime - initialState.delay) / INTRO_DURATION,
+      0,
+      1,
+    );
+
+    const introProgress = 1 - Math.pow(1 - rawIntroProgress, 3);
+
+    const isIntroFinished = rawIntroProgress >= 1;
+
+    if (!isIntroFinished) {
+      mesh.position.x = THREE.MathUtils.lerp(initialState.x, x, introProgress);
+
+      mesh.position.y = THREE.MathUtils.lerp(initialState.y, y, introProgress);
+
+      mesh.position.z = THREE.MathUtils.lerp(initialState.z, 0, introProgress);
+
+      mesh.rotation.x = THREE.MathUtils.lerp(
+        initialState.rotationX,
+        0,
+        introProgress,
+      );
+
+      mesh.rotation.y = THREE.MathUtils.lerp(
+        initialState.rotationY,
+        0,
+        introProgress,
+      );
+
+      mesh.rotation.z = THREE.MathUtils.lerp(
+        initialState.rotationZ,
+        0,
+        introProgress,
+      );
+
+      return;
+    }
+
+    /**
+     * Hover effect.
+     */
     const dx = mousePosition.x - x;
     const dy = mousePosition.y - y;
 
     const distance = Math.sqrt(dx * dx + dy * dy);
 
-    // Larger interaction radius
     const strength = THREE.MathUtils.clamp(
       1 - distance / INTERACTION_RADIUS,
       0,
       1,
     );
 
-    /**
-     * Stronger easing.
-     *
-     * Makes tiles close to the cursor react
-     * much more aggressively.
-     */
     const eased = Math.pow(strength, 2);
 
-    // Normalize direction
     const directionX = distance > 0 ? dx / distance : 0;
     const directionY = distance > 0 ? dy / distance : 0;
 
-    // Strong rotation.
     const targetRotationY = -directionX * eased * ROTATION_STRENGTH;
+
     const targetRotationX = directionY * eased * ROTATION_STRENGTH;
 
-    // Strong pop-out.
     const targetZ = eased * HEIGHT_STRENGTH;
 
-    // Slight scale-up near cursor.
     const targetScale = 1 + eased * SIZE_SCALE;
 
-    // Faster response
     const damping = 1 - Math.exp(-SPEED * delta);
 
     mesh.rotation.x = THREE.MathUtils.lerp(
@@ -127,6 +205,12 @@ export default function Tile({
       damping,
     );
 
+    mesh.rotation.z = THREE.MathUtils.lerp(mesh.rotation.z, 0, damping);
+
+    mesh.position.x = THREE.MathUtils.lerp(mesh.position.x, x, damping);
+
+    mesh.position.y = THREE.MathUtils.lerp(mesh.position.y, y, damping);
+
     mesh.position.z = THREE.MathUtils.lerp(mesh.position.z, targetZ, damping);
 
     mesh.scale.x = THREE.MathUtils.lerp(mesh.scale.x, targetScale, damping);
@@ -137,7 +221,12 @@ export default function Tile({
   return (
     <mesh
       ref={meshRef}
-      position={[x, y, 0]}
+      position={[initialState.x, initialState.y, initialState.z]}
+      rotation={[
+        initialState.rotationX,
+        initialState.rotationY,
+        initialState.rotationZ,
+      ]}
       material={material}
       castShadow
       receiveShadow
