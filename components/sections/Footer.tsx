@@ -3,6 +3,7 @@
 import { metadata } from "@/lib/metadata";
 import { Icon } from "@iconify/react";
 import { motion, type Variants } from "framer-motion";
+import React from "react";
 
 const containerVariants: Variants = {
   hidden: {},
@@ -50,9 +51,9 @@ export default function Footer() {
           className="mt-2 text-3xl font-normal tracking-tight text-foreground"
         >
           {metadata.footer.title.map((line) => (
-            <>
+            <React.Fragment key={line}>
               {line} <br className="hidden sm:block" />
-            </>
+            </React.Fragment>
           ))}
         </motion.h2>
 
