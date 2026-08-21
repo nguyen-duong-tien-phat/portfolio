@@ -1,9 +1,6 @@
 import LetsChill from "@/components/logos/LetsChill";
 import { TechName } from "@/components/ui/TechTag";
 import { ComponentType } from "react";
-import { IconType } from "react-icons";
-import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
-import { FaFilePdf } from "react-icons/fa6";
 
 export enum SECTION {
   Hero = "Hero",
@@ -19,12 +16,7 @@ export const sections = [
   SECTION.End,
 ];
 
-type Link = {
-  icon: IconType;
-  label: string;
-  href: string;
-  color: string;
-};
+type Link = { icon: string; label: string; href: string; color: string };
 
 type Experience = {
   role: string;
@@ -61,24 +53,29 @@ type Metadata = {
 export const metadata: Metadata = {
   links: [
     {
-      icon: FaGithub,
+      icon: "mdi:github",
       label: "GitHub",
       href: "https://github.com/nguyen-duong-tien-phat",
       color: "#181717",
     },
     {
-      icon: FaLinkedin,
+      icon: "mdi:linkedin",
       label: "LinkedIn",
       href: "https://www.linkedin.com/in/phat-nguyen-416758281/",
       color: "#0A66C2",
     },
     {
-      icon: FaEnvelope,
+      icon: "mdi:gmail",
       label: "Email",
       href: "mailto:phatndt268@gmail.com",
       color: "#EA4335",
     },
-    { icon: FaFilePdf, label: "Resume", href: "/resume.pdf", color: "#A855F7" },
+    {
+      icon: "mingcute:pdf-fill",
+      label: "Resume",
+      href: "/resume.pdf",
+      color: "#A855F7",
+    },
   ],
   hero: {
     fullName: "Nguyễn Dương Tiến Phát",

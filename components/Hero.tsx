@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import Button from "./ui/Button";
+import { Icon } from "@iconify/react";
 
 gsap.registerPlugin(SplitText);
 
@@ -84,7 +85,7 @@ export default function Hero() {
             <MotionButton
               variant="secondary"
               size="sm"
-              leftIcon={<link.icon className="text-[1.35rem]" />}
+              leftIcon={<Icon icon={link.icon} className="text-[1.35rem]" />}
               whileHover={{ color: link.color, borderColor: link.color }}
               transition={{ duration: 0.2, ease: "easeOut" }}
             >

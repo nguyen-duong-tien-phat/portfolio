@@ -1,64 +1,35 @@
-import type { IconType } from "react-icons";
-import {
-  SiJavascript,
-  SiTypescript,
-  SiHtml5,
-  SiCss,
-  SiSass,
-  SiReact,
-  SiNextdotjs,
-  SiGatsby,
-  SiThreedotjs,
-  SiTailwindcss,
-  SiNodedotjs,
-  SiNestjs,
-  SiStyledcomponents,
-  SiMui,
-  SiReactquery,
-  SiPostgresql,
-  SiRedis,
-  SiDotnet,
-  SiDocker,
-  SiGit,
-  SiGithub,
-  SiGitlab,
-  SiRedux,
-} from "react-icons/si";
 import { cn } from "@/lib/utils";
-import { TbBrandCSharp } from "react-icons/tb";
-import { BiLogoPostgresql } from "react-icons/bi";
+import { Icon } from "@iconify/react";
 
 const techs = {
-  JavaScript: { icon: SiJavascript, color: "#F7DF1E" },
-  TypeScript: { icon: SiTypescript, color: "#3178C6" },
-  HTML5: { icon: SiHtml5, color: "#E34F26" },
-  CSS3: { icon: SiCss, color: "#1572B6" },
-  SCSS: { icon: SiSass, color: "#CC6699" },
+  JavaScript: "logos:javascript",
+  TypeScript: "logos:javascript",
+  HTML5: "logos:html5",
+  CSS3: "logos:css3",
 
-  React: { icon: SiReact, color: "#61DAFB" },
-  "Next.js": { icon: SiNextdotjs, color: "#171717" },
-  Gatsby: { icon: SiGatsby, color: "#663399" },
-  "Three.js": { icon: SiThreedotjs, color: "#000000" },
-  "Tailwind CSS": { icon: SiTailwindcss, color: "#06B6D4" },
+  React: "logos:react",
+  "Next.js": "logos:nextjs",
+  Gatsby: "logos:gatsby",
+  "Three.js": "logos:threejs",
+  "Tailwind CSS": "logos:tailwindcss",
 
-  "Node.js": { icon: SiNodedotjs, color: "#5FA04E" },
-  NestJS: { icon: SiNestjs, color: "#E0234E" },
-  ".NET": { icon: SiDotnet, color: "#512BD4" },
-  "C#": { icon: TbBrandCSharp, color: "#512BD4" },
+  "Node.js": "logos:nodejs",
+  NestJS: "logos:nestjs",
+  ".NET": "logos:dotnet",
+  "C#": "devicon:csharp",
 
-  PostgreSQL: { icon: BiLogoPostgresql, color: "#4169E1" },
-  Redis: { icon: SiRedis, color: "#FF4438" },
+  PostgreSQL: "logos:postgresql",
+  Redis: "logos:redis",
 
-  "Styled Components": { icon: SiStyledcomponents, color: "#DB7093" },
-  MUI: { icon: SiMui, color: "#007FFF" },
-  "TanStack Query": { icon: SiReactquery, color: "#FF4154" },
-  Redux: { icon: SiRedux, color: "#764ABC" },
+  "Styled Components": "devicon:styledcomponents",
+  MUI: "thesvg-color:mui",
+  Redux: "logos:redux",
 
-  Docker: { icon: SiDocker, color: "#2496ED" },
-  Git: { icon: SiGit, color: "#F05032" },
-  GitHub: { icon: SiGithub, color: "#181717" },
-  Gitlab: { icon: SiGitlab, color: "#FC6D26" },
-} satisfies Record<string, { icon: IconType; color: string }>;
+  Docker: "logos:docker-icon",
+  Git: "logos:git-icon",
+  GitHub: "logos:github-icon",
+  Gitlab: "logos:gitlab-icon",
+} satisfies Record<string, string>;
 
 export type TechName = keyof typeof techs;
 
@@ -69,8 +40,6 @@ interface TechTagProps {
 }
 
 export default function TechTag({ name, className, iconOnly }: TechTagProps) {
-  const { icon: Icon, color } = techs[name];
-
   return (
     <span
       className={cn(
@@ -83,7 +52,7 @@ export default function TechTag({ name, className, iconOnly }: TechTagProps) {
         className,
       )}
     >
-      <Icon className="size-4 shrink-0" style={{ color }} />
+      <Icon icon={techs[name]} className="size-5 shrink-0" />
 
       {!iconOnly && <span>{name}</span>}
     </span>

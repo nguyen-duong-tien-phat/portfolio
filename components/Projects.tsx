@@ -1,9 +1,8 @@
 import { metadata, SECTION } from "@/lib/metadata";
 import Card from "./ui/Card";
 import TechTag from "./ui/TechTag";
-import { HiArrowUpRight } from "react-icons/hi2";
-import { FaGithub } from "react-icons/fa";
 import Image from "next/image";
+import { Icon } from "@iconify/react";
 
 export default function Projects() {
   return (
@@ -57,7 +56,7 @@ export default function Projects() {
                     aria-label={`View ${project.name} on GitHub`}
                     className="flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground"
                   >
-                    <FaGithub className="size-4" />
+                    <TechTag name="GitHub" />
                   </a>
 
                   {project.demo && (
@@ -68,7 +67,10 @@ export default function Projects() {
                       aria-label={`View ${project.name} demo`}
                       className="flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground"
                     >
-                      <HiArrowUpRight className="size-4" />
+                      <Icon
+                        icon={"heroicons:arrow-up-right"}
+                        className="size-4"
+                      />
                     </a>
                   )}
                 </div>

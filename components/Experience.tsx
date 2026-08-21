@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion, Variants } from "framer-motion";
-import { FaChevronDown } from "react-icons/fa6";
 import { metadata, SECTION } from "@/lib/metadata";
 import Button from "./ui/Button";
 import { cn } from "@/lib/utils";
+import { Icon } from "@iconify/react";
 
 interface ExperienceEntry {
   role: string;
@@ -173,9 +173,10 @@ export default function Experience() {
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
           rightIcon={
-            <FaChevronDown
+            <Icon
+              icon={"line-md:chevron-down"}
               className={cn(
-                "size-2.5 transition-transform duration-300",
+                "size-4 transition-transform duration-300",
                 open && "rotate-180",
               )}
             />

@@ -1,7 +1,6 @@
 "use client";
 
 import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
-import { FaCheck } from "react-icons/fa6";
 
 type ButtonVariant = "primary" | "secondary" | "ghost";
 type ButtonSize = "sm" | "md";
@@ -11,9 +10,6 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: ButtonSize;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
-
-  showCheckbox?: boolean;
-  checked?: boolean;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -25,8 +21,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       size = "md",
       leftIcon,
       rightIcon,
-      showCheckbox = false,
-      checked = false,
       ...props
     },
     ref,
@@ -66,39 +60,16 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         ref={ref}
-        aria-pressed={showCheckbox ? checked : undefined}
         className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
         {...props}
       >
         <span className="relative z-10 inline-flex items-center gap-2">
-          {showCheckbox && (
-            <span
-              className={[
-                "flex size-3.5 items-center justify-center",
-                "rounded-[3px] border transition-all duration-200",
-
-                checked
-                  ? "border-neutral-900 bg-neutral-900"
-                  : "border-neutral-300 bg-white",
-              ].join(" ")}
-            >
-              <FaCheck
-                className={[
-                  "size-2.5 text-white transition-all duration-200",
-
-                  checked ? "scale-100 opacity-100" : "scale-50 opacity-0",
-                ].join(" ")}
-                strokeWidth={3}
-              />
-            </span>
-          )}
-
           {leftIcon && <span className="flex shrink-0">{leftIcon}</span>}
 
           <span>{children}</span>
 
           {rightIcon && (
-            <span className="flex shrink-0 transition-transform duration-300 group-hover:translate-x-1">
+            <span className="flex shrink-0 transition-transform duration-300">
               {rightIcon}
             </span>
           )}
