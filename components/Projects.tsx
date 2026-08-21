@@ -21,7 +21,7 @@ export default function Projects() {
             <div className="relative aspect-video shrink-0 overflow-hidden">
               <Image
                 src={project.thumbnail}
-                alt={`${project.name} preview`}
+                alt={`${project.name}-thumbnail`}
                 fill
                 sizes="350px"
                 className="object-cover"
@@ -36,8 +36,9 @@ export default function Projects() {
                     <div className="relative size-7 shrink-0">
                       <Image
                         src={project.logo}
-                        alt={`${project.name} logo`}
+                        alt={`${project.name}-logo`}
                         fill
+                        sizes="300px"
                         className="object-contain"
                       />
                     </div>

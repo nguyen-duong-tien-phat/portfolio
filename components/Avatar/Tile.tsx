@@ -244,7 +244,7 @@ export default function Tile({
       castShadow
       receiveShadow
     >
-      <planeGeometry args={[tileSize - 0.02, tileSize - 0.02]} />
+      <planeGeometry args={[tileSize - 0.01, tileSize - 0.01]} />
     </mesh>
   );
 }

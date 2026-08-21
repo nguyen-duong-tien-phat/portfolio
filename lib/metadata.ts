@@ -6,14 +6,16 @@ export enum SECTION {
   Hero = "Hero",
   Experience = "Experience",
   Projects = "Projects",
-  End = "Connect",
+  Skills = "Skills",
+  Footer = "Footer",
 }
 
 export const sections = [
   SECTION.Hero,
   SECTION.Experience,
   SECTION.Projects,
-  SECTION.End,
+  SECTION.Skills,
+  SECTION.Footer,
 ];
 
 type Link = { icon: string; label: string; href: string; color: string };
@@ -44,7 +46,10 @@ type Metadata = {
     otherName: string;
     available: string;
     avatar: string;
-    description: string;
+    description: (
+      | { type: "text"; content: string }
+      | { type: "tech"; name: TechName }
+    )[];
   };
   experiences: Experience[];
   projects: Project[];
@@ -82,8 +87,20 @@ export const metadata: Metadata = {
     otherName: "Finn",
     available: "Available for work",
     avatar: "/my-face.png",
-    description:
-      "Frontend engineer passionate about building fast, immersive web experiences with React, Next.js. I care about performance, accessibility, and creating interfaces that feel effortless to use.",
+    description: [
+      {
+        type: "text",
+        content:
+          "Frontend engineer with 2+ years of experience, specializing in",
+      },
+      { type: "tech", name: "React" },
+      { type: "tech", name: "Next.js" },
+      {
+        type: "text",
+        content:
+          ". Currently growing into a full-stack engineer, with a passion for building high-quality products that are fast, intuitive, and built to last.",
+      },
+    ],
   },
   experiences: [
     {
