@@ -39,7 +39,6 @@ export default function Card({
     onMouseLeave?.(e);
   };
 
-  // Maximum rotation
   const rotateX = mouse.y * 40;
   const rotateY = mouse.x * -40;
 
@@ -49,7 +48,7 @@ export default function Card({
         className={cn(
           "relative overflow-hidden rounded-2xl p-3",
           "border border-black/8",
-          "bg-neutral-300/35 backdrop-blur-2xl",
+          "bg-white",
           "shadow-[0_2px_20px_rgba(0,0,0,0.1)]",
           className,
         )}
@@ -62,21 +61,6 @@ export default function Card({
           transformOrigin: "center",
         }}
       >
-        {/* Glass reflection */}
-        <div
-          className="pointer-events-none absolute inset-0 rounded-2xl"
-          style={{
-            background: `
-              radial-gradient(
-                150px circle at ${mouse.x * 100 + 50}% ${mouse.y * 100 + 50}%,
-                rgba(255,255,255,1),
-                transparent 70%
-              )
-            `,
-          }}
-        />
-
-        {/* Content sits slightly above the glass */}
         <div
           className="relative z-10"
           style={{

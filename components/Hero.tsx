@@ -2,7 +2,7 @@
 
 import { metadata, SECTION } from "@/lib/metadata";
 import { Icon } from "@iconify/react";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import dynamic from "next/dynamic";
 import TechTag from "./TechTag";
 import Button from "./ui/Button";
@@ -11,11 +11,61 @@ const Avatar = dynamic(() => import("@/components/Avatar"));
 
 const MotionButton = motion.create(Button);
 
+const linksContainerVariants: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 0.25,
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const linkVariants: Variants = {
+  hidden: {
+    y: 14,
+    opacity: 0,
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.45,
+      ease: "easeOut",
+    },
+  },
+};
+
+const descriptionVariants: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 0.1,
+      staggerChildren: 0.025,
+    },
+  },
+};
+
+const descriptionItemVariants: Variants = {
+  hidden: {
+    y: 10,
+    opacity: 0,
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.35,
+      ease: "easeOut",
+    },
+  },
+};
+
 export default function Hero() {
   return (
     <section id={SECTION.Hero} className="w-full pb-10">
       {/* Avatar — no animation */}
-      <div className="relative z-10 mx-auto mb-4 aspect-square w-2/3">
+      <div className="relative z-10 mx-auto mb-4 aspect-square w-full sm:w-2/3">
         <Avatar />
       </div>
 
@@ -28,13 +78,19 @@ export default function Hero() {
       </div>
 
       {/* Links */}
-      <div className="mt-3 flex gap-3">
+      <motion.div
+        className="mt-3 flex flex-wrap gap-3"
+        variants={linksContainerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         {metadata.links.map((link) => (
-          <a
+          <motion.a
             key={link.href}
             href={link.href}
             target="_blank"
             rel="noopener noreferrer"
+            variants={linkVariants}
           >
             <MotionButton
               variant="secondary"
@@ -43,6 +99,7 @@ export default function Hero() {
               whileHover={{
                 color: link.color,
                 borderColor: link.color,
+                y: -2,
               }}
               transition={{
                 duration: 0.2,
@@ -51,25 +108,41 @@ export default function Hero() {
             >
               <span className="text-sm">{link.label}</span>
             </MotionButton>
-          </a>
+          </motion.a>
         ))}
-      </div>
+      </motion.div>
 
       {/* Description */}
-      <p className="mt-8 text-lg leading-relaxed text-muted-foreground">
+      <motion.p
+        className="mt-8 text-lg leading-relaxed text-muted-foreground"
+        variants={descriptionVariants}
+        initial="hidden"
+        animate="visible"
+      >
         {metadata.hero.description.map((item, index) => {
           if (item.type === "tech") {
             return (
-              <span key={`${item.name}-${index}`}>
+              <motion.span
+                key={`${item.name}-${index}`}
+                variants={descriptionItemVariants}
+              >
                 {" "}
                 <TechTag name={item.name} />
-              </span>
+              </motion.span>
             );
           }
 
-          return <span key={`${item.content}-${index}`}>{item.content} </span>;
+          return item.content.split(" ").map((word, wordIndex) => (
+            <motion.span
+              key={`${item.content}-${index}-${wordIndex}`}
+              className="inline-block"
+              variants={descriptionItemVariants}
+            >
+              {word}&nbsp;
+            </motion.span>
+          ));
         })}
-      </p>
+      </motion.p>
     </section>
   );
 }
