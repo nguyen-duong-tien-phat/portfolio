@@ -6,6 +6,7 @@ import { metadata, SECTION } from "@/lib/metadata";
 import Button from "./ui/Button";
 import { cn } from "@/lib/utils";
 import { Icon } from "@iconify/react";
+import Section from "./ui/Section";
 
 interface ExperienceEntry {
   role: string;
@@ -151,25 +152,14 @@ export default function Experience() {
   const [open, setOpen] = useState(false);
 
   return (
-    <section id={SECTION.Experience} className="w-full pt-10 pb-16">
-      {/* Section heading */}
-      <motion.div
-        initial={{ y: 20 }}
-        whileInView={{ y: 0 }}
-        viewport={{ once: true, amount: 0.5 }}
-        transition={{
-          duration: 0.7,
-          ease: [0.16, 1, 0.3, 1],
-        }}
-      >
-        <h2 className="text-foreground text-3xl font-normal tracking-tight">
-          {SECTION.Experience}
-        </h2>
-
+    <Section
+      name={SECTION.Experience}
+      subtitle={metadata.experiences.subtitle}
+      extra={
         <Button
           variant="ghost"
           size="sm"
-          className="text-muted-foreground hover:text-foreground -ml-2 mt-2 px-2"
+          className="text-muted-foreground hover:text-foreground -ml-2"
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
           rightIcon={
@@ -184,8 +174,8 @@ export default function Experience() {
         >
           {open ? "Hide details" : "View details"}
         </Button>
-      </motion.div>
-
+      }
+    >
       {/* Timeline */}
       <motion.div
         className="mt-10 flex flex-col gap-10"
@@ -196,10 +186,10 @@ export default function Experience() {
           amount: 0.15,
         }}
       >
-        {metadata.experiences.map((item) => (
+        {metadata.experiences.items.map((item) => (
           <ExperienceItem key={item.company} item={item} open={open} />
         ))}
       </motion.div>
-    </section>
+    </Section>
   );
 }

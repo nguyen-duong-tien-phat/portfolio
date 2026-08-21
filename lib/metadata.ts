@@ -4,9 +4,9 @@ import { ComponentType } from "react";
 
 export enum SECTION {
   Hero = "Hero",
-  Experience = "Experience",
-  Projects = "Projects",
-  Skills = "Skills",
+  Experience = "Where i've worked",
+  Projects = "Things i've built",
+  Skills = "What I've touched",
   Footer = "Footer",
 }
 
@@ -39,6 +39,13 @@ type Project = {
   thumbnail: string;
 };
 
+type Skills = {
+  subtitle: string;
+  fe: TechName[];
+  be: TechName[];
+  others: TechName[];
+};
+
 type Metadata = {
   links: Link[];
   hero: {
@@ -51,8 +58,9 @@ type Metadata = {
       | { type: "tech"; name: TechName }
     )[];
   };
-  experiences: Experience[];
-  projects: Project[];
+  experiences: { subtitle: string; items: Experience[] };
+  projects: { subtitle: string; items: Project[] };
+  skills: Skills;
 };
 
 export const metadata: Metadata = {
@@ -102,73 +110,98 @@ export const metadata: Metadata = {
       },
     ],
   },
-  experiences: [
-    {
-      role: "Junior Software Engineer",
-      company: "Modelty Strategy & Consulting",
-      period: "03/25 — 07/26",
-      description:
-        "Developed and maintained features for an insurance service platform.",
-      highlights: [
-        "Built marketing and product pages with a focus on performance, SEO, and conversion.",
-        "Implemented end-to-end user flows for insurance quotation, purchase, and claim submission.",
-        "Built and deployed an Alipay Mini Program, adapting existing business workflows and UI components to the platform.",
-        "Designed and implemented an end-to-end backend feature using NestJS, collaborating with the backend team from feature design and API implementation through integration.",
-      ],
-    },
-    {
-      role: "Frontend Developer",
-      company: "Freelance",
-      period: "05/24 — 01/26",
-      description:
-        "Migrated and maintained an e-commerce management application.",
-      highlights: [
-        "Ensured compatibility with existing system workflows throughout the migration.",
-        "Implemented new features and enhancements based on evolving project requirements.",
-        "Participated in code reviews, identifying implementation issues and contributing to improved code quality.",
-        "Facilitated weekly meetings to communicate project progress and discuss potential improvements.",
-      ],
-    },
-    {
-      role: "Frontend Intern",
-      company: "TMA Solutions",
-      period: "10/23 — 01/24",
-      description:
-        "Developed a tour booking application based on provided designs and requirements.",
-      highlights: [
-        "Implemented application features and user interfaces while providing feedback on design and functionality.",
-        "Communicated daily progress and technical updates with mentors.",
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "EventHub",
-      github: "https://github.com/nguyen-duong-tien-phat/event-hub-DotNet",
-      demo: null,
-      logo: null,
-      tech: [".NET", "PostgreSQL", "Redis", "Docker"],
-      desc: "An event ticketing and booking API focused on concurrency-safe reservations, authentication, payments, caching, and rate limiting.",
-      thumbnail: "/thumbnails/dotnet10.png",
-    },
-    {
-      name: "Let's movie",
-      github: "https://github.com/nguyen-duong-tien-phat/lets-movie",
-      demo: "https://lets-movie.vercel.app/",
-      logo: "/logos/lets-movie-logo.png",
-      tech: ["Next.js"],
-      desc: "A movie discovery app built with third-party API integration and authentication via GitHub, Google, and Facebook.",
-      thumbnail: "/thumbnails/letsmovie.png",
-    },
-    {
-      name: "Let's chill",
-      nameComp: LetsChill,
-      github: "https://github.com/nguyen-duong-tien-phat/lets-chill",
-      demo: "https://letschill-pqgu.vercel.app",
-      logo: "/logos/lets-chill-logo.png",
-      tech: ["React", "Redux"],
-      desc: "An interactive music experience inspired by immersive websites and modern music player interfaces.",
-      thumbnail: "/thumbnails/letsmusic.png",
-    },
-  ],
+  experiences: {
+    subtitle:
+      "Places where i've learned, contributed, solved problems, and grown along the way.",
+    items: [
+      {
+        role: "Junior Software Engineer",
+        company: "Modelty Strategy & Consulting",
+        period: "03/25 — 07/26",
+        description:
+          "Developed and maintained features for an insurance service platform.",
+        highlights: [
+          "Built marketing and product pages with a focus on performance, SEO, and conversion.",
+          "Implemented end-to-end user flows for insurance quotation, purchase, and claim submission.",
+          "Built and deployed an Alipay Mini Program, adapting existing business workflows and UI components to the platform.",
+          "Designed and implemented an end-to-end backend feature using NestJS, collaborating with the backend team from feature design and API implementation through integration.",
+        ],
+      },
+      {
+        role: "Frontend Developer",
+        company: "Freelance",
+        period: "05/24 — 01/26",
+        description:
+          "Migrated and maintained an e-commerce management application.",
+        highlights: [
+          "Ensured compatibility with existing system workflows throughout the migration.",
+          "Implemented new features and enhancements based on evolving project requirements.",
+          "Participated in code reviews, identifying implementation issues and contributing to improved code quality.",
+          "Facilitated weekly meetings to communicate project progress and discuss potential improvements.",
+        ],
+      },
+      {
+        role: "Frontend Intern",
+        company: "TMA Solutions",
+        period: "10/23 — 01/24",
+        description:
+          "Developed a tour booking application based on provided designs and requirements.",
+        highlights: [
+          "Implemented application features and user interfaces while providing feedback on design and functionality.",
+          "Communicated daily progress and technical updates with mentors.",
+        ],
+      },
+    ],
+  },
+  projects: {
+    subtitle:
+      "A few things i've worked on, experimented with, and learned from.",
+    items: [
+      {
+        name: "EventHub",
+        github: "https://github.com/nguyen-duong-tien-phat/event-hub-DotNet",
+        demo: null,
+        logo: null,
+        tech: [".NET", "PostgreSQL", "Redis", "Docker"],
+        desc: "An event ticketing and booking API focused on concurrency-safe reservations, authentication, payments, caching, and rate limiting.",
+        thumbnail: "/thumbnails/dotnet10.png",
+      },
+      {
+        name: "Let's movie",
+        github: "https://github.com/nguyen-duong-tien-phat/lets-movie",
+        demo: "https://lets-movie.vercel.app/",
+        logo: "/logos/lets-movie-logo.png",
+        tech: ["Next.js"],
+        desc: "A movie discovery app built with third-party API integration and authentication via GitHub, Google, and Facebook.",
+        thumbnail: "/thumbnails/letsmovie.png",
+      },
+      {
+        name: "Let's chill",
+        nameComp: LetsChill,
+        github: "https://github.com/nguyen-duong-tien-phat/lets-chill",
+        demo: "https://letschill-pqgu.vercel.app",
+        logo: "/logos/lets-chill-logo.png",
+        tech: ["React", "Redux"],
+        desc: "An interactive music experience inspired by immersive websites and modern music player interfaces.",
+        thumbnail: "/thumbnails/letsmusic.png",
+      },
+    ],
+  },
+  skills: {
+    subtitle:
+      "Technologies, tools, and a few things i've learned along the way.",
+    fe: [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "JavaScript",
+      "Tailwind CSS",
+      "CSS3",
+      "HTML5",
+      "Three.js",
+      "Redux",
+    ],
+    be: ["C#", ".NET", "NestJS", "PostgreSQL", "Redis", "Moq"],
+    others: ["Git", "Docker", "GitHub", "Gitlab"],
+  },
 };

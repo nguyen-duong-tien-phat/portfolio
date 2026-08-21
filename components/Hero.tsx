@@ -9,7 +9,7 @@ import Button from "./ui/Button";
 
 const Avatar = dynamic(() => import("@/components/Avatar"));
 
-const MotionButton = motion(Button);
+const MotionButton = motion.create(Button);
 
 export default function Hero() {
   return (

@@ -2,20 +2,22 @@ import IconTag from "./ui/IconTag";
 
 const techs = {
   JavaScript: "logos:javascript",
-  TypeScript: "logos:javascript",
-  HTML5: "logos:html5",
-  CSS3: "logos:css3",
+  TypeScript: "logos:typescript-icon",
+  HTML5: "vscode-icons:file-type-html",
+  CSS3: "logos:css",
 
   React: "logos:react",
   "Next.js": "logos:nextjs-icon",
   Gatsby: "logos:gatsby",
   "Three.js": "logos:threejs",
-  "Tailwind CSS": "logos:tailwindcss",
+  "Tailwind CSS": "logos:tailwindcss-icon",
+  GSAP: "thesvg-color:gsap",
 
   "Node.js": "logos:nodejs",
   NestJS: "logos:nestjs",
   ".NET": "logos:dotnet",
   "C#": "devicon:csharp",
+  Moq: "thesvg-color:moq",
 
   PostgreSQL: "logos:postgresql",
   Redis: "logos:redis",

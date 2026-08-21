@@ -3,16 +3,13 @@ import Card from "./ui/Card";
 import TechTag from "./TechTag";
 import Image from "next/image";
 import IconTag from "./ui/IconTag";
+import Section from "./ui/Section";
 
 export default function Projects() {
   return (
-    <section id={SECTION.Projects} className="w-full pt-10 pb-16">
-      <h2 className="text-foreground text-3xl font-normal tracking-tight">
-        {SECTION.Projects}
-      </h2>
-
-      <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-2">
-        {metadata.projects.map((project) => (
+    <Section name={SECTION.Projects} subtitle={metadata.projects.subtitle}>
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+        {metadata.projects.items.map((project) => (
           <Card
             key={project.github}
             className="flex h-full flex-col overflow-hidden p-0"
@@ -91,6 +88,6 @@ export default function Projects() {
           </Card>
         ))}
       </div>
-    </section>
+    </Section>
   );
 }
