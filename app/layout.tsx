@@ -36,7 +36,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`bg-background ${geistSans.variable} ${geistMono.variable}`}
+      className={`light bg-background ${geistSans.variable} ${geistMono.variable}`}
     >
       <body className="antialiased">
         <SmoothScroll />

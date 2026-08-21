@@ -1,18 +1,32 @@
-import End from "@/components/End";
-import Experience from "@/components/Experience";
-import Hero from "@/components/Hero";
-import Projects from "@/components/Projects";
-import TopBar from "@/components/TopBar";
+import Experience from "@/components/sections/Experience";
+import Hero from "@/components/sections/Hero";
+import Projects from "@/components/sections/Projects";
+import Separate from "@/components/Separate";
+import Skills from "@/components/sections/Skills";
+import Footer from "@/components/sections/Footer";
+import GithubGraph from "@/components/GithubGraph";
+// import TopBar from "@/components/TopBar";
 
 export default function Page() {
   return (
     <>
-      <TopBar />
-      <main>
+      {/* <TopBar /> */}
+      <main className="max-w-4xl mx-auto px-5">
         <Hero />
+
+        <GithubGraph />
+
+        <Separate />
+
         <Experience />
+
         <Projects />
-        <End />
+
+        <Skills />
+
+        <Separate />
+
+        <Footer />
       </main>
     </>
   );

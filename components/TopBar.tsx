@@ -9,6 +9,7 @@ import { ScrollTrigger, TextPlugin } from "gsap/all";
 import Link from "next/link";
 import { useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Icon } from "@iconify/react";
 
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
@@ -81,7 +82,6 @@ export default function TopBar() {
         "px-5 py-2 rounded-full",
         "border border-white/15",
         "bg-white/5 backdrop-blur-xl backdrop-saturate-150",
-        "shadow-[0_1px_1px_rgba(255,255,255,0.1)_inset,0_8px_24px_rgba(0,0,0,0.25)]",
       )}
     >
       <div className="font-mono flex items-center gap-20">
@@ -106,7 +106,8 @@ export default function TopBar() {
                 target={"_blank"}
                 className="cursor-pointer items-center font-mono shrink-0"
               >
-                <link.icon
+                <Icon
+                  icon={link.icon}
                   className="text-white hover:opacity-60 size-4 md:size-5"
                   data-tooltip={link.label}
                 />
