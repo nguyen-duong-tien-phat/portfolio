@@ -2,7 +2,6 @@ import Experience from "@/components/Experience";
 import Hero from "@/components/Hero";
 import Projects from "@/components/Projects";
 import Separate from "@/components/Separate";
-import Skills from "@/components/Skills";
 // import TopBar from "@/components/TopBar";
 
 export default function Page() {
@@ -17,8 +16,6 @@ export default function Page() {
         <Experience />
 
         <Projects />
-
-        <Skills />
       </main>
     </>
   );
