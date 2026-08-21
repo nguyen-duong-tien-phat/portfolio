@@ -1,11 +1,16 @@
 "use client";
 
+import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
 import FlipAvatar from "./FlipAvatar";
 
 export default function Avatar() {
   return (
-    <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 0, 11], fov: 35 }}>
+    <Canvas
+      shadows={{ type: THREE.PCFShadowMap }}
+      dpr={[1, 2]}
+      camera={{ position: [0, 0, 11], fov: 35 }}
+    >
       {/* Soft ambient light */}
       <ambientLight intensity={1} />
 

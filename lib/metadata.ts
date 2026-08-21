@@ -1,4 +1,7 @@
 import LetsChill from "@/components/logos/LetsChill";
+import { TechName } from "@/components/ui/TechTag";
+import { ComponentType } from "react";
+import { IconType } from "react-icons";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 import { FaFilePdf } from "react-icons/fa6";
 
@@ -16,7 +19,46 @@ export const sections = [
   SECTION.End,
 ];
 
-export const metadata = {
+type Link = {
+  icon: IconType;
+  label: string;
+  href: string;
+  color: string;
+};
+
+type Experience = {
+  role: string;
+  company: string;
+  period: string;
+  description: string;
+  highlights: string[];
+};
+
+type Project = {
+  name: string;
+  nameComp?: ComponentType;
+  github: string;
+  demo: string | null;
+  logo: string | null;
+  tech: TechName[];
+  desc: string;
+  thumbnail: string;
+};
+
+type Metadata = {
+  links: Link[];
+  hero: {
+    fullName: string;
+    otherName: string;
+    available: string;
+    avatar: string;
+    description: string;
+  };
+  experiences: Experience[];
+  projects: Project[];
+};
+
+export const metadata: Metadata = {
   links: [
     {
       icon: FaGithub,
@@ -52,7 +94,7 @@ export const metadata = {
       company: "Modelty Strategy & Consulting",
       period: "03/25 — 07/26",
       description:
-        "Developing and maintaining features for an insurance service platform.",
+        "Developed and maintained features for an insurance service platform.",
       highlights: [
         "Built marketing and product pages with a focus on performance, SEO, and conversion.",
         "Implemented end-to-end user flows for insurance quotation, purchase, and claim submission.",
@@ -87,20 +129,22 @@ export const metadata = {
   ],
   projects: [
     {
-      name: "Event hub",
+      name: "EventHub",
       github: "https://github.com/nguyen-duong-tien-phat/event-hub-DotNet",
       demo: null,
       logo: null,
-      tech: ["C#", ".Net 10"],
-      desc: "This project was built while I was learning how to integrate third-party APIs using a free movie database API. It also gave me hands-on experience implementing authentication with NextAuth, supporting GitHub, Google, and Facebook sign-in.",
+      tech: ["C#", ".NET", "PostgreSQL", "Redis", "Docker"],
+      desc: "An event ticketing and booking API focused on concurrency-safe reservations, authentication, payments, caching, and rate limiting.",
+      thumbnail: "/thumbnails/dotnet10.png",
     },
     {
       name: "Let's movie",
       github: "https://github.com/nguyen-duong-tien-phat/lets-movie",
       demo: "https://lets-movie.vercel.app/",
       logo: "/logos/lets-movie-logo.png",
-      tech: ["Next.js", "API Integration", "OAuth"],
-      desc: "This project was built while I was learning how to integrate third-party APIs using a free movie database API. It also gave me hands-on experience implementing authentication with NextAuth, supporting GitHub, Google, and Facebook sign-in.",
+      tech: ["Next.js"],
+      desc: "A movie discovery app built with third-party API integration and authentication via GitHub, Google, and Facebook.",
+      thumbnail: "/thumbnails/letsmovie.png",
     },
     {
       name: "Let's chill",
@@ -108,8 +152,9 @@ export const metadata = {
       github: "https://github.com/nguyen-duong-tien-phat/lets-chill",
       demo: "https://letschill-pqgu.vercel.app",
       logo: "/logos/lets-chill-logo.png",
-      tech: ["React", "Redux", "Framer motion"],
-      desc: "This was my first project after self-learning web development. Inspired by immersive full-screen websites and modern music player interfaces, I combined these ideas to build an interactive experience while exploring animations, layout design, and frontend development fundamentals.",
+      tech: ["React", "Redux"],
+      desc: "An interactive music experience inspired by immersive websites and modern music player interfaces.",
+      thumbnail: "/thumbnails/letsmusic.png",
     },
   ],
 };
