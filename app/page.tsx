@@ -3,12 +3,12 @@ import Hero from "@/components/Hero";
 import Projects from "@/components/Projects";
 import Separate from "@/components/Separate";
 import Skills from "@/components/Skills";
-import TopBar from "@/components/TopBar";
+// import TopBar from "@/components/TopBar";
 
 export default function Page() {
   return (
     <>
-      <TopBar />
+      {/* <TopBar /> */}
       <main className="max-w-3xl mx-auto px-5">
         <Hero />
 
