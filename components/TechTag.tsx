@@ -30,6 +30,10 @@ const techs = {
   Git: "logos:git-icon",
   GitHub: "logos:github-icon",
   Gitlab: "logos:gitlab-icon",
+
+  ChatGPT: "selfhst:chatgpt",
+  Claude: "logos:claude-icon",
+  Figma: "logos:figma",
 } satisfies Record<string, string>;
 
 export type TechName = keyof typeof techs;

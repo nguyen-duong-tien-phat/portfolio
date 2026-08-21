@@ -206,7 +206,7 @@ export const metadata: Metadata = {
       "Redux",
     ],
     be: ["C#", ".NET", "NestJS", "PostgreSQL", "Redis", "Moq"],
-    others: ["Git", "Docker", "GitHub", "Gitlab"],
+    others: ["Git", "Docker", "GitHub", "Gitlab", "Figma", "ChatGPT", "Claude"],
   },
   footer: {
     eyebrow: "Let's work together",
