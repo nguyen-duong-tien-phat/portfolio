@@ -1,12 +1,10 @@
-import LetsChill from "@/components/logos/LetsChill";
 import { TechName } from "@/components/TechTag";
-import { ComponentType } from "react";
 
 export enum SECTION {
   Hero = "Hero",
   Experience = "Where i've worked",
   Projects = "Things i've built",
-  Skills = "What I've touched",
+  Skills = "What i've touched",
   Footer = "Footer",
 }
 
@@ -30,7 +28,6 @@ type Experience = {
 
 type Project = {
   name: string;
-  nameComp?: ComponentType;
   github: string;
   demo: string | null;
   logo: string | null;
@@ -44,6 +41,13 @@ type Skills = {
   fe: TechName[];
   be: TechName[];
   others: TechName[];
+};
+
+type Footer = {
+  eyebrow: string;
+  title: string[];
+  copyright: string;
+  tagline: string;
 };
 
 type Metadata = {
@@ -61,6 +65,7 @@ type Metadata = {
   experiences: { subtitle: string; items: Experience[] };
   projects: { subtitle: string; items: Project[] };
   skills: Skills;
+  footer: Footer;
 };
 
 export const metadata: Metadata = {
@@ -177,7 +182,6 @@ export const metadata: Metadata = {
       },
       {
         name: "Let's chill",
-        nameComp: LetsChill,
         github: "https://github.com/nguyen-duong-tien-phat/lets-chill",
         demo: "https://letschill-pqgu.vercel.app",
         logo: "/logos/lets-chill-logo.png",
@@ -203,5 +207,15 @@ export const metadata: Metadata = {
     ],
     be: ["C#", ".NET", "NestJS", "PostgreSQL", "Redis", "Moq"],
     others: ["Git", "Docker", "GitHub", "Gitlab"],
+  },
+  footer: {
+    eyebrow: "Let's work together",
+    title: [
+      "I'm always open to new ideas,",
+      "interesting projects, and opportunities",
+      "to learn, grow, and work with great people.",
+    ],
+    copyright: `© ${new Date().getFullYear()} Finn`,
+    tagline: "Built with curiosity.",
   },
 };

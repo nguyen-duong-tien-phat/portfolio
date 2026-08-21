@@ -1,8 +1,8 @@
 "use client";
 
 import { metadata, SECTION } from "@/lib/metadata";
-import TechTag from "./TechTag";
-import Section from "./ui/Section";
+import TechTag from "../TechTag";
+import Section from "../ui/Section";
 import { motion, Variants } from "framer-motion";
 
 const containerVariants: Variants = {

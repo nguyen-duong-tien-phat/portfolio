@@ -3,10 +3,10 @@
 import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 import { metadata, SECTION } from "@/lib/metadata";
-import Card from "./ui/Card";
-import TechTag from "./TechTag";
-import IconTag from "./ui/IconTag";
-import Section from "./ui/Section";
+import Card from "../ui/Card";
+import TechTag from "../TechTag";
+import IconTag from "../ui/IconTag";
+import Section from "../ui/Section";
 
 const projectCardVariants: Variants = {
   hidden: (index: number) => ({

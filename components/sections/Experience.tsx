@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { metadata, SECTION } from "@/lib/metadata";
-import Button from "./ui/Button";
+import Button from "../ui/Button";
 import { cn } from "@/lib/utils";
 import { Icon } from "@iconify/react";
-import Section from "./ui/Section";
+import Section from "../ui/Section";
 
 interface ExperienceEntry {
   role: string;

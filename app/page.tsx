@@ -1,8 +1,9 @@
-import Experience from "@/components/Experience";
-import Hero from "@/components/Hero";
-import Projects from "@/components/Projects";
+import Experience from "@/components/sections/Experience";
+import Hero from "@/components/sections/Hero";
+import Projects from "@/components/sections/Projects";
 import Separate from "@/components/Separate";
-import Skills from "@/components/Skills";
+import Skills from "@/components/sections/Skills";
+import Footer from "@/components/sections/Footer";
 // import TopBar from "@/components/TopBar";
 
 export default function Page() {
@@ -19,6 +20,10 @@ export default function Page() {
         <Projects />
 
         <Skills />
+
+        <Separate />
+
+        <Footer />
       </main>
     </>
   );

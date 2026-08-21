@@ -4,8 +4,8 @@ import { metadata, SECTION } from "@/lib/metadata";
 import { Icon } from "@iconify/react";
 import { motion, type Variants } from "framer-motion";
 import dynamic from "next/dynamic";
-import TechTag from "./TechTag";
-import Button from "./ui/Button";
+import TechTag from "../TechTag";
+import Button from "../ui/Button";
 
 const Avatar = dynamic(() => import("@/components/Avatar"));
 
