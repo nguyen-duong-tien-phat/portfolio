@@ -23,43 +23,64 @@ interface GitHubContributionsProps {
   className?: string;
 }
 
+const contentVariants: Variants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.12 },
+  },
+};
+
+const textVariants: Variants = {
+  hidden: { y: 12, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+
+const monthVariants: Variants = {
+  hidden: { y: 4, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+
 const gridVariants: Variants = {
   hidden: {},
   visible: {
-    transition: {
-      staggerChildren: 0.06,
-    },
+    transition: { staggerChildren: 0.06 },
   },
 };
 
 const weekVariants: Variants = {
   hidden: {},
   visible: {
-    transition: {
-      staggerChildren: 0.045,
-    },
+    transition: { staggerChildren: 0.045 },
   },
 };
 
 const cellVariants: Variants = {
-  hidden: {
-    scale: 0,
-    opacity: 0,
-    y: 6,
-  },
+  hidden: { scale: 0, opacity: 0, y: 6 },
   visible: {
     scale: [0, 1.18, 1],
     opacity: 1,
     y: [6, -1, 0],
-    transition: {
-      duration: 0.5,
-      ease: [0.16, 1, 0.3, 1],
-    },
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+
+const legendVariants: Variants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.06 },
   },
 };
 
 const LEVELS = [
-  "bg-neutral-200/40",
+  "bg-neutral-100",
   "bg-[#9be9a8]",
   "bg-[#40c463]",
   "bg-[#30a14e]",
@@ -71,7 +92,6 @@ function getLevel(count: number) {
   if (count <= 2) return 1;
   if (count <= 5) return 2;
   if (count <= 10) return 3;
-
   return 4;
 }
 
@@ -84,16 +104,15 @@ function formatDate(date: string) {
 }
 
 function getMonthLabel(date: string) {
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-  }).format(new Date(`${date}T00:00:00`));
+  return new Intl.DateTimeFormat("en-US", { month: "short" }).format(
+    new Date(`${date}T00:00:00`),
+  );
 }
 
 export default function GitHubContributions({
   className,
 }: GitHubContributionsProps) {
   const [data, setData] = useState<ContributionCalendar | null>(null);
-
   const [hoveredDay, setHoveredDay] = useState<ContributionDay | null>(null);
 
   useEffect(() => {
@@ -101,12 +120,9 @@ export default function GitHubContributions({
       try {
         const response = await fetch("/api/github/contributions");
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch contributions");
-        }
+        if (!response.ok) throw new Error("Failed to fetch contributions");
 
         const calendar: ContributionCalendar = await response.json();
-
         setData(calendar);
       } catch (error) {
         console.error("Failed to fetch GitHub contributions:", error);
@@ -128,17 +144,39 @@ export default function GitHubContributions({
   }
 
   return (
-    <div className={cn("w-full", className)}>
+    <motion.div
+      className={cn("w-full", className)}
+      variants={contentVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.5 }}
+    >
       {/* Header */}
-      <p className="text-sm text-foreground mb-4 ">
-        {data.totalContributions.toLocaleString()} contributions in {data.year}
-      </p>
+      <motion.div
+        variants={textVariants}
+        className="mb-4 flex justify-between items-end"
+      >
+        <h3 className="text-lg font-medium text-foreground">
+          A Little More Code, Every Day.
+        </h3>
+
+        <p className="mt-1 text-sm text-muted-foreground">
+          {data.totalContributions.toLocaleString()} contributions in{" "}
+          {data.year}
+        </p>
+      </motion.div>
 
       {/* Graph */}
       <div className="overflow-x-auto pb-1">
         <div className="w-max">
           {/* Month labels */}
-          <div className="mb-1 flex gap-1">
+          <motion.div
+            className="mb-1 flex gap-1"
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.03 } },
+            }}
+          >
             {data.weeks.map((week, weekIndex) => {
               const firstDay = week.contributionDays[0];
 
@@ -147,43 +185,38 @@ export default function GitHubContributions({
               }
 
               const month = getMonthLabel(firstDay.date);
-
               const previousWeek = data.weeks[weekIndex - 1];
               const previousFirstDay = previousWeek?.contributionDays[0];
-
               const previousMonth = previousFirstDay
                 ? getMonthLabel(previousFirstDay.date)
                 : null;
-
               const shouldShowMonth =
                 weekIndex === 0 || month !== previousMonth;
 
               return (
-                <div
+                <motion.div
                   key={weekIndex}
+                  variants={monthVariants}
                   className="w-3 shrink-0 text-xs text-muted-foreground"
                 >
                   {shouldShowMonth && (
                     <span className="whitespace-nowrap">{month}</span>
                   )}
-                </div>
+                </motion.div>
               );
             })}
-          </div>
+          </motion.div>
 
           {/* Contribution cells */}
-          <motion.div
-            className="flex gap-1"
-            variants={gridVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 1 }}
-          >
+          <motion.div className="flex gap-1" variants={gridVariants}>
             {data.weeks.map((week, weekIndex) => (
               <motion.div
                 key={weekIndex}
                 variants={weekVariants}
-                className="flex flex-col gap-1"
+                className={cn(
+                  "flex flex-col gap-1",
+                  weekIndex == 0 && "justify-end",
+                )}
               >
                 {week.contributionDays.map((day) => {
                   const level = getLevel(day.contributionCount);
@@ -197,8 +230,7 @@ export default function GitHubContributions({
                       onMouseEnter={() => setHoveredDay(day)}
                       onMouseLeave={() => setHoveredDay(null)}
                       className={cn(
-                        "size-3 cursor-default rounded-[3px]",
-                        "outline-none",
+                        "size-3 cursor-default rounded-[3px] outline-none",
                         LEVELS[level],
                       )}
                       aria-label={`${day.contributionCount} contributions on ${day.date}`}
@@ -212,29 +244,33 @@ export default function GitHubContributions({
       </div>
 
       {/* Footer */}
-      <div className="mt-3 flex min-h-5 items-center justify-between gap-4 text-xs text-muted-foreground">
+      <motion.div
+        variants={textVariants}
+        className="mt-3 flex min-h-5 items-center justify-between gap-4 text-xs text-muted-foreground"
+      >
         <span>
-          {hoveredDay ? (
-            <>
-              {hoveredDay.contributionCount} contribution
-              {hoveredDay.contributionCount !== 1 ? "s" : ""} on{" "}
-              {formatDate(hoveredDay.date)}
-            </>
-          ) : (
-            "Hover over a day"
-          )}
+          {hoveredDay
+            ? `${hoveredDay.contributionCount} contribution${hoveredDay.contributionCount !== 1 ? "s" : ""} on ${formatDate(hoveredDay.date)}`
+            : "Hover over a day"}
         </span>
 
-        <div className="flex shrink-0 items-center gap-1">
-          <span>Less</span>
+        <motion.div
+          className="flex shrink-0 items-center gap-1"
+          variants={legendVariants}
+        >
+          <motion.span variants={textVariants}>Less</motion.span>
 
           {LEVELS.map((level) => (
-            <span key={level} className={cn("size-3 rounded-[3px]", level)} />
+            <motion.span
+              key={level}
+              variants={cellVariants}
+              className={cn("size-3 rounded-[3px]", level)}
+            />
           ))}
 
-          <span>More</span>
-        </div>
-      </div>
-    </div>
+          <motion.span variants={textVariants}>More</motion.span>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 }
