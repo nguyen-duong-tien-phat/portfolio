@@ -1,5 +1,4 @@
-import { cn } from "@/lib/utils";
-import { Icon } from "@iconify/react";
+import IconTag from "./ui/IconTag";
 
 const techs = {
   JavaScript: "logos:javascript",
@@ -8,7 +7,7 @@ const techs = {
   CSS3: "logos:css3",
 
   React: "logos:react",
-  "Next.js": "logos:nextjs",
+  "Next.js": "logos:nextjs-icon",
   Gatsby: "logos:gatsby",
   "Three.js": "logos:threejs",
   "Tailwind CSS": "logos:tailwindcss",
@@ -39,22 +38,6 @@ interface TechTagProps {
   iconOnly?: boolean;
 }
 
-export default function TechTag({ name, className, iconOnly }: TechTagProps) {
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center gap-1.5 rounded-md",
-        !iconOnly && "border border-black/8",
-        iconOnly ? "p-1" : "px-2 py-1",
-        "text-xs text-muted-foreground",
-        "transition-[transform,background-color,border-color] duration-200",
-        "hover:border-black/12 hover:bg-neutral-200/60",
-        className,
-      )}
-    >
-      <Icon icon={techs[name]} className="size-5 shrink-0" />
-
-      {!iconOnly && <span>{name}</span>}
-    </span>
-  );
+export default function TechTag({ name, iconOnly }: TechTagProps) {
+  return <IconTag name={iconOnly ? undefined : name} icon={techs[name]} />;
 }

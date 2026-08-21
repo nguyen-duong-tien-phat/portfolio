@@ -1,5 +1,5 @@
 import LetsChill from "@/components/logos/LetsChill";
-import { TechName } from "@/components/ui/TechTag";
+import { TechName } from "@/components/TechTag";
 import { ComponentType } from "react";
 
 export enum SECTION {
@@ -130,7 +130,7 @@ export const metadata: Metadata = {
       github: "https://github.com/nguyen-duong-tien-phat/event-hub-DotNet",
       demo: null,
       logo: null,
-      tech: ["C#", ".NET", "PostgreSQL", "Redis", "Docker"],
+      tech: [".NET", "PostgreSQL", "Redis", "Docker"],
       desc: "An event ticketing and booking API focused on concurrency-safe reservations, authentication, payments, caching, and rate limiting.",
       thumbnail: "/thumbnails/dotnet10.png",
     },
