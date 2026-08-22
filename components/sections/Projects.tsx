@@ -37,10 +37,7 @@ export default function Projects() {
             variants={projectCardVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{
-              once: true,
-              amount: 0.9,
-            }}
+            viewport={{ once: true, amount: 0.6 }}
           >
             <Card className="flex h-full flex-col p-0">
               {/* Thumbnail */}

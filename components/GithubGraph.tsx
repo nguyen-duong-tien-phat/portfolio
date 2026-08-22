@@ -87,6 +87,11 @@ const LEVELS = [
   "bg-[#216e39]",
 ];
 
+// Number of skeleton weeks/days shown while the real data is loading, so the
+// placeholder roughly matches the size/shape of the eventual graph.
+const SKELETON_WEEKS = 53;
+const SKELETON_DAYS = 7;
+
 function getLevel(count: number) {
   if (count === 0) return 0;
   if (count <= 2) return 1;
@@ -132,17 +137,6 @@ export default function GitHubContributions({
     fetchContributions();
   }, []);
 
-  if (!data) {
-    return (
-      <div
-        className={cn(
-          "h-32 w-full animate-pulse rounded-lg bg-neutral-100",
-          className,
-        )}
-      />
-    );
-  }
-
   return (
     <motion.div
       className={cn("w-full", className)}
@@ -151,7 +145,7 @@ export default function GitHubContributions({
       whileInView="visible"
       viewport={{ once: true, amount: 0.5 }}
     >
-      {/* Header */}
+      {/* Header - renders immediately, doesn't wait on data */}
       <motion.div
         variants={textVariants}
         className="mb-4 flex justify-between items-end"
@@ -160,90 +154,129 @@ export default function GitHubContributions({
           A Little More Code, Every Day.
         </h3>
 
-        <p className="mt-1 text-sm text-muted-foreground">
-          {data.totalContributions.toLocaleString()} contributions in{" "}
-          {data.year}
-        </p>
+        {data ? (
+          <p className="mt-1 text-sm text-muted-foreground">
+            {data.totalContributions.toLocaleString()} contributions in{" "}
+            {data.year}
+          </p>
+        ) : (
+          <span className="mt-1 h-4 w-40 animate-pulse rounded bg-neutral-300" />
+        )}
       </motion.div>
 
       {/* Graph */}
       <div className="overflow-x-auto pb-1">
         <div className="w-max">
-          {/* Month labels */}
-          <motion.div
-            className="mb-1 flex gap-1"
-            variants={{
-              hidden: {},
-              visible: { transition: { staggerChildren: 0.03 } },
-            }}
-          >
-            {data.weeks.map((week, weekIndex) => {
-              const firstDay = week.contributionDays[0];
-
-              if (!firstDay) {
-                return <div key={weekIndex} className="w-3 shrink-0" />;
-              }
-
-              const month = getMonthLabel(firstDay.date);
-              const previousWeek = data.weeks[weekIndex - 1];
-              const previousFirstDay = previousWeek?.contributionDays[0];
-              const previousMonth = previousFirstDay
-                ? getMonthLabel(previousFirstDay.date)
-                : null;
-              const shouldShowMonth =
-                weekIndex === 0 || month !== previousMonth;
-
-              return (
-                <motion.div
-                  key={weekIndex}
-                  variants={monthVariants}
-                  className="w-3 shrink-0 text-xs text-muted-foreground"
-                >
-                  {shouldShowMonth && (
-                    <span className="whitespace-nowrap">{month}</span>
-                  )}
-                </motion.div>
-              );
-            })}
-          </motion.div>
-
-          {/* Contribution cells */}
-          <motion.div className="flex gap-1" variants={gridVariants}>
-            {data.weeks.map((week, weekIndex) => (
+          {data ? (
+            <>
+              {/* Month labels */}
               <motion.div
-                key={weekIndex}
-                variants={weekVariants}
-                className={cn(
-                  "flex flex-col gap-1",
-                  weekIndex == 0 && "justify-end",
-                )}
+                className="mb-1 flex gap-1"
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  hidden: {},
+                  visible: { transition: { staggerChildren: 0.03 } },
+                }}
               >
-                {week.contributionDays.map((day) => {
-                  const level = getLevel(day.contributionCount);
+                {data.weeks.map((week, weekIndex) => {
+                  const firstDay = week.contributionDays[0];
+
+                  if (!firstDay) {
+                    return <div key={weekIndex} className="w-3 shrink-0" />;
+                  }
+
+                  const month = getMonthLabel(firstDay.date);
+                  const previousWeek = data.weeks[weekIndex - 1];
+                  const previousFirstDay = previousWeek?.contributionDays[0];
+                  const previousMonth = previousFirstDay
+                    ? getMonthLabel(previousFirstDay.date)
+                    : null;
+                  const shouldShowMonth =
+                    weekIndex === 0 || month !== previousMonth;
 
                   return (
-                    <motion.button
-                      key={day.date}
-                      type="button"
-                      variants={cellVariants}
-                      whileHover={{ scale: 1.35 }}
-                      onMouseEnter={() => setHoveredDay(day)}
-                      onMouseLeave={() => setHoveredDay(null)}
-                      className={cn(
-                        "size-3 cursor-default rounded-[3px] outline-none",
-                        LEVELS[level],
+                    <motion.div
+                      key={weekIndex}
+                      variants={monthVariants}
+                      className="w-3 shrink-0 text-xs text-muted-foreground"
+                    >
+                      {shouldShowMonth && (
+                        <span className="whitespace-nowrap">{month}</span>
                       )}
-                      aria-label={`${day.contributionCount} contributions on ${day.date}`}
-                    />
+                    </motion.div>
                   );
                 })}
               </motion.div>
-            ))}
-          </motion.div>
+
+              {/* Contribution cells */}
+              <motion.div
+                className="flex gap-1"
+                initial="hidden"
+                animate="visible"
+                variants={gridVariants}
+              >
+                {data.weeks.map((week, weekIndex) => (
+                  <motion.div
+                    key={weekIndex}
+                    variants={weekVariants}
+                    className={cn(
+                      "flex flex-col gap-1",
+                      weekIndex == 0 && "justify-end",
+                    )}
+                  >
+                    {week.contributionDays.map((day) => {
+                      const level = getLevel(day.contributionCount);
+
+                      return (
+                        <motion.button
+                          key={day.date}
+                          type="button"
+                          variants={cellVariants}
+                          whileHover={{ scale: 1.35 }}
+                          onMouseEnter={() => setHoveredDay(day)}
+                          onMouseLeave={() => setHoveredDay(null)}
+                          className={cn(
+                            "size-3 cursor-default rounded-[3px] outline-none",
+                            LEVELS[level],
+                          )}
+                          aria-label={`${day.contributionCount} contributions on ${day.date}`}
+                        />
+                      );
+                    })}
+                  </motion.div>
+                ))}
+              </motion.div>
+            </>
+          ) : (
+            <>
+              <div className="mb-1 h-4"></div>
+
+              {/* Cells skeleton */}
+              <div className="flex gap-1">
+                {Array.from({ length: SKELETON_WEEKS }).map((_, weekIndex) => (
+                  <div key={weekIndex} className="flex flex-col gap-1">
+                    {Array.from({ length: SKELETON_DAYS }).map(
+                      (_, dayIndex) => (
+                        <div
+                          key={dayIndex}
+                          className="size-3 animate-pulse rounded-[3px] bg-neutral-200"
+                          style={{
+                            animationDelay: `${(weekIndex * SKELETON_DAYS + dayIndex) * 3}ms`,
+                            animationDuration: "1.1s",
+                          }}
+                        />
+                      ),
+                    )}
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
 
-      {/* Footer */}
+      {/* Footer - renders immediately, doesn't wait on data */}
       <motion.div
         variants={textVariants}
         className="mt-3 flex min-h-5 items-center justify-between gap-4 text-xs text-muted-foreground"
