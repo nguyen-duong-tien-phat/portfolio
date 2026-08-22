@@ -7,11 +7,13 @@ import Card from "../ui/Card";
 import TechTag from "../TechTag";
 import IconTag from "../ui/IconTag";
 import Section from "../ui/Section";
+import { Tooltip } from "../ui/ToolTip";
+import Link from "next/link";
 
 const projectCardVariants: Variants = {
   hidden: (index: number) => ({
-    y: 28,
-    x: index % 2 === 0 ? -16 : 16,
+    y: 30,
+    x: index % 2 === 0 ? -40 : 40,
     scale: 0.97,
     filter: "blur(5px)",
   }),
@@ -30,7 +32,7 @@ export default function Projects() {
       <div className="grid grid-cols-1 gap-5 md:gap-3 md:grid-cols-2">
         {metadata.projects.items.map((project, index) => (
           <motion.div
-            key={project.github}
+            key={project.id}
             custom={index}
             variants={projectCardVariants}
             initial="hidden"
@@ -40,9 +42,9 @@ export default function Projects() {
               amount: 0.9,
             }}
           >
-            <Card className="flex h-full flex-col overflow-hidden p-0">
+            <Card className="flex h-full flex-col p-0">
               {/* Thumbnail */}
-              <div className="relative aspect-video shrink-0 overflow-hidden">
+              <div className="relative aspect-video shrink-0">
                 <Image
                   src={project.thumbnail}
                   alt={`${project.name}-thumbnail`}
@@ -75,32 +77,41 @@ export default function Projects() {
                   </div>
 
                   <div className="flex shrink-0 items-center gap-1">
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`View ${project.name} on GitHub`}
-                      className="flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                      <TechTag name="GitHub" iconOnly />
-                    </a>
-
-                    {project.demo && (
+                    <Tooltip content="View details" position="left">
+                      <Link href={`/projects/${project.id}`}>
+                        <IconTag icon="lucide:scan-search" />
+                      </Link>
+                    </Tooltip>
+                    <Tooltip content="Source code" position="left">
                       <a
-                        href={project.demo}
+                        href={project.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label={`View ${project.name} demo`}
+                        aria-label={`View ${project.name} on GitHub`}
                         className="flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground"
                       >
-                        <IconTag icon="heroicons:arrow-up-right" />
+                        <TechTag name="GitHub" iconOnly />
                       </a>
+                    </Tooltip>
+
+                    {project.demo && (
+                      <Tooltip content="Demo" position="left">
+                        <a
+                          href={project.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`View ${project.name} demo`}
+                          className="flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground"
+                        >
+                          <IconTag icon="heroicons:arrow-up-right" />
+                        </a>
+                      </Tooltip>
                     )}
                   </div>
                 </div>
 
                 {/* Description */}
-                <p className="mt-3 line-clamp-4 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
                   {project.desc}
                 </p>
 
