@@ -3,6 +3,9 @@
 import { metadata } from "@/lib/metadata";
 import { getReadme } from "@/lib/github";
 import ProjectDetails from "@/components/sections/ProjectDetails";
+import Button from "@/components/ui/Button";
+import IconTag from "@/components/ui/IconTag";
+import Link from "next/link";
 
 export default async function ProjectPage({
   params,
@@ -19,6 +22,18 @@ export default async function ProjectPage({
 
   return (
     <main className="mx-auto max-w-4xl p-5 h-screen">
+      <Link href={"/"}>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="mb-3"
+          leftIcon={
+            <IconTag icon="heroicons:arrow-left" className="[&_svg]:size-3" />
+          }
+        >
+          Back to home
+        </Button>
+      </Link>
       <ProjectDetails project={project} readme={readme} />
     </main>
   );
