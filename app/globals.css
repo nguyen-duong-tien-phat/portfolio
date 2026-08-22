@@ -88,3 +88,22 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Hide Scrollbar */
+html,
+* {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none;
+}
+
+.markdown-body ul {
+  list-style: disc !important;
+}
+
+.markdown-body ol {
+  list-style: decimal !important;
+}

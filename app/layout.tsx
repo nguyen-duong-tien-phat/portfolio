@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "lenis/dist/lenis.css";
-import SmoothScroll from "@/components/SmoothScroll";
+import PageSmoothScroll from "@/components/PageSmoothScroll";
 
 const geistSans = Geist({
   subsets: ["latin"],
@@ -30,8 +30,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
     <html
@@ -39,8 +41,9 @@ export default function RootLayout({
       className={`light bg-background ${geistSans.variable} ${geistMono.variable}`}
     >
       <body className="antialiased">
-        <SmoothScroll />
+        <PageSmoothScroll />
         {children}
+        {modal}
       </body>
     </html>
   );

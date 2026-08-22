@@ -9,13 +9,13 @@ const SIZE_SCALE = 0.1;
 const ROTATION_STRENGTH = Math.PI * 1.5;
 
 // Intro animation
-const INTRO_DURATION = 2;
-const INTRO_MAX_DELAY = 0.8;
+const INTRO_DURATION = 1.5;
+const INTRO_MAX_DELAY = 0.4;
 
 // Camera is at z = 11.
 // Tiles start behind / around the camera and travel toward z = 0.
 const INITIAL_Z_MIN = 12;
-const INITIAL_Z_MAX = 18;
+const INITIAL_Z_MAX = 12;
 
 // How far tiles can spawn away from their final X/Y position.
 const INITIAL_XY_SPREAD = 2;

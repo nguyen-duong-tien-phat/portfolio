@@ -26,7 +26,8 @@ type Experience = {
   highlights: string[];
 };
 
-type Project = {
+export type Project = {
+  id: string;
   name: string;
   github: string;
   demo: string | null;
@@ -163,15 +164,17 @@ export const metadata: Metadata = {
       "A few things i've worked on, experimented with, and learned from.",
     items: [
       {
+        id: "event-hub-DotNet",
         name: "EventHub",
         github: "https://github.com/nguyen-duong-tien-phat/event-hub-DotNet",
         demo: null,
         logo: null,
-        tech: [".NET", "PostgreSQL", "Redis", "Docker"],
+        tech: [".NET", "PostgreSQL", "Redis", "Docker", "Moq"],
         desc: "An event ticketing and booking API focused on concurrency-safe reservations, authentication, payments, caching, and rate limiting.",
         thumbnail: "/thumbnails/dotnet10.png",
       },
       {
+        id: "lets-movie",
         name: "Let's movie",
         github: "https://github.com/nguyen-duong-tien-phat/lets-movie",
         demo: "https://lets-movie.vercel.app/",
@@ -181,6 +184,7 @@ export const metadata: Metadata = {
         thumbnail: "/thumbnails/letsmovie.png",
       },
       {
+        id: "lets-chill",
         name: "Let's chill",
         github: "https://github.com/nguyen-duong-tien-phat/lets-chill",
         demo: "https://letschill-pqgu.vercel.app",
