@@ -46,14 +46,11 @@ export default function Footer() {
           {metadata.footer.eyebrow}
         </motion.p>
 
-        <motion.h2
-          variants={itemVariants}
-          className="mt-2 text-3xl font-normal tracking-tight text-foreground"
-        >
+        <motion.h2 className="mt-2 text-3xl font-normal tracking-tight text-foreground">
           {metadata.footer.title.map((line) => (
-            <React.Fragment key={line}>
+            <motion.span key={line} variants={itemVariants}>
               {line} <br className="hidden sm:block" />
-            </React.Fragment>
+            </motion.span>
           ))}
         </motion.h2>
 
