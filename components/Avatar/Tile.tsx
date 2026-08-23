@@ -2,11 +2,11 @@ import { useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-const INTERACTION_RADIUS = 1;
-const SPEED = 8;
+const INTERACTION_RADIUS = 2;
+const SPEED = 10;
 const HEIGHT_STRENGTH = 5;
-const SIZE_SCALE = 0.1;
-const ROTATION_STRENGTH = Math.PI * 1.5;
+const SIZE_SCALE = 0.2;
+const ROTATION_STRENGTH = Math.PI;
 
 // Intro animation
 const INTRO_DURATION = 1.5;

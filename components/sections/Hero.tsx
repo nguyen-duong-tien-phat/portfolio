@@ -71,9 +71,8 @@ export default function Hero() {
 
       {/* Name */}
       <div className="relative z-0 -mt-2 overflow-hidden">
-        <h1 className="text-3xl font-normal tracking-tight text-foreground">
-          {metadata.hero.fullName}{" "}
-          <span className="text-muted-foreground">(Finn)</span>
+        <h1 className="text-5xl font-normal tracking-tight text-foreground">
+          {metadata.hero.hello}
         </h1>
       </div>
 

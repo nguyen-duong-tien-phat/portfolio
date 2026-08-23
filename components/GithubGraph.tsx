@@ -151,7 +151,10 @@ export default function GitHubContributions({
         className="mb-4 flex justify-between items-end"
       >
         <h3 className="text-lg font-medium text-foreground">
-          A Little More Code, Every Day.
+          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-[0.9em]">
+            Hello, world!
+          </code>
+          once a day.
         </h3>
 
         {data ? (

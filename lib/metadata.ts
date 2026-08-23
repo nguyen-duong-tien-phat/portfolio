@@ -54,8 +54,7 @@ type Footer = {
 type Metadata = {
   links: Link[];
   hero: {
-    fullName: string;
-    otherName: string;
+    hello: string;
     available: string;
     avatar: string;
     description: (
@@ -97,8 +96,7 @@ export const metadata: Metadata = {
     },
   ],
   hero: {
-    fullName: "Nguyễn Dương Tiến Phát",
-    otherName: "Finn",
+    hello: "hi. i'm Finn",
     available: "Available for work",
     avatar: "/my-face.png",
     description: [
