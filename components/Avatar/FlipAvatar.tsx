@@ -3,16 +3,20 @@ import { useFrame } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
 
-import Tile from "./Tile";
+import Tile, { TileAnimation } from "./Tile";
 
 const GRID = 10;
 const SIZE = 6;
 
 interface FlipAvatarProps {
   src: string;
+  animation?: TileAnimation;
 }
 
-export default function FlipAvatar({ src }: FlipAvatarProps) {
+export default function FlipAvatar({
+  src,
+  animation = "fly",
+}: FlipAvatarProps) {
   const texture = useTexture(src);
 
   const planeRef = useRef<THREE.Mesh>(null);
@@ -31,15 +35,54 @@ export default function FlipAvatar({ src }: FlipAvatarProps) {
 
   // Generate grid
   const tiles = useMemo(() => {
-    const items: { row: number; column: number; id: number }[] = [];
+    const items: {
+      row: number;
+      column: number;
+      id: number;
+    }[] = [];
 
     for (let row = 0; row < GRID; row++) {
       for (let column = 0; column < GRID; column++) {
-        items.push({ row, column, id: row * GRID + column });
+        items.push({
+          row,
+          column,
+          id: row * GRID + column,
+        });
       }
     }
 
     return items;
+  }, []);
+
+  /**
+   * Random reveal order.
+   *
+   * Example:
+   *
+   * tile 0  -> reveal #42
+   * tile 1  -> reveal #3
+   * tile 2  -> reveal #81
+   *
+   * This is generated once and stays stable
+   * during the component lifecycle.
+   */
+  const introOrder = useMemo(() => {
+    const ids = Array.from({ length: GRID * GRID }, (_, index) => index);
+
+    // Fisher-Yates shuffle
+    for (let i = ids.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+
+      [ids[i], ids[j]] = [ids[j], ids[i]];
+    }
+
+    const orderMap = new Map<number, number>();
+
+    ids.forEach((tileId, index) => {
+      orderMap.set(tileId, index);
+    });
+
+    return orderMap;
   }, []);
 
   /**
@@ -98,15 +141,10 @@ export default function FlipAvatar({ src }: FlipAvatarProps) {
           grid={GRID}
           size={SIZE}
           mousePosition={mousePosition}
+          animation={animation}
+          animationIndex={introOrder.get(tile.id) ?? 0}
         />
       ))}
-
-      {/* Shadow receiver */}
-      {/* <mesh position={[0, 0, -1]} receiveShadow>
-        <planeGeometry args={[SIZE + 2, SIZE + 2]} />
-
-        <shadowMaterial transparent opacity={0.35} />
-      </mesh> */}
     </>
   );
 }

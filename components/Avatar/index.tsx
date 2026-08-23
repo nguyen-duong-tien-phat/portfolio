@@ -23,7 +23,7 @@ export default function Avatar() {
         shadow-mapSize-height={1024}
       />
 
-      <FlipAvatar src="/my-face.png" />
+      <FlipAvatar src="/my-face.png" animation="fly" />
     </Canvas>
   );
 }

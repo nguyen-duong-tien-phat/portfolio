@@ -1,24 +1,30 @@
+"use client";
+
 import { useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 const INTERACTION_RADIUS = 2;
 const SPEED = 10;
+
 const HEIGHT_STRENGTH = 5;
 const SIZE_SCALE = 0.2;
 const ROTATION_STRENGTH = Math.PI;
 
-// Intro animation
-const INTRO_DURATION = 1.5;
-const INTRO_MAX_DELAY = 0.4;
+/* -------------------------------------------------------------------------- */
+/*                                  ANIMATION                                 */
+/* -------------------------------------------------------------------------- */
 
-// Camera is at z = 11.
-// Tiles start behind / around the camera and travel toward z = 0.
-const INITIAL_Z_MIN = 12;
-const INITIAL_Z_MAX = 12;
+export type TileAnimation = "fly" | "flip";
 
-// How far tiles can spawn away from their final X/Y position.
+const FLY_INTRO_DURATION = 1.5;
+const FLY_INTRO_MAX_DELAY = 0.4;
+
+const INITIAL_Z = 12;
 const INITIAL_XY_SPREAD = 2;
+
+const FLIP_INTRO_DURATION = 0.5;
+const FLIP_STAGGER = 0.035;
 
 interface TileProps {
   texture: THREE.Texture;
@@ -27,6 +33,8 @@ interface TileProps {
   grid: number;
   size: number;
   mousePosition: THREE.Vector3;
+  animation?: TileAnimation;
+  animationIndex?: number;
 }
 
 export default function Tile({
@@ -36,44 +44,46 @@ export default function Tile({
   grid,
   size,
   mousePosition,
+  animation = "fly",
+  animationIndex = 0,
 }: TileProps) {
   const meshRef = useRef<THREE.Mesh>(null);
   const introStartTime = useRef<number | null>(null);
 
   const tileSize = size / grid;
 
-  /**
-   * Final tile position.
-   */
+  /* ------------------------------------------------------------------------ */
+  /*                              FINAL POSITION                              */
+  /* ------------------------------------------------------------------------ */
+
   const x = column * tileSize - size / 2 + tileSize / 2;
 
   const y = -(row * tileSize) + size / 2 - tileSize / 2;
 
-  /**
-   * Initial state.
-   *
-   * Tiles start behind the camera and slightly
-   * offset around their own final X/Y position.
-   */
+  /* ------------------------------------------------------------------------ */
+  /*                           FLY INITIAL STATE                              */
+  /* ------------------------------------------------------------------------ */
+
   const initialState = useMemo(() => {
     return {
       x: x + (Math.random() - 0.5) * INITIAL_XY_SPREAD * 2,
 
       y: y + (Math.random() - 0.5) * INITIAL_XY_SPREAD * 2,
 
-      z: THREE.MathUtils.lerp(INITIAL_Z_MIN, INITIAL_Z_MAX, Math.random()),
+      z: INITIAL_Z,
 
       rotationX: (Math.random() - 0.5) * Math.PI * 2,
       rotationY: (Math.random() - 0.5) * Math.PI * 2,
       rotationZ: (Math.random() - 0.5) * Math.PI * 2,
 
-      delay: Math.random() * INTRO_MAX_DELAY,
+      delay: Math.random() * FLY_INTRO_MAX_DELAY,
     };
   }, [x, y]);
 
-  /**
-   * Create texture section for this tile.
-   */
+  /* ------------------------------------------------------------------------ */
+  /*                              TILE TEXTURE                                */
+  /* ------------------------------------------------------------------------ */
+
   const tileTexture = useMemo(() => {
     const clonedTexture = texture.clone();
 
@@ -97,15 +107,16 @@ export default function Tile({
     };
   }, [tileTexture]);
 
-  /**
-   * Material.
-   */
+  /* ------------------------------------------------------------------------ */
+  /*                                MATERIAL                                  */
+  /* ------------------------------------------------------------------------ */
+
   const material = useMemo(() => {
     return new THREE.MeshStandardMaterial({
       map: tileTexture,
       roughness: 0.45,
       metalness: 0.05,
-      side: THREE.DoubleSide,
+      side: THREE.FrontSide,
     });
   }, [tileTexture]);
 
@@ -115,96 +126,171 @@ export default function Tile({
     };
   }, [material]);
 
+  /* ------------------------------------------------------------------------ */
+  /*                                ANIMATION                                 */
+  /* ------------------------------------------------------------------------ */
+
   useFrame(({ clock }, delta) => {
     if (!meshRef.current) return;
 
     const mesh = meshRef.current;
 
-    /**
-     * Set the intro start time once.
-     */
     if (introStartTime.current === null) {
       introStartTime.current = clock.elapsedTime;
     }
 
     const elapsedTime = clock.elapsedTime - introStartTime.current;
 
-    /**
-     * INTRO
-     */
-    const rawIntroProgress = THREE.MathUtils.clamp(
-      (elapsedTime - initialState.delay) / INTRO_DURATION,
-      0,
-      1,
-    );
+    const damping = 1 - Math.exp(-SPEED * delta);
 
-    /**
-     * Ease out cubic.
-     *
-     * Tiles move fast from behind the camera,
-     * then slow down as they approach the avatar.
-     */
-    const introProgress = 1 - Math.pow(1 - rawIntroProgress, 3);
+    /* ====================================================================== */
+    /*                               FLY MODE                                  */
+    /* ====================================================================== */
 
-    const isIntroFinished = rawIntroProgress >= 1;
+    if (animation === "fly") {
+      const rawProgress = THREE.MathUtils.clamp(
+        (elapsedTime - initialState.delay) / FLY_INTRO_DURATION,
+        0,
+        1,
+      );
 
-    if (!isIntroFinished) {
-      mesh.position.x = THREE.MathUtils.lerp(initialState.x, x, introProgress);
+      const progress = 1 - Math.pow(1 - rawProgress, 3);
 
-      mesh.position.y = THREE.MathUtils.lerp(initialState.y, y, introProgress);
+      if (rawProgress < 1) {
+        mesh.position.x = THREE.MathUtils.lerp(initialState.x, x, progress);
 
-      mesh.position.z = THREE.MathUtils.lerp(initialState.z, 0, introProgress);
+        mesh.position.y = THREE.MathUtils.lerp(initialState.y, y, progress);
+
+        mesh.position.z = THREE.MathUtils.lerp(initialState.z, 0, progress);
+
+        mesh.rotation.x = THREE.MathUtils.lerp(
+          initialState.rotationX,
+          0,
+          progress,
+        );
+
+        mesh.rotation.y = THREE.MathUtils.lerp(
+          initialState.rotationY,
+          0,
+          progress,
+        );
+
+        mesh.rotation.z = THREE.MathUtils.lerp(
+          initialState.rotationZ,
+          0,
+          progress,
+        );
+
+        return;
+      }
+
+      /* ==================================================================== */
+      /*                              FLY HOVER                                */
+      /* ==================================================================== */
+
+      const dx = mousePosition.x - x;
+      const dy = mousePosition.y - y;
+
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      const strength = THREE.MathUtils.clamp(
+        1 - distance / INTERACTION_RADIUS,
+        0,
+        1,
+      );
+
+      const eased = Math.pow(strength, 2);
+
+      const directionX = distance > 0 ? dx / distance : 0;
+
+      const directionY = distance > 0 ? dy / distance : 0;
+
+      const targetRotationY = -directionX * eased * ROTATION_STRENGTH;
+
+      const targetRotationX = directionY * eased * ROTATION_STRENGTH;
+
+      const targetZ = eased * HEIGHT_STRENGTH;
+
+      const targetScale = 1 + eased * SIZE_SCALE;
 
       mesh.rotation.x = THREE.MathUtils.lerp(
-        initialState.rotationX,
-        0,
-        introProgress,
+        mesh.rotation.x,
+        targetRotationX,
+        damping,
       );
 
       mesh.rotation.y = THREE.MathUtils.lerp(
-        initialState.rotationY,
-        0,
-        introProgress,
+        mesh.rotation.y,
+        targetRotationY,
+        damping,
       );
 
-      mesh.rotation.z = THREE.MathUtils.lerp(
-        initialState.rotationZ,
-        0,
-        introProgress,
-      );
+      mesh.rotation.z = THREE.MathUtils.lerp(mesh.rotation.z, 0, damping);
+
+      mesh.position.x = THREE.MathUtils.lerp(mesh.position.x, x, damping);
+
+      mesh.position.y = THREE.MathUtils.lerp(mesh.position.y, y, damping);
+
+      mesh.position.z = THREE.MathUtils.lerp(mesh.position.z, targetZ, damping);
+
+      mesh.scale.x = THREE.MathUtils.lerp(mesh.scale.x, targetScale, damping);
+
+      mesh.scale.y = THREE.MathUtils.lerp(mesh.scale.y, targetScale, damping);
 
       return;
     }
 
-    /**
-     * HOVER EFFECT
-     */
-    const dx = mousePosition.x - x;
-    const dy = mousePosition.y - y;
+    /* ====================================================================== */
+    /*                              FLIP INTRO                                */
+    /* ====================================================================== */
 
-    const distance = Math.sqrt(dx * dx + dy * dy);
+    const delay = animationIndex * FLIP_STAGGER;
 
-    const strength = THREE.MathUtils.clamp(
-      1 - distance / INTERACTION_RADIUS,
+    const rawProgress = THREE.MathUtils.clamp(
+      (elapsedTime - delay) / FLIP_INTRO_DURATION,
       0,
       1,
     );
 
-    const eased = Math.pow(strength, 2);
+    const progress = 1 - Math.pow(1 - rawProgress, 3);
 
-    const directionX = distance > 0 ? dx / distance : 0;
+    if (rawProgress < 1) {
+      mesh.rotation.x = THREE.MathUtils.lerp(Math.PI, 0, progress);
 
-    const directionY = distance > 0 ? dy / distance : 0;
+      return;
+    }
 
-    const targetRotationY = -directionX * eased * ROTATION_STRENGTH;
+    /* ====================================================================== */
+    /*                              FLIP HOVER                                */
+    /* ====================================================================== */
 
-    const targetRotationX = directionY * eased * ROTATION_STRENGTH;
+    /**
+     * Check whether the mouse is directly
+     * inside THIS tile.
+     *
+     * No interaction radius.
+     * No neighbouring tiles.
+     */
+    const halfTileSize = tileSize / 2;
 
-    const targetZ = eased * HEIGHT_STRENGTH;
+    const isHovered =
+      mousePosition.x >= x - halfTileSize &&
+      mousePosition.x <= x + halfTileSize &&
+      mousePosition.y >= y - halfTileSize &&
+      mousePosition.y <= y + halfTileSize;
 
-    const targetScale = 1 + eased * SIZE_SCALE;
-
-    const damping = 1 - Math.exp(-SPEED * delta);
+    /**
+     * Hovered:
+     *
+     * 0 -> PI
+     * visible -> flipped / invisible
+     *
+     * Not hovered:
+     *
+     * PI -> 0
+     * flipped -> visible
+     */
+    const targetRotationX = isHovered ? Math.PI : 0;
 
     mesh.rotation.x = THREE.MathUtils.lerp(
       mesh.rotation.x,
@@ -212,11 +298,7 @@ export default function Tile({
       damping,
     );
 
-    mesh.rotation.y = THREE.MathUtils.lerp(
-      mesh.rotation.y,
-      targetRotationY,
-      damping,
-    );
+    mesh.rotation.y = THREE.MathUtils.lerp(mesh.rotation.y, 0, damping);
 
     mesh.rotation.z = THREE.MathUtils.lerp(mesh.rotation.z, 0, damping);
 
@@ -224,22 +306,32 @@ export default function Tile({
 
     mesh.position.y = THREE.MathUtils.lerp(mesh.position.y, y, damping);
 
-    mesh.position.z = THREE.MathUtils.lerp(mesh.position.z, targetZ, damping);
+    mesh.position.z = THREE.MathUtils.lerp(mesh.position.z, 0, damping);
 
-    mesh.scale.x = THREE.MathUtils.lerp(mesh.scale.x, targetScale, damping);
+    mesh.scale.x = THREE.MathUtils.lerp(mesh.scale.x, 1, damping);
 
-    mesh.scale.y = THREE.MathUtils.lerp(mesh.scale.y, targetScale, damping);
+    mesh.scale.y = THREE.MathUtils.lerp(mesh.scale.y, 1, damping);
   });
+
+  /* ------------------------------------------------------------------------ */
+  /*                            INITIAL TRANSFORM                             */
+  /* ------------------------------------------------------------------------ */
+
+  const initialPosition: [number, number, number] =
+    animation === "fly"
+      ? [initialState.x, initialState.y, initialState.z]
+      : [x, y, 0];
+
+  const initialRotation: [number, number, number] =
+    animation === "fly"
+      ? [initialState.rotationX, initialState.rotationY, initialState.rotationZ]
+      : [Math.PI, 0, 0];
 
   return (
     <mesh
       ref={meshRef}
-      position={[initialState.x, initialState.y, initialState.z]}
-      rotation={[
-        initialState.rotationX,
-        initialState.rotationY,
-        initialState.rotationZ,
-      ]}
+      position={initialPosition}
+      rotation={initialRotation}
       material={material}
       castShadow
       receiveShadow
