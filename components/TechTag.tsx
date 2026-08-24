@@ -28,7 +28,7 @@ const techs = {
 
   Docker: "logos:docker-icon",
   Git: "logos:git-icon",
-  GitHub: "logos:github-icon",
+  GitHub: "simple-icons:github",
   Gitlab: "logos:gitlab-icon",
 
   ChatGPT: "selfhst:chatgpt",

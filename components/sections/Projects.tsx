@@ -1,14 +1,14 @@
 "use client";
 
+import { metadata, SECTION } from "@/lib/metadata";
 import { motion, Variants } from "framer-motion";
 import Image from "next/image";
-import { metadata, SECTION } from "@/lib/metadata";
-import Card from "../ui/Card";
+import Link from "next/link";
 import TechTag from "../TechTag";
+import Card from "../ui/Card";
 import IconTag from "../ui/IconTag";
 import Section from "../ui/Section";
 import { Tooltip } from "../ui/ToolTip";
-import Link from "next/link";
 
 const projectCardVariants: Variants = {
   hidden: (index: number) => ({
@@ -39,7 +39,7 @@ export default function Projects() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.6 }}
           >
-            <Card className="flex h-full flex-col p-0">
+            <Card className="flex h-full flex-col">
               {/* Thumbnail */}
               <div className="relative aspect-video shrink-0">
                 <Image

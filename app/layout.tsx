@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "lenis/dist/lenis.css";
 import PageSmoothScroll from "@/components/PageSmoothScroll";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 
 const geistSans = Geist({
   subsets: ["latin"],
@@ -38,11 +39,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`light bg-background ${geistSans.variable} ${geistMono.variable}`}
+      className={`dark bg-background ${geistSans.variable} ${geistMono.variable}`}
     >
-      <body className="antialiased">
+      <body className="antialiased relative">
         <PageSmoothScroll />
-        {children}
+        <ThemeProvider>{children}</ThemeProvider>
         {modal}
       </body>
     </html>

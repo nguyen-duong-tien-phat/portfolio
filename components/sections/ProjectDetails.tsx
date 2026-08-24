@@ -5,8 +5,6 @@ import TechTag from "@/components/TechTag";
 import { Project } from "@/lib/metadata";
 import Image from "next/image";
 
-import "github-markdown-css/github-markdown-light.css";
-
 type Readme = {
   content: string;
   repoBaseUrl: string;
