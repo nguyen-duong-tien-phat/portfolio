@@ -1,10 +1,10 @@
 // app/projects/[name]/page.tsx
 
-import { metadata } from "@/lib/metadata";
-import { getReadme } from "@/lib/github";
 import ProjectDetails from "@/components/sections/ProjectDetails";
 import Button from "@/components/ui/Button";
 import IconTag from "@/components/ui/IconTag";
+import { getReadme } from "@/lib/github";
+import { metadata } from "@/lib/metadata";
 import Link from "next/link";
 
 export default async function ProjectPage({
@@ -26,7 +26,7 @@ export default async function ProjectPage({
         <Button
           variant="ghost"
           size="sm"
-          className="mb-3"
+          className="mb-3 mt-5"
           leftIcon={
             <IconTag icon="heroicons:arrow-left" className="[&_svg]:size-3" />
           }
@@ -34,7 +34,9 @@ export default async function ProjectPage({
           Back to home
         </Button>
       </Link>
-      <ProjectDetails project={project} readme={readme} />
+      <div className="h-[calc(100dvh-150px)]">
+        <ProjectDetails project={project} readme={readme} />
+      </div>
     </main>
   );
 }

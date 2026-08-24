@@ -4,6 +4,9 @@ import { motion, Variants } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
+import "./styles/markdown-dark.css";
+import "./styles/markdown-light.css";
+
 type MarkdownContentProps = {
   content: string;
   repoBaseUrl: string;

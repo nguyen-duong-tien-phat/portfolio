@@ -16,7 +16,7 @@ export default async function ProjectModalPage({
   const readme = project.github ? await getReadme(project.github) : null;
 
   return (
-    <div className="h-[75dvh] ">
+    <div className="h-[75dvh]">
       <ProjectDetails project={project} readme={readme} />
     </div>
   );

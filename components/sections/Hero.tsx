@@ -95,15 +95,8 @@ export default function Hero() {
               variant="secondary"
               size="sm"
               leftIcon={<Icon icon={link.icon} className="text-[1.35rem]" />}
-              whileHover={{
-                color: link.color,
-                borderColor: link.color,
-                y: -2,
-              }}
-              transition={{
-                duration: 0.2,
-                ease: "easeOut",
-              }}
+              whileHover={{ color: link.color, borderColor: link.color, y: -2 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
             >
               <span className="text-sm">{link.label}</span>
             </MotionButton>

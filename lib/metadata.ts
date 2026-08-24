@@ -74,7 +74,7 @@ export const metadata: Metadata = {
       icon: "mdi:github",
       label: "GitHub",
       href: "https://github.com/nguyen-duong-tien-phat",
-      color: "#181717",
+      color: "#64748B",
     },
     {
       icon: "mdi:linkedin",

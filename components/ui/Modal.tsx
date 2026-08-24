@@ -96,7 +96,7 @@ export default function Modal({ children, className }: ModalProps) {
       {/* Backdrop */}
       <motion.div
         variants={backdropVariants}
-        className="absolute inset-0 bg-black/30"
+        className="absolute inset-0 bg-black/30 dark:bg-black/60"
         onClick={close}
       />
 
@@ -108,8 +108,9 @@ export default function Modal({ children, className }: ModalProps) {
         className={cn(
           "relative z-10 w-full max-w-3xl overscroll-contain rounded-lg",
           isAnimatingHeight ? "overflow-hidden" : "overflow-y-auto",
-          "border border-black/8 bg-white",
+          "border border-border bg-background",
           "shadow-[0_24px_100px_rgba(0,0,0,0.16)]",
+          "dark:shadow-[0_24px_100px_rgba(0,0,0,0.5)]",
           className,
         )}
       >

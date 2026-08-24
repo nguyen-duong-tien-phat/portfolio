@@ -80,11 +80,11 @@ const legendVariants: Variants = {
 };
 
 const LEVELS = [
-  "bg-neutral-100",
-  "bg-[#9be9a8]",
-  "bg-[#40c463]",
-  "bg-[#30a14e]",
-  "bg-[#216e39]",
+  "bg-[#ebedf0] dark:bg-[#161b22]",
+  "bg-[#9be9a8] dark:bg-[#0e4429]",
+  "bg-[#40c463] dark:bg-[#006d32]",
+  "bg-[#30a14e] dark:bg-[#26a641]",
+  "bg-[#216e39] dark:bg-[#39d353]",
 ];
 
 // Number of skeleton weeks/days shown while the real data is loading, so the
@@ -163,7 +163,7 @@ export default function GitHubContributions({
             {data.year}
           </p>
         ) : (
-          <span className="mt-1 h-4 w-40 animate-pulse rounded bg-neutral-300" />
+          <span className="mt-1 h-4 w-40 animate-pulse rounded bg-foreground/10" />
         )}
       </motion.div>
 
@@ -263,7 +263,7 @@ export default function GitHubContributions({
                       (_, dayIndex) => (
                         <div
                           key={dayIndex}
-                          className="size-3 animate-pulse rounded-[3px] bg-neutral-200"
+                          className="size-3 animate-pulse rounded-[3px] bg-foreground/10"
                           style={{
                             animationDelay: `${(weekIndex * SKELETON_DAYS + dayIndex) * 3}ms`,
                             animationDuration: "1.1s",
