@@ -68,8 +68,13 @@ export default function Projects() {
                       </div>
                     )}
 
-                    <h3 className="text-lg font-medium text-foreground">
+                    <h3 className="text-xl font-medium text-foreground flex items-center">
                       {project.name}
+                      {project.inProgress && (
+                        <span className="ml-2 rounded-full border border-blue-500/30 px-1.5 py-0.5 text-xs text-blue-500">
+                          In Progress
+                        </span>
+                      )}
                     </h3>
                   </div>
 

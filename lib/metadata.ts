@@ -35,6 +35,7 @@ export type Project = {
   tech: TechName[];
   desc: string;
   thumbnail: string;
+  inProgress?: boolean;
 };
 
 type Skills = {
@@ -170,6 +171,7 @@ export const metadata: Metadata = {
         tech: [".NET", "PostgreSQL", "Redis", "Docker", "Moq"],
         desc: "An event ticketing and booking API focused on concurrency-safe reservations, authentication, payments, caching, and rate limiting.",
         thumbnail: "/thumbnails/dotnet10.png",
+        inProgress: true,
       },
       {
         id: "lets-movie",
