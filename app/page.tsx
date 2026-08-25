@@ -10,6 +10,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 
 import "@/components/styles/theme-toggle.css";
 import { Tooltip } from "@/components/ui/ToolTip";
+import Doing from "@/components/sections/Doing";
 
 export default function Page() {
   return (
@@ -25,8 +26,6 @@ export default function Page() {
       <main className="max-w-4xl mx-auto px-5">
         <Hero />
 
-        <GithubGraph />
-
         <Separate />
 
         <Experience />
@@ -34,6 +33,12 @@ export default function Page() {
         <Projects />
 
         <Skills />
+
+        <Separate />
+
+        <Doing />
+
+        <GithubGraph />
 
         <Separate />
 

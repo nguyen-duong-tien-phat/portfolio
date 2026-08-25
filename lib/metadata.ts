@@ -5,6 +5,7 @@ export enum SECTION {
   Experience = "Where i've worked",
   Projects = "Things i've built",
   Skills = "What i've touched",
+  Doing = "What am i doing?",
   Footer = "Footer",
 }
 
@@ -13,6 +14,7 @@ export const sections = [
   SECTION.Experience,
   SECTION.Projects,
   SECTION.Skills,
+  SECTION.Doing,
   SECTION.Footer,
 ];
 
@@ -52,6 +54,8 @@ type Footer = {
   tagline: string;
 };
 
+type Task = { title: string; description: string };
+
 type Metadata = {
   links: Link[];
   hero: {
@@ -66,6 +70,7 @@ type Metadata = {
   experiences: { subtitle: string; items: Experience[] };
   projects: { subtitle: string; items: Project[] };
   skills: Skills;
+  doing: Task[];
   footer: Footer;
 };
 
@@ -212,6 +217,18 @@ export const metadata: Metadata = {
     be: ["C#", ".NET", "NestJS", "PostgreSQL", "Redis", "Moq"],
     others: ["Git", "Docker", "GitHub", "Gitlab", "Figma", "ChatGPT", "Claude"],
   },
+  doing: [
+    {
+      title: "EventHub Mobile",
+      description:
+        "Learning Flutter while building the mobile UI for EventHub.",
+    },
+    {
+      title: "EventHub Backend",
+      description:
+        "Improving and expanding the backend with new features and ongoing refinements.",
+    },
+  ],
   footer: {
     eyebrow: "Let's work together",
     title: [
