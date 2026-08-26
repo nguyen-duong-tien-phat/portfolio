@@ -143,7 +143,7 @@ export default function GitHubContributions({
       variants={contentVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.5 }}
+      viewport={{ once: true, amount: 1 }}
     >
       {/* Header - renders immediately, doesn't wait on data */}
       <motion.div
@@ -168,15 +168,22 @@ export default function GitHubContributions({
       </motion.div>
 
       {/* Graph */}
-      <div className="overflow-x-auto pb-1">
+      <motion.div
+        className="overflow-x-auto pb-1"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 1 }}
+        variants={{
+          hidden: {},
+          visible: {},
+        }}
+      >
         <div className="w-max">
           {data ? (
             <>
               {/* Month labels */}
               <motion.div
                 className="mb-1 flex gap-1"
-                initial="hidden"
-                animate="visible"
                 variants={{
                   hidden: {},
                   visible: { transition: { staggerChildren: 0.03 } },
@@ -213,12 +220,7 @@ export default function GitHubContributions({
               </motion.div>
 
               {/* Contribution cells */}
-              <motion.div
-                className="flex gap-1"
-                initial="hidden"
-                animate="visible"
-                variants={gridVariants}
-              >
+              <motion.div className="flex gap-1" variants={gridVariants}>
                 {data.weeks.map((week, weekIndex) => (
                   <motion.div
                     key={weekIndex}
@@ -277,7 +279,7 @@ export default function GitHubContributions({
             </>
           )}
         </div>
-      </div>
+      </motion.div>
 
       {/* Footer - renders immediately, doesn't wait on data */}
       <motion.div
