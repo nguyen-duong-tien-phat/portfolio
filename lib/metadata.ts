@@ -212,6 +212,7 @@ export const metadata: Metadata = {
       "CSS3",
       "HTML5",
       "Three.js",
+      "GSAP",
       "Redux",
     ],
     be: ["C#", ".NET", "NestJS", "PostgreSQL", "Redis", "Moq"],

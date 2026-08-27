@@ -3,11 +3,7 @@
 
 import { useEffect, useRef, RefObject } from "react";
 import Lenis, { type LenisOptions } from "lenis";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { setLenisInstance, getLenisInstance } from "@/lib/lenis";
-
-gsap.registerPlugin(ScrollTrigger);
 
 interface UseLenisOptions extends Partial<LenisOptions> {
   wrapperRef?: RefObject<HTMLElement | null>;
@@ -21,7 +17,6 @@ export function useLenis({
   wrapperRef,
   isPageInstance = false,
   pausePageLenis = true,
-  syncScrollTrigger = false,
   lerp = 0.1,
   smoothWheel = true,
   ...rest
@@ -55,54 +50,15 @@ export function useLenis({
     };
     rafId = requestAnimationFrame(raf);
 
-    // --- ScrollTrigger sync ---
-    if (syncScrollTrigger) {
-      lenis.on("scroll", ScrollTrigger.update);
-
-      if (!isPageInstance && wrapper) {
-        // Tell ScrollTrigger this element is its own scroller, driven by Lenis
-        // (not native scroll), so triggers inside the modal measure correctly.
-        ScrollTrigger.scrollerProxy(wrapper, {
-          scrollTop(value) {
-            if (arguments.length && value !== undefined) {
-              lenis.scrollTo(value, { immediate: true });
-            }
-            return lenis.scroll;
-          },
-          getBoundingClientRect() {
-            return {
-              top: 0,
-              left: 0,
-              width: wrapper!.clientWidth,
-              height: wrapper!.clientHeight,
-            };
-          },
-        });
-
-        // Any ScrollTrigger you create inside the modal must pass `scroller: wrapper`
-        // in its own config to use this proxy.
-      }
-
-      gsap.ticker.lagSmoothing(0);
-    }
-
     return () => {
       cancelAnimationFrame(rafId);
       lenis.destroy();
       lenisRef.current = null;
       if (isPageInstance) setLenisInstance(null);
       pageLenis?.start();
-
-      if (syncScrollTrigger && !isPageInstance && wrapper) {
-        // Clean up triggers/proxy scoped to this scroller so they don't
-        // leak or misfire after the modal unmounts.
-        ScrollTrigger.getAll()
-          .filter((t) => t.scroller === wrapper)
-          .forEach((t) => t.kill());
-      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPageInstance, pausePageLenis, syncScrollTrigger]);
+  }, [isPageInstance, pausePageLenis]);
 
   return lenisRef;
 }
